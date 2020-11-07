@@ -10,7 +10,7 @@ Rishovd
 
 ## Group Members
 
-  - Emily Bamforth (egb2156)
+  - Emily Bamforth (egb2156, GHuserID: emilybamforth)
 
   - E. Brennan Bollman (ebb2166, GHuserID: ebbollman )
 
