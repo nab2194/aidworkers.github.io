@@ -8,6 +8,18 @@ Rishovd
 
 ## Title: “Attacks on Aid: Quantifying Risk of Violence among Aid Workers in Global Humanitarian Settings”
 
+## Group Members
+
+  - Emily Bamforth (egb2156)
+
+  - E. Brennan Bollman (ebb2166, GHuserID: ebbollman )
+
+  - Kailey Rishovd (kpr2118, GHuserID: kaileyrsvd)
+
+  - Alisha Sarakki (aps2204, GHuserID: alishasarakki)
+
+  - Natalie Boychuk (nab2194, GHuserID: nab2194)
+
 ## Project Motivation
 
 In recent decades, attacks on aid workers in complex crises have been

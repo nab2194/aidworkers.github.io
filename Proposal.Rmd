@@ -9,6 +9,22 @@ output: github_document
 
 ## Title: "Attacks on Aid: Quantifying Risk of Violence among Aid Workers in Global Humanitarian Settings" 
 
+## Group Members 
+
+* Emily Bamforth (egb2156)
+
+
+* E. Brennan Bollman (ebb2166, GHuserID: ebbollman ) 
+
+
+* Kailey Rishovd (kpr2118, GHuserID: kaileyrsvd)
+
+
+* Alisha Sarakki (aps2204, GHuserID: alishasarakki)
+
+
+* Natalie Boychuk (nab2194, GHuserID: nab2194)
+
 ## Project Motivation
 
 In recent decades, attacks on aid workers in complex crises have been steadily increasing, with 483 workers killed, kidnapped, or wounded in 2019. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time. We plan to focus our analysis around the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization): which has collected data on attacks against humanitarian aid workers globally since 1997. We will merge this with other data on violent attacks in conflict settings via the Safeguarding Health in Conflict Coalition (SHCC) and Uppsala Conflict Data Program (UCDP) to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). We may then focus  on one or more key settings/case study countries and analyze these contexts with regard to the degree of humanitarian organizations’ operational presence, and other possible indicators of insecurity (GDP/capita, food prices, population displacement, natural disaster etc). 
