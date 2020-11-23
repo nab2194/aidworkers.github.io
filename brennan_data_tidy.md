@@ -1,7 +1,7 @@
 Reading and tidying data
 ================
 E. Brennan Bollman
-20-11-22
+20-11-23
 
 ``` r
 library(tidyverse)
@@ -37,6 +37,7 @@ library(rvest)
 
 ``` r
 library(httr)
+library(readxl)
 
 knitr::opts_chunk$set(
   fig.width = 10,
@@ -194,3 +195,77 @@ aidworker_df %>%
 | South Sudan          |                     516 |    2 |
 | Sudan                |                     433 |    3 |
 | Syrian Arab Republic |                     433 |    3 |
+
+Syria per year
+
+``` r
+aidworker_df %>% 
+  filter(country == "Syrian Arab Republic") %>% 
+  group_by(year) %>% 
+  summarize(syria_tot_affected = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(syria_tot_affected))) %>% 
+  arrange(rank) %>% 
+  knitr::kable()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+| year | syria\_tot\_affected | rank |
+| ---: | -------------------: | ---: |
+| 2019 |                   86 |    1 |
+| 2013 |                   70 |    2 |
+| 2018 |                   68 |    3 |
+| 2020 |                   55 |    4 |
+| 2017 |                   53 |    5 |
+| 2014 |                   45 |    6 |
+| 2016 |                   43 |    7 |
+| 2012 |                   25 |    8 |
+| 2015 |                   14 |    9 |
+| 2011 |                    3 |   10 |
+
+## SHCC dataset - ‘Safeguarding Health in Conflict Coalition’
+
+URL: <https://data.humdata.org/dataset/shcchealthcare-dataset>
+Downloaded Afghanistan and Syria 2019 data
+
+### Afghanistan
+
+``` r
+afghan_shcc_colnames = 
+  read_excel("data/2019-shcc-healthcare-afghanistan-data.xlsx", n_max = 0) %>%
+  names()
+
+afghan_shcc_df = 
+  read_excel("data/2019-shcc-healthcare-afghanistan-data.xlsx", skip = 2, col_names = afghan_shcc_colnames) %>% 
+  janitor::clean_names()
+```
+
+### Syria
+
+``` r
+syria_shcc_colnames = 
+  read_excel("data/2019-shcc-healthcare-syria-data.xlsx", n_max = 0) %>%
+  names()
+
+syria_shcc_df = 
+  read_excel("data/2019-shcc-healthcare-syria-data.xlsx", skip = 2, col_names = syria_shcc_colnames) %>% 
+  janitor::clean_names()
+```
+
+``` r
+syria_shcc_df %>%
+  group_by(country) %>% 
+  mutate(tot_hcw_affected = 
+           total_health_worker_killed + 
+           total_health_worker_kidnapped + 
+           total_health_worker_arrested + 
+           total_health_worker_injured + 
+           total_health_worker_assaulted) %>% 
+  count(tot_hcw_affected)
+```
+
+    ## # A tibble: 1 x 3
+    ## # Groups:   country [1]
+    ##   country tot_hcw_affected     n
+    ##   <chr>              <dbl> <int>
+    ## 1 Syria                 NA   146
