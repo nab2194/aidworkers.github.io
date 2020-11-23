@@ -1,0 +1,44 @@
+---
+title: "Reading and tidying data"
+author: E. Brennan Bollman
+date: '`r format(Sys.time(), "%y-%m-%d")`'
+output: github_document
+---
+
+```{r setup, INCLUDE = FALSE}
+library(tidyverse)
+library(rvest)
+library(httr)
+
+knitr::opts_chunk$set(
+  fig.width = 10,
+  fig.asp = 0.6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom")) 
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d()
+scale_fill_discrete = scale_fill_viridis_d()
+```
+
+
+## Aid Worker Security Database
+
+URL: https://aidworkersecurity.org/incidents
+Select: 'all' in all fields to obtain the most complete form of the data
+Download csv
+
+Note: not sure if we should try to scrape from web to make this more reproducible. 
+
+### Read in data
+
+```{r}
+
+```
+
