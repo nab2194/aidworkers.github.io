@@ -39,6 +39,57 @@ Note: not sure if we should try to scrape from web to make this more reproducibl
 ### Read in data
 
 ```{r}
+aidworker_df = 
+  read_csv("data/security_incidents_2020-11-23.csv") %>% 
+  janitor::clean_names()
+```
 
+I think this looks fairly tidy? Each incident_id is row. There are lots of variables, but I think mostly will be able to manipulate with `mutate` and `group_by` in further operations on dataset. Lmk what you all think. 
+
+Data dictionary: https://aidworkersecurity.org/about
+
+### Quick EDA
+
+Most deadly countries for aid workers.
+
+```{r}
+aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 6) %>% 
+  knitr::kable()
+```
+
+Means of attack
+
+```{r}
+aidworker_df %>%
+  count(means_of_attack) %>%
+  mutate(rank = min_rank(desc(n))) %>% 
+  arrange(rank) %>% 
+  knitr::kable()
+```
+
+International workers affected
+
+```{r}
+aidworker_df %>% 
+  group_by(country) %>% 
+  summarize(tot_intl_per_country = sum(total_internationals, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_intl_per_country))) %>% 
+  filter(rank < 6) %>% 
+  knitr::kable()
+```
+
+National workers affected
+
+```{r}
+aidworker_df %>% 
+  group_by(country) %>% 
+  summarize(tot_natl_per_country = sum(total_nationals, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_natl_per_country))) %>% 
+  filter(rank < 6) %>% 
+  knitr::kable()
 ```
 
