@@ -1,0 +1,266 @@
+---
+title: "Homework 5"
+author: Emily Bamforth
+date: 18 November 2020
+output: github_document
+---
+
+```{r setup}
+library(tidyverse)
+library(readr)
+library(patchwork)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Problem 1
+
+Read in the data.
+
+```{r}
+homicide_df =
+  read_csv("data_prob1/homicide-data.csv") %>% 
+  mutate(
+    city_state = str_c(city, state, sep = "_"),
+    resolved = case_when(
+      disposition == "Closed without arrest" ~ "unsolved",
+      disposition == "Open/No arrest"        ~ "unsolved",
+      disposition == "Closed by arrest"      ~ "solved",
+    )
+  ) %>% 
+  select(city_state, resolved) %>% 
+  filter(city_state != "Tulsa_AL")
+```
+
+Let's look at this a bit
+
+```{r}
+aggregate_df =
+  homicide_df %>% 
+  group_by(city_state) %>% 
+  summarize(
+    hom_total = n(),
+    hom_unsolved = sum(resolved == "unsolved")
+  )
+```
+
+Can I do a prop test for a single city?
+
+```{r}
+prop.test(
+  aggregate_df %>% filter(city_state == "Baltimore_MD") %>% pull(hom_unsolved),
+    aggregate_df %>% filter(city_state == "Baltimore_MD") %>% pull(hom_total)) %>% 
+  broom::tidy()
+```
+
+Try to iterate...
+
+```{r}
+results_df =
+  aggregate_df %>% 
+   mutate(
+    prop_tests = map2(.x = hom_unsolved, .y = hom_total, ~prop.test(x = .x, n = .y)),
+    tidy_tests = map(.x = prop_tests, ~broom::tidy(.x))
+  ) %>% 
+  select(-prop_tests) %>% 
+  unnest(tidy_tests) %>% 
+  select(city_state, estimate, conf.low, conf.high)
+```
+
+```{r}
+results_df %>% 
+  mutate(city_state = fct_reorder(city_state, estimate)) %>% ggplot(aes(x = city_state, y = estimate)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+
+# Problem 2
+
+First, let's read in one dataset:
+
+```{r}
+data_1 = read_csv("data_prob2/con_01.csv")
+```
+
+This has the data for one study participant; there is one row for the patient, and each column is a some sort of observed value per each week of the study.
+
+Then, let's create a dataframe with all file names, and read in the data from each subject:
+
+```{r build_df}
+path_df =
+  tibble(
+    path = list.files("data_prob2")) %>% 
+  mutate(
+    path = str_c("data_prob2/", path),
+    data = map(path, read.csv)
+    ) %>% 
+  unnest(cols = data)
+
+read_csv(path_df$path[[1]])
+```
+
+Next, time to tidy!
+
+```{r tidy_df}
+path_df =
+path_df %>% 
+  mutate(path = str_replace(path, "data_prob2/", "")) %>% 
+  mutate(path = str_replace(path, ".csv", "")) %>% 
+  separate(path, into = c("study_arm", "subject_id"), sep = "_") %>% 
+  mutate(study_arm = if_else(study_arm == "con", "control", "experiment")) %>% 
+  relocate("subject_id", "study_arm") %>% 
+  pivot_longer(week_1:week_8, names_to = "week", values_to = "observed_value") %>% 
+  mutate(week = str_replace(week, "week_", ""))
+```
+
+Our resulting dataframe is organized wherein each row is an observed value. Our columns include the `subject_id` and the `study_arm` (control or experiment), the `week` of the observation and the `observed_value`. There are `r nrow(path_df)` rows in the dataset.
+
+After tidying the data, time to plot:
+
+```{r plot}
+ggplot(path_df, aes(x = week, y = observed_value, group = subject_id)) +
+  geom_line(aes(color = subject_id)) + facet_grid(. ~ study_arm) +
+  labs(
+    title = "Observations Over Time by Study Arm",
+    x = "Week of Trial",
+    y = "Observed Value"
+  )
+```
+
+Upon plotting the data, we can visualize that the experiment arm generally has higher observed values (going from around 0 up to 7.5) than the control group (going from around -2.5 to 4.5).
+
+## Problem 3
+
+Initial simulation:
+
+```{r, cache = TRUE}
+n = 30
+mu = 0
+sigma = 5
+
+sim_norm = function(samp_size, mu, sigma){
+  samp = tibble(x = rnorm(n = samp_size, mean = mu, sd = sigma))
+  
+  t_test_res = t.test(samp, conf.level = .95) %>% 
+    broom::tidy()
+  
+  samp %>%
+    summarise(mean = mean(x), p_value = pull(t_test_res, p.value))
+}
+
+output = vector("list", length = 5000)
+
+for (i in 1:5000) {
+  
+  output[[i]] = sim_norm(samp_size = n, mu = mu, sigma = sigma)
+  
+}
+
+output = bind_rows(output)
+```
+
+Now repeat for differing means:
+
+```{r, cache = TRUE}
+run_sim = function(samp_size, mu, sigma){
+  output = vector("list", length = 5000)
+
+  for (i in 1:5000) {
+    output[[i]] = sim_norm(samp_size = samp_size, mu = mu, sigma = sigma)
+  }
+  
+  bind_rows(output) %>%
+    mutate(true_mean = mu)
+}
+
+output = vector("list", length = 6)
+
+for (i in 1:6) {
+  output[[i]] = run_sim(samp_size = n, mu = i, sigma = sigma)
+}
+
+output = bind_rows(output)
+
+```
+
+Time to plot!
+
+Plot the proportion of times null was rejected (p<=0.05) against true value of mean:
+
+```{r p3_plot_1}
+p1_df =
+  output %>% 
+  group_by(true_mean) %>% 
+  filter(p_value <= 0.05) %>% 
+  summarize(prop = n()/5000)
+
+ggplot(p1_df, aes(x = true_mean, y = prop)) +
+  geom_line() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "How often null was rejected compared to true mean",
+    x = "True Value of the Mean",
+    y = "Proportion of Times Null was Rejected"
+  )
+```
+
+From this plot, we can see that as the true value of the mean increases, so too does how often we will reject our null hypothesis that the mean is 0.
+
+
+
+Plot the average estimate of the sample mean against the true mean. Then plot the average estimate of the sample mean only in samples in which the null was rejected, against the true mean:
+
+```{r p3_plot_2_3}
+p2_df =
+  output %>% 
+  group_by(true_mean) %>% 
+  summarize(avg_mean_est = mean(mean))
+
+p2_plot =
+  ggplot(p2_df, aes(x = true_mean, y = avg_mean_est)) +
+  geom_point() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "Avg sample mean v true mean",
+    x = "True Value of the Mean",
+    y = "Avg estimate of sample mean"
+  )
+
+p3_df =
+  output %>% 
+  group_by(true_mean) %>% 
+  filter(p_value <= 0.05) %>% 
+  summarize(avg_mean_est = mean(mean))
+
+p3_plot =
+ggplot(p3_df, aes(x = true_mean, y = avg_mean_est)) +
+  geom_point() +
+  theme(text = element_text(size = 8)) +
+  labs(
+    title = "Avg sample mean (null rejected) v true mean",
+    x = "True Value of the Mean",
+    y = "Avg estimate of sample mean for samples where null rejected"
+  )
+
+p2_plot + p3_plot
+```
+
+In the first graph, comparing the average sample mean to the true value of the mean, the average estimate of the sample mean is equivalent to the true mean.
+
+However, when we plotted just the average sample mean of those samples for which the null was rejected, against the true mean, we found that the average sample mean was higher than the true mean, but began to better approximate the true mean as the true mean increased.

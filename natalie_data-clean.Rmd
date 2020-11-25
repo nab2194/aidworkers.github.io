@@ -12,6 +12,8 @@ library(readxl)
 library(p8105.datasets)
 library(hexbin)
 library(patchwork)
+library(leaflet)
+library(lubridate)
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -25,5 +27,25 @@ options(
 )
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
+```
+
+
+```{r basic cleaning and exploring}
+aidworker_df = 
+read_csv("./data/security_incidents_2020-11-25.csv") %>%
+  janitor::clean_names() %>% 
+  pivot_longer(
+    un:other,
+    names_to = "org_type", 
+    values_to = "number_orgs_affected"
+  ) %>% 
+  select(-number_orgs_affected)
+
+aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
+
+aidworker_df %>% 
+  ggplot(aes(x = date, y = total_affected)) + 
+  geom_point(aes(color = country))
+
 ```
 
