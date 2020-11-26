@@ -110,6 +110,17 @@ aidworker_df %>%
 
 ```{r}
 aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  group_by(year) %>% 
+  summarize(syria_tot_affected = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(syria_tot_affected))) %>% 
+  arrange(year) %>% 
+  knitr::kable()
+```
+
+
+```{r}
+aidworker_df %>% 
   pivot_longer(
     un:other,
     names_to = "org_type", 

@@ -8,6 +8,93 @@ Rishovd
 
 ## Title: “Attacks on Aid: Quantifying Risk of Violence among Aid Workers in Global Humanitarian Settings”
 
+## Datasets
+
+#### Uppsala
+
+Uppsala GED: all georeferenced data of armed conflict from 1989. An
+incident where armed force used by one organized actor against another
+organized actor or civilian resulting in at least one death. Codebook:
+<https://ucdp.uu.se/downloads/ged/ged201.pdf>
+
+Humanitarian data: operational datasets of how many orgs work in
+country?
+
+#### Aid workers
+
+#### SHCC
+
+(Afghanistan only? iterate multiple years)
+
+## Questions
+
+  - Do aid worker violence correlate with higher overall violence?
+
+  - How has pattern of aid worker violence changed over time: nationals
+    vs international attacks, type of attack, etc?
+
+### Aidworker dataset - Natalie, Emily, Brennan
+
+  - Over time and countries, are there patterns to show differences in
+    aidworker attacks? (maybe shiny plot)
+
+  - Different types of org workers attacked more frequently (UN vs INGO
+    vs local NGOs)
+
+  - Are attacks against international aid workers different versus
+    national aid workers? Has the proportion of attacks on international
+    vs national aid workers changed over time.
+
+  - stat test on this?
+
+  - Is kidnapping more common among international aid workers versus
+    national aid workers?
+
+  - Have types of attacks changed over time?
+
+  - Some sort of map with lat/long: leaflet or shiny?
+
+  - EDA: attack context, type of attack, actor type
+
+  - Aid worker interactive map: \*\* Include dropdown / hover over link
+    to show major events. \*\* Highlight countries with attacks but no
+    major events, or protracted conflicts: CAR, Nigeria, DRC?
+
+  - Logistic regression: probability experiencing attack with IVs of
+    type NGO, national/international, context of attack, type of attack,
+    actor type
+
+### Focus on afghanistan - explain why we chose this one. Use multiple datasets. - Alisha, Kailey, Brennan
+
+Use years 2008 - 2016 (describe why in report and show code)
+
+1.  Overall violence - Uppsala GED201 (?)
+2.  Aid worker violence
+3.  Health facility attacks - SHCC
+
+Step 1: read in, tidy and filter datasets
+
+  - Filter Uppsala dataset just for this country to examine overall
+    violence overtime alongside violence against aidworkers.
+
+  - Deaths among all civilians versus all aidworkers side by side
+
+  - SHCC Afghanistan dataset - would have to bring in multiple years.
+
+  - Discuss confounders (U.S. administration changes? Troop levels in
+    country? Natural disaster?)
+
+### Website
+
+### TABLE – Aidworker joined with Uppsala
+
+  - Join aidworker and Uppsala based on country & date.
+
+## Things to do
+
+Aid-worker dataset \* Collapse type of NGO variable via `pivot_longer`
+so one variable is org type and other var is the number affected
+
 ## Team members and task assignments
 
 ### Natalie

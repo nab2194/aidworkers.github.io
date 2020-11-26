@@ -225,6 +225,45 @@ aidworker_df %>%
 
 ``` r
 aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  group_by(year) %>% 
+  summarize(syria_tot_affected = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(syria_tot_affected))) %>% 
+  arrange(year) %>% 
+  knitr::kable()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+| year | syria\_tot\_affected | rank |
+| ---: | -------------------: | ---: |
+| 1997 |                    1 |   23 |
+| 1998 |                    3 |   21 |
+| 1999 |                    1 |   23 |
+| 2000 |                    9 |   18 |
+| 2001 |                    6 |   20 |
+| 2002 |                    8 |   19 |
+| 2003 |                   22 |   17 |
+| 2004 |                   40 |   14 |
+| 2005 |                   35 |   15 |
+| 2006 |                   55 |   10 |
+| 2007 |                   48 |   12 |
+| 2008 |                   63 |    7 |
+| 2009 |                   62 |    9 |
+| 2010 |                  119 |    3 |
+| 2011 |                   94 |    6 |
+| 2012 |                  105 |    4 |
+| 2013 |                  167 |    1 |
+| 2014 |                  127 |    2 |
+| 2015 |                  101 |    5 |
+| 2016 |                   63 |    7 |
+| 2017 |                   31 |   16 |
+| 2018 |                   47 |   13 |
+| 2019 |                   50 |   11 |
+| 2020 |                    2 |   22 |
+
+``` r
+aidworker_df %>% 
   pivot_longer(
     un:other,
     names_to = "org_type", 
@@ -291,7 +330,7 @@ aidworker_df %>%
   geom_point()
 ```
 
-<img src="brennan_data_tidy_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
+<img src="brennan_data_tidy_files/figure-gfm/unnamed-chunk-9-1.png" width="90%" />
 
 ## SHCC dataset - ‘Safeguarding Health in Conflict Coalition’
 
