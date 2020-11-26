@@ -27,7 +27,7 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-Aidworker dataset - cleaning
+Aidworker dataset - cleaning and tailoring
 ```{r basic cleaning and exploring}
 aidworker_df = 
 read_csv("./data/security_incidents_2020-11-25.csv") %>%
@@ -41,10 +41,89 @@ read_csv("./data/security_incidents_2020-11-25.csv") %>%
 
 aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
 
+afghan_aidw_df = 
 aidworker_df %>% 
   filter(country == "Afghanistan") %>% 
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"))
 
+# tried to write a function, didn't work. Tried to group by and summarize, didn't work. Tried to mutate and create a new column for totals but that somehow didn't work either. Also tried to recode the columns, and you guessed it - that didn't work. Had to do it like this, but it's not even remotely efficient, so if someone has a better way, please feel free to overwrite this. 
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2008")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2008")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2009")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2009")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2010")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2010")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2011")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2011")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2012")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2012")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2013")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2013")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2014")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2014")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2015")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2015")) %>% 
+  count(nationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2016")) %>% 
+  count(internationals_killed)
+
+afghan_aidw_df %>% 
+   filter(year %in% c("2016")) %>% 
+  count(nationals_killed)
+
+```
+
+
+```{r}
 
 ```
 
