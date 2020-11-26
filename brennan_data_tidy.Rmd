@@ -108,6 +108,37 @@ aidworker_df %>%
 ```
 
 
+```{r}
+aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  group_by(year) %>% 
+  summarize(syria_tot_affected = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(syria_tot_affected))) %>% 
+  arrange(year) %>% 
+  knitr::kable()
+```
+
+
+```{r}
+aidworker_df %>% 
+  pivot_longer(
+    un:other,
+    names_to = "org_type", 
+    values_to = "number_orgs_affected"
+  ) %>% 
+  select(-number_orgs_affected)
+```
+
+```{r}
+aidworker_df
+
+aidworker_df %>% 
+  ggplot(aes(x = year, y = total_affected, color = country)) + 
+  geom_point()
+```
+
+
+
 ## SHCC dataset - 'Safeguarding Health in Conflict Coalition'
 
 URL: https://data.humdata.org/dataset/shcchealthcare-dataset
@@ -148,5 +179,48 @@ syria_shcc_df %>%
            total_health_worker_injured + 
            total_health_worker_assaulted) %>% 
   count(tot_hcw_affected)
+```
+
+## Upsala dataset
+
+```{r}
+ucdp_df = 
+  GET("https://ucdpapi.pcr.uu.se/api/gedevents/20.1?pagesize=1&page=1") %>% 
+  content("text") %>% 
+  jsonlite::fromJSON() %>% 
+  as_tibble()
+  
+```
+
+
+```{r}
+ucdp_onsided_df = 
+  read_csv("data/ucdp-onesided-201.csv")
+```
+
+```{r}
+ucdp_onsided_df %>% 
+  filter(location == "Syria") %>% 
+  select(year, actor_name, best_fatality_estimate, low_fatality_estimate, high_fatality_estimate, is_government_actor) %>% 
+  arrange(year)
+```
+
+
+```{r}
+ucdp_onsided_df %>% 
+  filter(location == "Afghanistan") %>% 
+  select(year, actor_name, best_fatality_estimate, low_fatality_estimate, high_fatality_estimate, is_government_actor) %>% 
+  arrange(year)
+```
+
+Does not seem terribly useful?
+
+## Armed Conflict Location & Event Data Project (ACLED)
+
+Afghanistan data here: https://data.humdata.org/dataset/acled-data-for-afghanistan
+
+```{r}
+afghan_acled_df = 
+  read_csv("data/conflict_data_afg.csv")
 ```
 
