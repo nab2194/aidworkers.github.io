@@ -48,6 +48,7 @@ aidworker_df %>%
 
 # tried to write a function, didn't work. Tried to group by and summarize, didn't work. Tried to mutate and create a new column for totals but that somehow didn't work either. Also tried to recode the columns, and you guessed it - that didn't work. Had to do it like this, but it's not even remotely efficient, so if someone has a better way, please feel free to overwrite this. 
 
+
 afghan_aidw_df %>% 
    filter(year %in% c("2008")) %>% 
   count(internationals_killed)

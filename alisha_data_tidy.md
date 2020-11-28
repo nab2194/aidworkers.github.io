@@ -36,10 +36,43 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-2018 SHCC Dataset
+\#\#2018 SHCC Dataset
+
+Import Data
 
 ``` r
 shcc2018_df = 
   read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
   janitor::clean_names() %>% view()
 ```
+
+total number of hcws affected per country in 2018 (killed, gbc,
+arrested, injured, kidnapped)
+
+``` r
+shcc2018_df %>% 
+  group_by(number_country_name) %>% 
+  mutate(tot_hcw_affected = 
+           number_affected_healthworker_killed + 
+           number_affected_healthworker_sgbv + 
+           number_affected_healthworker_arrested + 
+           number_affected_healthworker_injured + 
+           number_affected_healthworker_kidnapped) %>% 
+  count(tot_hcw_affected)
+```
+
+    ## # A tibble: 25 x 3
+    ## # Groups:   number_country_name [24]
+    ##    number_country_name tot_hcw_affected     n
+    ##    <chr>                          <dbl> <int>
+    ##  1 Afghanistan                       NA    98
+    ##  2 Burkina Faso                      NA     7
+    ##  3 Cameroon                          NA    14
+    ##  4 CAR                               NA    47
+    ##  5 DRC                               NA    24
+    ##  6 Egypt                             NA     1
+    ##  7 Ethiopia                          NA     1
+    ##  8 Indonesia                         NA     2
+    ##  9 Iraq                              NA    12
+    ## 10 Libya                             NA    47
+    ## # … with 15 more rows
