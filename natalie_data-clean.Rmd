@@ -30,7 +30,7 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 
-```{r basic cleaning and exploring}
+```{r basic cleaning and exploring aidworker dataset}
 aidworker_df = 
 read_csv("./data/security_incidents_2020-11-25.csv") %>%
   janitor::clean_names() %>% 
@@ -46,6 +46,13 @@ aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-
 aidworker_df %>% 
   ggplot(aes(x = date, y = total_affected)) + 
   geom_point(aes(color = country))
+
+
+```
+
+
+```{r}
+
 
 ```
 

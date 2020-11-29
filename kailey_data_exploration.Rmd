@@ -1,0 +1,40 @@
+---
+title: "Data Exploration"
+output: github_document
+---
+
+Copy and pasted from 'group_eda' repo on my own github. 
+
+```{r message=FALSE}
+library(tidyverse)
+library(rvest)
+library(patchwork)
+knitr::opts_chunk$set(
+  fig.width = 6, 
+  fig.asp = .6, 
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot.continuous.colour = "viridis", 
+  ggplot.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Load AWSD and Uppsala data 
+
+```{r}
+aAWSD_df = 
+  read_csv("Kailey_data/security_incidents_2020-11-25.csv") %>% 
+  janitor::clean_names()
+
+uppsala_df =
+  read_csv("Kailey_data/ucdp-prio-acd-201.csv") %>% 
+  janitor::clean_names()
+```
+
+Initial look: these two datasets have a possibility of being merged...
+
+The other data sets have less compatible variables

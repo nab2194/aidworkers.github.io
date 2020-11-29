@@ -1,0 +1,57 @@
+---
+title: "Section 1"
+author: "Natalie Boychuk, E. Brennan Bollman, Emily Bamforth, Alisha Sarakki, and Kailey Rishovd"
+date: "11/26/2020"
+output: github_document
+---
+
+This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers. 
+
+```{r setup and data visualization preferences}
+library(tidyverse)
+library(dplyr)
+library(patchwork)
+library(leaflet)
+library(lubridate)
+library(rvest)
+library(httr)
+devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+```{r scraping aidworker data and basic tidying}
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+aidworker_df = 
+distinct(aidworker_df) 
+
+aidworker_df %>% 
+  janitor::clean_names() %>% 
+  ## need to rethink the strategy for this - a simple pivot longer doesn't work here, creates 6 duplicates for each observation because it doesn't recognize 0s 
+  pivot_longer(un:other,
+    names_to = "org_type", 
+    values_to = "number_orgs_affected") %>% 
+  select(-number_orgs_affected) %>%
+  rename(year = year_sort_descending, -source, -verified)
+    
+```
+
