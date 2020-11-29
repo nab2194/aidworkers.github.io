@@ -30,6 +30,8 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
+## Data import and tidying
+
 ```{r scraping aidworker data and basic tidying}
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
@@ -44,14 +46,25 @@ aidworker_df =
 aidworker_df = 
 distinct(aidworker_df) 
 
-aidworker_df %>% 
+aidworker_tidy_df =
+  aidworker_df %>% 
   janitor::clean_names() %>% 
-  ## need to rethink the strategy for this - a simple pivot longer doesn't work here, creates 6 duplicates for each observation because it doesn't recognize 0s 
-  pivot_longer(un:other,
-    names_to = "org_type", 
-    values_to = "number_orgs_affected") %>% 
-  select(-number_orgs_affected) %>%
-  rename(year = year_sort_descending, -source, -verified)
-    
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"
+           )) %>% 
+  rename(year = year_sort_descending) %>% 
+  select(-source, -verified) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
 ```
+
+Brennan notes: 
+*why did we use distinct here? 
+*I think this `case_when` approach works to identify whether an international org was affected, instead of the pivot idea. Otherwise, I agree with Natalie that there's no way to do it without making 6 copies of each incident. The existing data already seems to be the clearest way to present the number of people from each type of org affected, and we can plot that.
+*if happy with cleaning, we can rename the `aidworker_tidy_df` as just `aidworker_df`
 

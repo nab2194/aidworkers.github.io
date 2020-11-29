@@ -11,14 +11,14 @@ will focus on global levels of violence against aid workers.
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -76,6 +76,8 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
+## Data import and tidying
+
 ``` r
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
@@ -90,34 +92,28 @@ aidworker_df =
 aidworker_df = 
 distinct(aidworker_df) 
 
-aidworker_df %>% 
+aidworker_tidy_df =
+  aidworker_df %>% 
   janitor::clean_names() %>% 
-  ## need to rethink the strategy for this - a simple pivot longer doesn't work here, creates 6 duplicates for each observation because it doesn't recognize 0s 
-  pivot_longer(un:other,
-    names_to = "org_type", 
-    values_to = "number_orgs_affected") %>% 
-  select(-number_orgs_affected) %>%
-  rename(year = year_sort_descending, -source, -verified)
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"
+           )) %>% 
+  rename(year = year_sort_descending) %>% 
+  select(-source, -verified) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
 ```
 
-    ## # A tibble: 18,018 x 28
-    ##       id month   day  year country nationals_killed nationals_wound…
-    ##    <int> <chr> <int> <int> <chr>              <int>            <int>
-    ##  1    35 ""       NA  1997 ""                     1                0
-    ##  2    35 ""       NA  1997 ""                     1                0
-    ##  3    35 ""       NA  1997 ""                     1                0
-    ##  4    35 ""       NA  1997 ""                     1                0
-    ##  5    35 ""       NA  1997 ""                     1                0
-    ##  6    35 ""       NA  1997 ""                     1                0
-    ##  7     1 "Jan"    NA  1997 "Cambo…                1                0
-    ##  8     1 "Jan"    NA  1997 "Cambo…                1                0
-    ##  9     1 "Jan"    NA  1997 "Cambo…                1                0
-    ## 10     1 "Jan"    NA  1997 "Cambo…                1                0
-    ## # … with 18,008 more rows, and 21 more variables: nationals_kidnapped <int>,
-    ## #   total_national_staff <int>, internationals_killed <int>,
-    ## #   internationals_wounded <int>, internationals_kidnapped <int>,
-    ## #   total_international_staff <int>, total_victims <int>, gender_male <int>,
-    ## #   gender_female <int>, gender_unknown <int>, means_of_attack <chr>,
-    ## #   attack_context <chr>, location <chr>, latitude <chr>, longitude <chr>,
-    ## #   actor_type <chr>, actor_name <chr>, details <chr>, verified <chr>,
-    ## #   source <chr>, org_type <chr>
+Brennan notes: *why did we use distinct here? *I think this `case_when`
+approach works to identify whether an international org was affected,
+instead of the pivot idea. Otherwise, I agree with Natalie that there’s
+no way to do it without making 6 copies of each incident. The existing
+data already seems to be the clearest way to present the number of
+people from each type of org affected, and we can plot that. \*if happy
+with cleaning, we can rename the `aidworker_tidy_df` as just
+`aidworker_df`
