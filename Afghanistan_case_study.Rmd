@@ -126,7 +126,7 @@ afghan_aidw_df %>%
 
 
 ```{r}
-#alisha, wondering if this would work... making two dfsone with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? 
+#alisha, wondering if this would work... making two dfsone with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I'm a little confused with what to do about this data, but im going to try condensing it. 
 
 afghan_aidw_international_df = 
 aidworker_df %>% 
@@ -141,16 +141,29 @@ aidworker_df %>%
 afghan_aidw_national_df = 
 aidworker_df %>% 
   filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
-  group_by(year) %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>%
+  group_by(year) %>%
   count(nationals_killed) %>% 
   mutate(
     nationals_killed_tot = n
-  )
+  ) 
 
 afghan_aidw_df_new = 
     left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = "year") %>% 
-    select(year, internationals_killed_tot, nationals_killed_tot)
+    select(year, internationals_killed_tot, nationals_killed_tot) # %>%  
+  # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %>% view()
+  # this line of code isn't working (and nothing similar will work) because R is not recognizing "year" as a list - does anyone have another way of aggregating the data by year?
+
+
+afghan_aidw_df_new %>% 
+     ggplot(aes(x = year, y = internationals_killed_tot, col = "International")) +
+   geom_line() +
+  geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
+  labs(
+    title = "Number of Aidworkers Killed By Origin (National vs. International)",
+    x = "Year",
+    y = "Number Killed"
+  ) 
 ```
 
 Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)
@@ -158,22 +171,34 @@ Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only
 ```{r}
 #Looking at deaths among all civilians verses all aidworkers side by side
 
-#Aidworkers: could use some help with the pivot wider 
+#Aidworkers: could use some help with the pivot wider - do we need to pivot wider here? I think just aggregating would be enough. Running into the same issue as before with aggregating - it's not recognizing the year variable as a list, and it's resisting all my efforts to mutate it into a list. 
+
 aidw_killed_df =   
 afghan_aidw_df %>% 
-  group_by(year) %>% 
+#  mutate(year = as.list(year)) %>% 
+ group_by(year) %>% 
   count(total_killed) %>% 
   select(year, n) %>%
-  pivot_wider(
-    names_from = year, 
-    values_from = n,
-  ) 
+#  aggregate(cbind(n) ~ year, sum) %>% view()
 
-#All civilians: I am a bit confused on who each death represents 
+ # pivot_wider(
+ #   names_from = year, 
+ #   values_from = n,
+ # ) 
+
+#All civilians: I am a bit confused on who each death represents - deaths_a and deaths_b represent each side of the conflict. Because this is different for each instance, it might be best to take it out and just focus on civilian deaths - removing unknown deaths here for that purpose)
 afghan_upp_df = 
 read_csv("./data/afghanistan_uppsala.csv") %>%
   janitor::clean_names() %>% 
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
-  select(year, deaths_a:deaths_unknown)
+  select(year, deaths_civilians) %>% 
+       ggplot(aes(x = year, y = deaths_civilians, col = "Civilian")) +
+   geom_line() +
+  geom_line(data = aidw_killed_df, aes(x = year, y = total_killed, col = "Aidworker")) +
+  labs(
+    title = "Aidowrkers and Civilians Killed",
+    x = "Year",
+    y = "Number Killed"
+  ) 
 ```
 
