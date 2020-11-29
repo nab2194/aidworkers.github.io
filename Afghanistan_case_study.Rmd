@@ -1,4 +1,3 @@
-
 ---
 title: "Afghanistan Case Study" 
 output: github_document
@@ -12,6 +11,7 @@ library(hexbin)
 library(patchwork)
 library(leaflet)
 library(lubridate)
+
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -44,7 +44,8 @@ aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-
 afghan_aidw_df = 
 aidworker_df %>% 
   filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"))
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
+
 
 # tried to write a function, didn't work. Tried to group by and summarize, didn't work. Tried to mutate and create a new column for totals but that somehow didn't work either. Also tried to recode the columns, and you guessed it - that didn't work. Had to do it like this, but it's not even remotely efficient, so if someone has a better way, please feel free to overwrite this. 
 
@@ -124,7 +125,31 @@ afghan_aidw_df %>%
 
 
 ```{r}
+#alisha, wondering if this would work... making two dfsone with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? 
 
+afghan_aidw_international_df = 
+aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+  group_by(year) %>% 
+  count(internationals_killed) %>% 
+  mutate(
+    internationals_killed_tot = n
+  )
+
+afghan_aidw_national_df = 
+aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+  group_by(year) %>% 
+  count(nationals_killed) %>% 
+  mutate(
+    nationals_killed_tot = n
+  )
+
+afghan_aidw_df_new = 
+    left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = "year") %>% 
+    select(year, internationals_killed_tot, nationals_killed_tot)
 ```
 
 
