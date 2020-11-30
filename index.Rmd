@@ -1,27 +1,43 @@
 ---
-title: "P8105 Homework 4"
+title: "Attacks on Aid: Quantifying Risk of Violence Among Aid Workers in Global Humanitarian Settings"
 output: 
   html_document:
+    css: "style.css"
+    fig_width: 6
+    fig_height: 7
     toc: true
     toc_float: true
-    theme: flatly
+    theme: cosmo
 ---
 
-# Welcome to Alisha's Website!
 
-Pleased to make your acquaintance. Here, you can learn a bit more
-[about me](about_me-copy.html) and New York City Restaurants - my personal favorite part of the city.
-
-![](https://media.giphy.com/media/3JK9tJphUClfq/giphy.gif)
+![](IMAGES/ambulance_icrc.jpg)
 
 
 
 
-### New York Strong - Storytime
-#### This is filler text.
-The night of November 3rd, as I was NYC-walking over to a friend's apartment, laden with alcohol in preparation of the coming bloodshed (the election), I heard an odd mixture of violent squeaking, scrambling, and flapping. This, paired with ominous light flickering, made me pause to stare at the source of the cacophony. In that moment, I beheld perhaps the most iconic happening I had ever come across during my time in New York City - 1 or 2 pigeons, locked in a fierce and chaotic squabble with 1 or 2 rats (was difficult to tell the exact quantity amidst the chaos), above the rafters of a bodega. It felt oddly symbolic, juxtaposed against the ongoing crumbling of American democracy. Do we live in a pigeon-eat-rat world or a rat-eat-pigeon world? Was Biden the rat or the pigeon? The whole situation made simultaneously no sense at all, and all the sense in the world. Quite honestly, the most prominent lesson I left with  as I continued my walk on was "New York Strong" - life will go on, and this too shall pass.  
+Ambulance attack, via ICRC
 
-![](IMAGES/pigeons.jpg)
+
+
+
+## Motivation
+
+In recent decades, attacks on aid workers in complex crises have been steadily increasing, with a recorded 483 workers killed, kidnapped, or wounded in 2019. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time using several key comprehensive databases. 
+
+Our analysis focuses on the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization): which has collected data on attacks against humanitarian aid workers globally since 1997. Additional information related to country violence comes from Safeguarding Health in Conflict Coalition (SHCC) and Uppsala Conflict Data Program (UCDP). These data are used to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). 
+
+A closer focus on Afghanistan allows for a closer look at one of the most violent settings identified in the various databases used for global-level analysis. 
+
+
+ 
+## What You'll Find In This Website
+
+ * Stratified analyses of global trends in violence against aid workers
+ * A case study of Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers
+ * A full report detailing our process (here)
+ * A screencast walking you through this website (here)
+
 
 
 
