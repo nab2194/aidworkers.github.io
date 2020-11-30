@@ -126,7 +126,7 @@ Brennan notes:
 
 ## EDA of Attack patterns: International vs National
 
-#### Look at frequency of attacks on various types of organizations
+### Look at frequency of attacks on various types of organizations
 
 ``` r
 aidworker_tidy_df %>% 
@@ -135,3 +135,99 @@ aidworker_tidy_df %>%
 ```
 
 <img src="section-1_files/figure-gfm/unnamed-chunk-1-1.png" width="90%" />
+
+Brennan: I’m stuck on this part. Natalie - you were thinking about it
+conceptually a lot, any ideas?
+
+### International vs National staff attacks
+
+``` r
+aidworker_tidy_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>%
+  knitr::kable()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+| year | tot\_national | tot\_intl | tot\_both | pct\_intl | pct\_national |
+| ---: | ------------: | --------: | --------: | --------: | ------------: |
+| 1997 |            45 |        30 |        75 | 40.000000 |      60.00000 |
+| 1998 |            46 |        22 |        68 | 32.352941 |      67.64706 |
+| 1999 |            43 |        25 |        68 | 36.764706 |      63.23529 |
+| 2000 |            70 |        21 |        91 | 23.076923 |      76.92308 |
+| 2001 |            62 |        28 |        90 | 31.111111 |      68.88889 |
+| 2002 |            68 |        17 |        85 | 20.000000 |      80.00000 |
+| 2003 |           117 |        26 |       143 | 18.181818 |      81.81818 |
+| 2004 |           101 |        24 |       125 | 19.200000 |      80.80000 |
+| 2005 |           158 |        14 |       172 |  8.139535 |      91.86047 |
+| 2006 |           214 |        26 |       240 | 10.833333 |      89.16667 |
+| 2007 |           186 |        35 |       221 | 15.837104 |      84.16290 |
+| 2008 |           227 |        51 |       278 | 18.345324 |      81.65468 |
+| 2009 |           221 |        74 |       295 | 25.084746 |      74.91525 |
+| 2010 |           209 |        41 |       250 | 16.400000 |      83.60000 |
+| 2011 |           282 |        29 |       311 |  9.324759 |      90.67524 |
+| 2012 |           228 |        49 |       277 | 17.689531 |      82.31047 |
+| 2013 |           415 |        60 |       475 | 12.631579 |      87.36842 |
+| 2014 |           300 |        32 |       332 |  9.638554 |      90.36145 |
+| 2015 |           260 |        29 |       289 | 10.034602 |      89.96540 |
+| 2016 |           252 |        43 |       295 | 14.576271 |      85.42373 |
+| 2017 |           285 |        28 |       313 |  8.945687 |      91.05431 |
+| 2018 |           379 |        29 |       408 |  7.107843 |      92.89216 |
+| 2019 |           456 |        27 |       483 |  5.590062 |      94.40994 |
+| 2020 |           264 |        17 |       281 |  6.049822 |      93.95018 |
+|   NA |          4888 |       777 |      5665 | 13.715799 |      86.28420 |
+
+``` r
+## If look at last row of data, appears "NA" is the total
+
+aidworker_tidy_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-2-1.png" width="90%" />
+
+Roughly this shows that proportions of nationals attacked has always
+been higher than internationals, with increasing percentage of national
+staff attacked over time.
+
+``` r
+aidworker_tidy_df %>% 
+  group_by(year) %>% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  ylim(0, 500) + 
+  labs(title = "Aid Worker Attacks over time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked")
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+    
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-3-1.png" width="90%" />
+
+Number of aid worker attacks are increasing over time, especially among
+national staff.

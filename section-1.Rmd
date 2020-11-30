@@ -75,7 +75,7 @@ Brennan notes:
 
 ## EDA of Attack patterns: International vs National
 
-#### Look at frequency of attacks on various types of organizations 
+### Look at frequency of attacks on various types of organizations 
 
 ```{r}
 aidworker_tidy_df %>% 
@@ -83,4 +83,49 @@ aidworker_tidy_df %>%
   geom_bar()
 ```
 
+Brennan: I'm stuck on this part. Natalie - you were thinking about it conceptually a lot, any ideas?
+
+### International vs National staff attacks
+
+```{r}
+aidworker_tidy_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>%
+  knitr::kable()
+
+## If look at last row of data, appears "NA" is the total
+
+aidworker_tidy_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line()
+```
+
+Roughly this shows that proportions of nationals attacked has always been higher than internationals, with increasing percentage of national staff attacked over time. 
+
+```{r}
+aidworker_tidy_df %>% 
+  group_by(year) %>% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  ylim(0, 500) + 
+  labs(title = "Aid Worker Attacks over time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked")
+```
+
+Number of aid worker attacks are increasing over time, especially among national staff.
 
