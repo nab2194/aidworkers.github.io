@@ -11,14 +11,14 @@ will focus on global levels of violence against aid workers.
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ─────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ───────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -55,6 +55,36 @@ library(rvest)
 
 ``` r
 library(httr)
+library(flexdashboard)
+library(plotly)
+```
+
+    ## 
+    ## Attaching package: 'plotly'
+
+    ## The following object is masked from 'package:httr':
+    ## 
+    ##     config
+
+    ## The following object is masked from 'package:ggplot2':
+    ## 
+    ##     last_plot
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
+
+    ## The following object is masked from 'package:graphics':
+    ## 
+    ##     layout
+
+``` r
+library(viridis)
+```
+
+    ## Loading required package: viridisLite
+
+``` r
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 ```
 
@@ -76,6 +106,8 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
+## Data import and tidying
+
 ``` r
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
@@ -87,37 +119,249 @@ aidworker_df =
   html_table() %>% 
   as_tibble()
 
-aidworker_df = 
-distinct(aidworker_df) 
-
-aidworker_df %>% 
+aidworker_df =
+  aidworker_df %>%
   janitor::clean_names() %>% 
-  ## need to rethink the strategy for this - a simple pivot longer doesn't work here, creates 6 duplicates for each observation because it doesn't recognize 0s 
-  pivot_longer(un:other,
-    names_to = "org_type", 
-    values_to = "number_orgs_affected") %>% 
-  select(-number_orgs_affected) %>%
-  rename(year = year_sort_descending, -source, -verified)
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected) 
 ```
 
-    ## # A tibble: 18,018 x 28
-    ##       id month   day  year country nationals_killed nationals_wound…
-    ##    <int> <chr> <int> <int> <chr>              <int>            <int>
-    ##  1    35 ""       NA  1997 ""                     1                0
-    ##  2    35 ""       NA  1997 ""                     1                0
-    ##  3    35 ""       NA  1997 ""                     1                0
-    ##  4    35 ""       NA  1997 ""                     1                0
-    ##  5    35 ""       NA  1997 ""                     1                0
-    ##  6    35 ""       NA  1997 ""                     1                0
-    ##  7     1 "Jan"    NA  1997 "Cambo…                1                0
-    ##  8     1 "Jan"    NA  1997 "Cambo…                1                0
-    ##  9     1 "Jan"    NA  1997 "Cambo…                1                0
-    ## 10     1 "Jan"    NA  1997 "Cambo…                1                0
-    ## # … with 18,008 more rows, and 21 more variables: nationals_kidnapped <int>,
-    ## #   total_national_staff <int>, internationals_killed <int>,
-    ## #   internationals_wounded <int>, internationals_kidnapped <int>,
-    ## #   total_international_staff <int>, total_victims <int>, gender_male <int>,
-    ## #   gender_female <int>, gender_unknown <int>, means_of_attack <chr>,
-    ## #   attack_context <chr>, location <chr>, latitude <chr>, longitude <chr>,
-    ## #   actor_type <chr>, actor_name <chr>, details <chr>, verified <chr>,
-    ## #   source <chr>, org_type <chr>
+Brennan notes:
+
+  - I think this `case_when` approach works to identify whether an
+    international org was affected, instead of the pivot idea.
+    Otherwise, I agree with Natalie that there’s no way to do it without
+    making 6 copies of each incident. The existing data already seems to
+    be the clearest way to present the number of people from each type
+    of org affected, and we can plot that.
+
+  - if happy with cleaning, we can rename the `aidworker_tidy_df` as
+    just `aidworker_df`
+
+Natalie notes:
+
+  - distinct was left behind from when I was trying to get the
+    pivot\_longer working. Deleted now\!
+
+  - I’m happy with the tidyness of it now but I think it would be more
+    useful to have a single date variable to use in our analysis - I
+    tried mutating to get to a date but keep getting all NAs. If someone
+    else figures this out lemme know\!
+
+### Look at frequency of attacks on staff of various types of organizations
+
+``` r
+aidworker_df %>% 
+  ggplot(aes(x = intl_org_affected)) + 
+  geom_bar()
+```
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-1-1.png" width="90%" />
+
+Brennan: I’m stuck on this part. Natalie - you were thinking about it
+conceptually a lot, any ideas?
+
+### International vs National staff attacks
+
+``` r
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>%
+  knitr::kable()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+| year | tot\_national | tot\_intl | tot\_both | pct\_intl | pct\_national |
+| ---: | ------------: | --------: | --------: | --------: | ------------: |
+| 1997 |            45 |        30 |        75 | 40.000000 |      60.00000 |
+| 1998 |            46 |        22 |        68 | 32.352941 |      67.64706 |
+| 1999 |            43 |        25 |        68 | 36.764706 |      63.23529 |
+| 2000 |            70 |        21 |        91 | 23.076923 |      76.92308 |
+| 2001 |            62 |        28 |        90 | 31.111111 |      68.88889 |
+| 2002 |            68 |        17 |        85 | 20.000000 |      80.00000 |
+| 2003 |           117 |        26 |       143 | 18.181818 |      81.81818 |
+| 2004 |           101 |        24 |       125 | 19.200000 |      80.80000 |
+| 2005 |           158 |        14 |       172 |  8.139535 |      91.86047 |
+| 2006 |           214 |        26 |       240 | 10.833333 |      89.16667 |
+| 2007 |           186 |        35 |       221 | 15.837104 |      84.16290 |
+| 2008 |           227 |        51 |       278 | 18.345324 |      81.65468 |
+| 2009 |           221 |        74 |       295 | 25.084746 |      74.91525 |
+| 2010 |           209 |        41 |       250 | 16.400000 |      83.60000 |
+| 2011 |           282 |        29 |       311 |  9.324759 |      90.67524 |
+| 2012 |           228 |        49 |       277 | 17.689531 |      82.31047 |
+| 2013 |           415 |        60 |       475 | 12.631579 |      87.36842 |
+| 2014 |           300 |        32 |       332 |  9.638554 |      90.36145 |
+| 2015 |           260 |        29 |       289 | 10.034602 |      89.96540 |
+| 2016 |           252 |        43 |       295 | 14.576271 |      85.42373 |
+| 2017 |           285 |        28 |       313 |  8.945687 |      91.05431 |
+| 2018 |           379 |        29 |       408 |  7.107843 |      92.89216 |
+| 2019 |           456 |        27 |       483 |  5.590062 |      94.40994 |
+| 2020 |           264 |        17 |       281 |  6.049822 |      93.95018 |
+|   NA |          4888 |       777 |      5665 | 13.715799 |      86.28420 |
+
+``` r
+## If look at last row of data, appears "NA" is the total
+## Natalie note: I'm only seeing NA in the year column, not anywhere else - looks like the sums worked fine. I think R just knows not to add up the years. 
+
+## Plot of percentage of nationals affected by attacks over time 
+pct_ntl =
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line() 
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+``` r
+## Plot of percentage of internationals affected by attacks over time 
+pct_intl = 
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_intl)) + 
+  geom_line()
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+``` r
+pct_ntl + pct_intl
+```
+
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+    
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-2-1.png" width="90%" />
+
+Roughly this shows that proportions of nationals attacked has always
+been higher than internationals, with increasing percentage of national
+staff attacked over time.
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Attacks over time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked")
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-3-1.png" width="90%" />
+
+Number of aid worker attacks are increasing over time, especially among
+national staff.
+
+### Type of Attack
+
+``` r
+aidworker_df %>% 
+  filter(means_of_attack == "Kidnapping") %>% 
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Kidnapping over time",
+       x = "Year",
+       y = "Number of Aid Workers Kidnapped")
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
+
+Kidnapping also increasing over time, particularly among national staff.
+Could put this side-by-side the total attack line plot.
+
+#### Attempts to visualize type of attack over time - failed so far
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year, means_of_attack) %>% 
+  ggplot(aes(x = year, y = total_victims, color = means_of_attack)) + 
+  geom_point()
+```
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+
+Above is not good.
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year, means_of_attack) %>% 
+  filter(year == 2019) %>% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()
+```
+
+<img src="section-1_files/figure-gfm/bar plot of types of attacks for both ntl and intl workers-1.png" width="90%" />
+
+### Note from Natalie: I don’t think we should use 2020 as our year of analysis if we limit ourselves to one year since the year isn’t over and excluding the fall/winter might ignore seasonality effects
+
+I like this bar chart, but I think ‘count’ is the number of incidents,
+not the number of people affected. Would be really cool if this could be
+a shiny plot where could change year in a drop down to see how this
+changes over time? Or make a plotly so that you can hover over label to
+see number of intl/natl affected by each type of attack?
+
+I’m not sure how to make those things work though.
+
+### Natalie: I’ll give this a closer look tomorrow morning\!
+
+``` r
+## This was a failed attempt at summarizing by worker type to see if there are differences in means of attack by international vs. national status 
+
+#aidworker_df %>% 
+  #select(id, year, total_national_staff, total_international_staff, means_of_attack) %>% 
+  #as.numeric(c(total_international_staff, total_national_staff)) %>% 
+  #group_by(means_of_attack) %>% 
+  #summarize(across(total_national_staff:total_international_staff, count))
+
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year, means_of_attack) %>% 
+  select(year, means_of_attack) %>% 
+  filter(year == 2019) %>% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()
+```
+
+<img src="section-1_files/figure-gfm/plot comparing attack type-1.png" width="90%" />
