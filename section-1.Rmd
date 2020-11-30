@@ -171,3 +171,45 @@ I like this bar chart, but I think 'count' is the number of incidents, not the n
 
 I'm not sure how to make those things work though.  
 
+
+#### Attack context and actor types
+
+```{r}
+aidworker_df %>% 
+  drop_na(year) %>% 
+  filter(attack_context != "Unknown") %>% 
+  group_by(year, attack_context) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>%
+  ggplot(aes(x = year, y = tot_both, color = attack_context)) + 
+  geom_point() + 
+  labs(title = "Attack Contexts Over Time",
+       x = "Year",
+       y = "Aid Worker Victims")
+```
+
+This is interesting: ambush = attacks on roads are most common and have been increasing. 
+
+Brennan: Is there a better way to visualize this?
+
+```{r}
+aidworker_df %>% 
+  drop_na(year) %>%
+  mutate(actor_type = recode(actor_type,
+                             "Non-state armed group: National" = "Non-state armed group",
+                             "Non-state armed group: Regional" = "Non-state armed group",
+                             "Non-state armed group: Subnational" = "Non-state armed group",
+                             "Non-state armed group: Unknown" = "Non-state armed group"),
+         actor_type = recode(actor_type,
+                             "State: unknown" = "State or paramilitary",
+                             "Host state" = "State or paramilitary",
+                             "Police or paramilitary" = "State or paramilitary")) %>%
+  filter(actor_type == c("Non-state armed group", "State or paramilitary", "Foreign or coalition forces")) %>% 
+  group_by(year, actor_type) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims))
+```
+
+Tried to make actor types more interesting by only looking at State forces (including paramilitary), non-state forces, and foreign forces -- not sure it's very interesting

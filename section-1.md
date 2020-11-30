@@ -282,3 +282,73 @@ changes over time? Or make a plotly so that you can hover over label to
 see number of intl/natl affected by each type of attack?
 
 I’m not sure how to make those things work though.
+
+#### Attack context and actor types
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  filter(attack_context != "Unknown") %>% 
+  group_by(year, attack_context) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>%
+  ggplot(aes(x = year, y = tot_both, color = attack_context)) + 
+  geom_point() + 
+  labs(title = "Attack Contexts Over Time",
+       x = "Year",
+       y = "Aid Worker Victims")
+```
+
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" />
+
+This is interesting: ambush = attacks on roads are most common and have
+been increasing.
+
+Brennan: Is there a better way to visualize this?
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>%
+  mutate(actor_type = recode(actor_type,
+                             "Non-state armed group: National" = "Non-state armed group",
+                             "Non-state armed group: Regional" = "Non-state armed group",
+                             "Non-state armed group: Subnational" = "Non-state armed group",
+                             "Non-state armed group: Unknown" = "Non-state armed group"),
+         actor_type = recode(actor_type,
+                             "State: unknown" = "State or paramilitary",
+                             "Host state" = "State or paramilitary",
+                             "Police or paramilitary" = "State or paramilitary")) %>%
+  filter(actor_type == c("Non-state armed group", "State or paramilitary", "Foreign or coalition forces")) %>% 
+  group_by(year, actor_type) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims))
+```
+
+    ## Warning in actor_type == c("Non-state armed group", "State or paramilitary", :
+    ## longer object length is not a multiple of shorter object length
+
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+
+    ## # A tibble: 41 x 5
+    ## # Groups:   year [23]
+    ##     year actor_type            tot_national tot_intl tot_both
+    ##    <int> <chr>                        <int>    <int>    <int>
+    ##  1  1997 Non-state armed group           10        0       10
+    ##  2  1998 Non-state armed group            3       15       18
+    ##  3  1999 Non-state armed group            1        2        3
+    ##  4  2000 State or paramilitary            7        0        7
+    ##  5  2001 Non-state armed group            2        2        4
+    ##  6  2001 State or paramilitary            1        0        1
+    ##  7  2002 Non-state armed group            2        0        2
+    ##  8  2004 Non-state armed group            2        0        2
+    ##  9  2005 Non-state armed group            7        1        8
+    ## 10  2006 Non-state armed group            3        1        4
+    ## # … with 31 more rows
+
+Tried to make actor types more interesting by only looking at State
+forces (including paramilitary), non-state forces, and foreign forces –
+not sure it’s very interesting
