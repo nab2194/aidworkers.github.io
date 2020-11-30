@@ -15,6 +15,9 @@ library(leaflet)
 library(lubridate)
 library(rvest)
 library(httr)
+library(flexdashboard)
+library(plotly)
+library(viridis)
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -43,12 +46,11 @@ aidworker_df =
   html_table() %>% 
   as_tibble()
 
-aidworker_df = 
-distinct(aidworker_df) 
-
 aidworker_df =
-  aidworker_df %>% 
+  aidworker_df %>%
   janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
   mutate(intl_org_affected = 
            case_when(
              un != 0 ~ "yes",
@@ -56,21 +58,24 @@ aidworker_df =
              icrc != 0 ~ "yes",
              ifrc != 0 ~ "yes",
              other != 0 ~ "yes",
-             lngo_and_nrcs != 0 ~ "no"
-           ),
+             lngo_and_nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
-  rename(year = year_sort_descending) %>% 
-  select(-source, -verified) %>% 
-  relocate(id, month, day, year, country, intl_org_affected)
+  relocate(id, month, day, year, country, intl_org_affected) 
+
 ```
 
 Brennan notes: 
 
-*why did we use distinct here? 
 
 * I think this `case_when` approach works to identify whether an international org was affected, instead of the pivot idea. Otherwise, I agree with Natalie that there's no way to do it without making 6 copies of each incident. The existing data already seems to be the clearest way to present the number of people from each type of org affected, and we can plot that.
 
 * if happy with cleaning, we can rename the `aidworker_tidy_df` as just `aidworker_df`
+
+Natalie notes: 
+
+* distinct was left behind from when I was trying to get the pivot_longer working. Deleted now! 
+
+* I'm happy with the tidyness of it now but I think it would be more useful to have a single date variable to use in our analysis - I tried mutating to get to a date but keep getting all NAs. If someone else figures this out lemme know! 
 
 ### Look at frequency of attacks on staff of various types of organizations 
 
@@ -95,7 +100,10 @@ aidworker_df %>%
   knitr::kable()
 
 ## If look at last row of data, appears "NA" is the total
+## Natalie note: I'm only seeing NA in the year column, not anywhere else - looks like the sums worked fine. I think R just knows not to add up the years. 
 
+## Plot of percentage of nationals affected by attacks over time 
+pct_ntl =
 aidworker_df %>%
   group_by(year) %>% 
   summarize(tot_national = sum(total_national_staff),
@@ -104,7 +112,22 @@ aidworker_df %>%
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>% 
   ggplot(aes(x = year, y = pct_national)) + 
+  geom_line() 
+
+## Plot of percentage of internationals affected by attacks over time 
+pct_intl = 
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_intl)) + 
   geom_line()
+
+pct_ntl + pct_intl
+
 ```
 
 Roughly this shows that proportions of nationals attacked has always been higher than internationals, with increasing percentage of national staff attacked over time. 
@@ -123,6 +146,7 @@ aidworker_df %>%
        x = "Year",
        y = "Number of Aid Workers Attacked")
 ```
+
 
 Number of aid worker attacks are increasing over time, especially among national staff.
 
@@ -156,60 +180,43 @@ aidworker_df %>%
   geom_point()
 ```
 
+
 Above is not good.
 
-```{r}
+```{r bar plot of types of attacks for both ntl and intl workers}
 aidworker_df %>% 
   drop_na(year) %>% 
   group_by(year, means_of_attack) %>% 
-  filter(year == 2020) %>% 
+  filter(year == 2019) %>% 
   ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
   geom_bar()
 ```
 
+### Note from Natalie: I don't think we should use 2020 as our year of analysis if we limit ourselves to one year since the year isn't over and excluding the fall/winter might ignore seasonality effects 
+
 I like this bar chart, but I think 'count' is the number of incidents, not the number of people affected. Would be really cool if this could be a shiny plot where could change year in a drop down to see how this changes over time? Or make a plotly so that you can hover over label to see number of intl/natl affected by each type of attack?
 
-I'm not sure how to make those things work though.  
+I'm not sure how to make those things work though. 
 
+### Natalie: I'll give this a closer look tomorrow morning! 
 
-#### Attack context and actor types
+```{r plot comparing attack type }
 
-```{r}
+## This was a failed attempt at summarizing by worker type to see if there are differences in means of attack by international vs. national status 
+
+#aidworker_df %>% 
+  #select(id, year, total_national_staff, total_international_staff, means_of_attack) %>% 
+  #as.numeric(c(total_international_staff, total_national_staff)) %>% 
+  #group_by(means_of_attack) %>% 
+  #summarize(across(total_national_staff:total_international_staff, count))
+
 aidworker_df %>% 
   drop_na(year) %>% 
-  filter(attack_context != "Unknown") %>% 
-  group_by(year, attack_context) %>% 
-  summarize(tot_national = sum(total_national_staff),
-            tot_intl = sum(total_international_staff),
-            tot_both = sum(total_victims)) %>%
-  ggplot(aes(x = year, y = tot_both, color = attack_context)) + 
-  geom_point() + 
-  labs(title = "Attack Contexts Over Time",
-       x = "Year",
-       y = "Aid Worker Victims")
+  group_by(year, means_of_attack) %>% 
+  select(year, means_of_attack) %>% 
+  filter(year == 2019) %>% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()
+
 ```
 
-This is interesting: ambush = attacks on roads are most common and have been increasing. 
-
-Brennan: Is there a better way to visualize this?
-
-```{r}
-aidworker_df %>% 
-  drop_na(year) %>%
-  mutate(actor_type = recode(actor_type,
-                             "Non-state armed group: National" = "Non-state armed group",
-                             "Non-state armed group: Regional" = "Non-state armed group",
-                             "Non-state armed group: Subnational" = "Non-state armed group",
-                             "Non-state armed group: Unknown" = "Non-state armed group"),
-         actor_type = recode(actor_type,
-                             "State: unknown" = "State or paramilitary",
-                             "Host state" = "State or paramilitary",
-                             "Police or paramilitary" = "State or paramilitary")) %>%
-  filter(actor_type == c("Non-state armed group", "State or paramilitary", "Foreign or coalition forces")) %>% 
-  group_by(year, actor_type) %>% 
-  summarize(tot_national = sum(total_national_staff),
-            tot_intl = sum(total_international_staff),
-            tot_both = sum(total_victims))
-```
-
-Tried to make actor types more interesting by only looking at State forces (including paramilitary), non-state forces, and foreign forces -- not sure it's very interesting
