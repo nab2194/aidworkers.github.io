@@ -1,0 +1,168 @@
+---
+title: "Shiny Dashboard: Types of Aid Worker Attack over Time"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+## This is a first attempt at an interactive dashboard displaying types of aid worker attacks over time. All of the infrastructure is there, but I'm having trouble adding the reactive pieces to the plots, so they aren't interactive yet. Work in progress! 
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)
+library(plotly)
+library(viridis)
+library(tidyverse)
+library(shiny)
+library(xml2)
+library(rvest)
+```
+
+```{r loading and tidying data }
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
+
+
+```
+
+```{r creating a sliding button for year}
+## I couldn't get this one to work so far. 
+
+
+##max_year = aidworker_df %>% distinct(year) %>% max()
+## min_year = aidworker_df %>% distinct(year) %>% min()
+
+
+##sliderInput(
+  #"year_range", 
+  #label = h3("Select Years"), 
+  #min = min_year, max = max_year, value = c(1997, 2019))
+
+```
+
+
+Customization {.sidebar}
+-----------------------------------------------------------------------
+```{r}
+## Means of Attack 
+methods = aidworker_df %>% distinct(means_of_attack) %>%  pull()
+
+selectInput(
+  "method_choice",
+  label = h3("Select Means of Attack"),
+  choices = methods, selected = "Kidnapping"
+)
+
+
+##Location of Attack 
+loc_attack = aidworker_df %>% distinct(location) %>% pull()
+
+radioButtons(
+  "location_choice",
+  label = h3("Select Attack Location"),
+  choices = loc_attack, selected = "Road"
+)
+
+## Need to figure out how to remove the one empty option at the end.
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### All Attacks against Aid Workers 
+
+```{r}
+
+all_attacks = 
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+    summarise(number_attack = n(), means_of_attack, country, attack_context) %>% 
+    as_tibble() %>% 
+  group_by(means_of_attack)
+
+renderPlotly({ 
+  all_attacks %>%
+  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+  plot_ly(
+    x = ~year, y = ~number_attack, type = "scatter", mode = "markers",
+    alpha = 0.5, color = ~means_of_attack, text = ~text_label)
+})
+
+```
+
+## Still troubleshooting the two below
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### National Aid Worker Incidents 
+
+```{r}
+ntl_attacks = 
+aidworker_df %>% 
+  select(id, year, country, total_national_staff, means_of_attack, attack_context, location) %>% 
+  drop_na(year) %>% 
+  group_by(year) %>%
+    summarise(total_ntl = n(), means_of_attack, country, attack_context) %>% 
+    as_tibble() %>% 
+  group_by(means_of_attack)
+
+renderPlotly({ 
+  all_attacks %>%
+  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+  plot_ly(
+    x = ~year, y = ~total_ntl, type = "scatter", mode = "markers",
+    alpha = 0.5, color = ~means_of_attack, text = ~text_label)
+})
+
+```
+
+### International Aid Worker Incidents 
+
+```{r}
+intl_attacks = 
+aidworker_df %>% 
+  select(id, year, country, total_international_staff, means_of_attack, attack_context, location) %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+    summarise(total_intl = n(), means_of_attack, country, attack_context) %>% 
+    as_tibble() %>% 
+  group_by(means_of_attack)
+
+renderPlotly({ 
+  all_attacks %>%
+  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+  plot_ly(
+    x = ~year, y = ~total_intl, type = "scatter", mode = "markers",
+    alpha = 0.5, color = ~means_of_attack, text = ~text_label)
+})
+
+```
+
