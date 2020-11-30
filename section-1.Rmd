@@ -60,7 +60,7 @@ aidworker_df =
              other != 0 ~ "yes",
              lngo_and_nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
-  relocate(id, month, day, year, country, intl_org_affected) 
+  relocate(id, month, day, year, country, intl_org_affected)
 
 ```
 
@@ -76,6 +76,15 @@ Natalie notes:
 * distinct was left behind from when I was trying to get the pivot_longer working. Deleted now! 
 
 * I'm happy with the tidyness of it now but I think it would be more useful to have a single date variable to use in our analysis - I tried mutating to get to a date but keep getting all NAs. If someone else figures this out lemme know! 
+
+
+Emily notes:
+
+* This looks great Brennan and Natalie! The `case_when` approach looks great for the org types for the reasons you outlined. I have an idea for the date variable, but what would we be using it for? Just wasn't sure which analysis requires it! Happy to take a stab at it though - let's discuss tomorrow?
+
+* Can I remove gender variables from data frame? Don't believe we have a need for these for our analysis.
+
+* We have many "unknown" values for actor type and name, and some blank countries, lat/long...in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.
 
 ### Look at frequency of attacks on staff of various types of organizations 
 
@@ -112,7 +121,11 @@ aidworker_df %>%
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>% 
   ggplot(aes(x = year, y = pct_national)) + 
-  geom_line() 
+  geom_line() +
+    labs(
+     x = "Year",
+     y = "% National"
+    )
 
 ## Plot of percentage of internationals affected by attacks over time 
 pct_intl = 
@@ -124,9 +137,14 @@ aidworker_df %>%
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>% 
   ggplot(aes(x = year, y = pct_intl)) + 
-  geom_line()
+  geom_line() +
+   labs(
+    x = "Year",
+    y = "% International"
+   )
 
-pct_ntl + pct_intl
+pct_ntl + pct_intl +
+  plot_annotation(title = "Percent of Aid Workers Attacked Who Were National vs. International")
 
 ```
 
@@ -146,7 +164,6 @@ aidworker_df %>%
        x = "Year",
        y = "Number of Aid Workers Attacked")
 ```
-
 
 Number of aid worker attacks are increasing over time, especially among national staff.
 
@@ -180,8 +197,25 @@ aidworker_df %>%
   geom_point()
 ```
 
-
 Above is not good.
+
+Note from Emily: What if we tried the following instead of the above, plotting by number of attacks, instead of by number of victims? Following plot still needs work (remove unknowns, any that we could combine?) but could be useful:
+
+```{r plot_attack_type_over_time}
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+    summarise(number_attack = n(), means_of_attack) %>% 
+    as_tibble() %>% 
+  group_by(means_of_attack) %>% 
+  ggplot(aes(x = year, y = number_attack, color = means_of_attack)) + 
+  geom_line() +
+  labs(
+    title = "Types of Attack Over Time",
+    x = "Year",
+    y = "Number of Attacks"
+  )
+```
 
 ```{r bar plot of types of attacks for both ntl and intl workers}
 aidworker_df %>% 
@@ -218,5 +252,15 @@ aidworker_df %>%
   ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
   geom_bar()
 
+```
+
+# Mapping the data...
+
+Emily note to self: I think lat/long need to be converted to numeric in order to utilize in leaflet. Was encountering issues - will work on this tomorrow.
+
+```{r map of attacks}
+attack_map =
+  leaflet(aidworker_df) %>% 
+  addTiles()
 ```
 

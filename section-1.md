@@ -11,14 +11,14 @@ will focus on global levels of violence against aid workers.
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ───────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
     ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.3.1     ✓ forcats 0.5.0
 
-    ## ── Conflicts ────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -158,6 +158,23 @@ Natalie notes:
     tried mutating to get to a date but keep getting all NAs. If someone
     else figures this out lemme know\!
 
+Emily notes:
+
+  - This looks great Brennan and Natalie\! The `case_when` approach
+    looks great for the org types for the reasons you outlined. I have
+    an idea for the date variable, but what would we be using it for?
+    Just wasn’t sure which analysis requires it\! Happy to take a stab
+    at it though - let’s discuss tomorrow?
+
+  - Can I remove gender variables from data frame? Don’t believe we have
+    a need for these for our analysis.
+
+  - We have many “unknown” values for actor type and name, and some
+    blank countries, lat/long…in addition to NAs for some other
+    variables. I think we may want to be consistent across the board and
+    make all missing data NAs. Do you all agree? If so, I can address
+    this.
+
 ### Look at frequency of attacks on staff of various types of organizations
 
 ``` r
@@ -228,7 +245,11 @@ aidworker_df %>%
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>% 
   ggplot(aes(x = year, y = pct_national)) + 
-  geom_line() 
+  geom_line() +
+    labs(
+     x = "Year",
+     y = "% National"
+    )
 ```
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
@@ -244,13 +265,18 @@ aidworker_df %>%
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>% 
   ggplot(aes(x = year, y = pct_intl)) + 
-  geom_line()
+  geom_line() +
+   labs(
+    x = "Year",
+    y = "% International"
+   )
 ```
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
 
 ``` r
-pct_ntl + pct_intl
+pct_ntl + pct_intl +
+  plot_annotation(title = "Percent of Aid Workers Attacked Who Were National vs. International")
 ```
 
     ## Warning: Removed 1 row(s) containing missing values (geom_path).
@@ -322,6 +348,31 @@ aidworker_df %>%
 <img src="section-1_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
 
 Above is not good.
+
+Note from Emily: What if we tried the following instead of the above,
+plotting by number of attacks, instead of by number of victims?
+Following plot still needs work (remove unknowns, any that we could
+combine?) but could be useful:
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+    summarise(number_attack = n(), means_of_attack) %>% 
+    as_tibble() %>% 
+  group_by(means_of_attack) %>% 
+  ggplot(aes(x = year, y = number_attack, color = means_of_attack)) + 
+  geom_line() +
+  labs(
+    title = "Types of Attack Over Time",
+    x = "Year",
+    y = "Number of Attacks"
+  )
+```
+
+    ## `summarise()` regrouping output by 'year' (override with `.groups` argument)
+
+<img src="section-1_files/figure-gfm/plot_attack_type_over_time-1.png" width="90%" />
 
 ``` r
 aidworker_df %>% 
