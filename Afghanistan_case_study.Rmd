@@ -27,6 +27,13 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
+##Explain 
+
+Why we chose Afghanistan... 
+Which datasets are being used... 
+
+Using the years 2008-2016 because.... and supply code 
+
 Aidworker dataset - cleaning and tailoring
 ```{r basic cleaning and exploring}
 aidworker_df = 
@@ -124,6 +131,7 @@ afghan_aidw_df %>%
 
 ```
 
+Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)
 
 ```{r}
 #alisha, wondering if this would work... making two dfs one with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I'm a little confused with what to do about this data, but im going to try condensing it. 
@@ -175,6 +183,10 @@ afghan_aidw_df_new %>%
   ) 
 ```
 
+# Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers 
+# Deaths among all civilians vs. all aidworkers side by side
+-- are these different questions? 
+
 Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)
 
 ```{r}
@@ -192,8 +204,7 @@ afghan_aidw_df %>%
   slice(1, 7, 11, 16, 21, 23, 30, 36, 43)
 
 
-#All civilians: I am a bit confused on who each death represents - deaths_a and deaths_b represent each side of the conflict. Because this is different for each instance, it might be best to take it out and just focus on civilian deaths - removing unknown deaths here for that purpose)
-
+#All civilians:
 afghan_upp_df = 
 read_csv("./data/afghanistan_uppsala.csv") %>%
   janitor::clean_names() %>% 
@@ -207,10 +218,10 @@ read_csv("./data/afghanistan_uppsala.csv") %>%
   select(year, civilian_deaths) %>% 
   slice(1, 19, 39, 63, 84, 104, 123, 143, 164) 
 
-##alisha, this slice function is creating doubles for 2009 onward... i tried slicing again and taking the first of each double and got the same thing returned... very confused 
+##alisha, this slice function is creating doubles for 2009 onward... i tried slicing again and taking the first of each double and got the same thing returned... very confused... doesn't seem to create and issue for the plot but still might want to fix? 
 
 afghan_upp_df %>% 
-  ggplot(aes(x = year, y = deaths_civilians, col = "Civilian")) +
+  ggplot(aes(x = year, y = civilian_deaths, col = "Civilian")) +
    geom_line() +
   geom_line(data = aidw_killed_df, aes(x = year, y = aidwk_killed, col = "Aidworker")) +
   labs(
@@ -220,3 +231,8 @@ afghan_upp_df %>%
   ) 
 ```
 
+#SHCC Afghanistan dataset (need to bring in multiple years) 
+
+Upload and tailor
+
+# Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)
