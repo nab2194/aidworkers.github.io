@@ -92,7 +92,7 @@ aidworker_df =
 aidworker_df = 
 distinct(aidworker_df) 
 
-aidworker_tidy_df =
+aidworker_df =
   aidworker_df %>% 
   janitor::clean_names() %>% 
   mutate(intl_org_affected = 
@@ -124,12 +124,10 @@ Brennan notes:
   - if happy with cleaning, we can rename the `aidworker_tidy_df` as
     just `aidworker_df`
 
-## EDA of Attack patterns: International vs National
-
-### Look at frequency of attacks on various types of organizations
+### Look at frequency of attacks on staff of various types of organizations
 
 ``` r
-aidworker_tidy_df %>% 
+aidworker_df %>% 
   ggplot(aes(x = intl_org_affected)) + 
   geom_bar()
 ```
@@ -142,7 +140,7 @@ conceptually a lot, any ideas?
 ### International vs National staff attacks
 
 ``` r
-aidworker_tidy_df %>%
+aidworker_df %>%
   group_by(year) %>% 
   summarize(tot_national = sum(total_national_staff),
             tot_intl = sum(total_international_staff),
@@ -185,7 +183,7 @@ aidworker_tidy_df %>%
 ``` r
 ## If look at last row of data, appears "NA" is the total
 
-aidworker_tidy_df %>%
+aidworker_df %>%
   group_by(year) %>% 
   summarize(tot_national = sum(total_national_staff),
             tot_intl = sum(total_international_staff),
@@ -207,7 +205,8 @@ been higher than internationals, with increasing percentage of national
 staff attacked over time.
 
 ``` r
-aidworker_tidy_df %>% 
+aidworker_df %>% 
+  drop_na(year) %>% 
   group_by(year) %>% 
    summarize(tot_national = sum(total_national_staff),
             tot_intl = sum(total_international_staff),
@@ -215,7 +214,6 @@ aidworker_tidy_df %>%
   ggplot(aes(x = year)) + 
   geom_line(aes(y = tot_national, color = "National Staff")) + 
   geom_line(aes(y = tot_intl, color = "International Staff")) + 
-  ylim(0, 500) + 
   labs(title = "Aid Worker Attacks over time",
        x = "Year",
        y = "Number of Aid Workers Attacked")
@@ -223,11 +221,64 @@ aidworker_tidy_df %>%
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
 
-    ## Warning: Removed 1 row(s) containing missing values (geom_path).
-    
-    ## Warning: Removed 1 row(s) containing missing values (geom_path).
-
 <img src="section-1_files/figure-gfm/unnamed-chunk-3-1.png" width="90%" />
 
 Number of aid worker attacks are increasing over time, especially among
 national staff.
+
+### Type of Attack
+
+``` r
+aidworker_df %>% 
+  filter(means_of_attack == "Kidnapping") %>% 
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Kidnapping over time",
+       x = "Year",
+       y = "Number of Aid Workers Kidnapped")
+```
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" />
+
+Kidnapping also increasing over time, particularly among national staff.
+Could put this side-by-side the total attack line plot.
+
+#### Attempts to visualize type of attack over time - failed so far
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year, means_of_attack) %>% 
+  ggplot(aes(x = year, y = total_victims, color = means_of_attack)) + 
+  geom_point()
+```
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" />
+
+Above is not good.
+
+``` r
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year, means_of_attack) %>% 
+  filter(year == 2020) %>% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()
+```
+
+<img src="section-1_files/figure-gfm/unnamed-chunk-6-1.png" width="90%" />
+
+I like this bar chart, but I think ‘count’ is the number of incidents,
+not the number of people affected. Would be really cool if this could be
+a shiny plot where could change year in a drop down to see how this
+changes over time? Or make a plotly so that you can hover over label to
+see number of intl/natl affected by each type of attack?
+
+I’m not sure how to make those things work though.
