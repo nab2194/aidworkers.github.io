@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Natalie Boychuk, E. Brennan Bollman, Emily Bamforth, Alisha Sarakki, and Kailey Rishovd" />
+
+<meta name="date" content="2020-11-26" />
+
+<title>Section 1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about_me-copy.html">About</a>
+</li>
+<li>
+  <a href="Dashboard.html">Dashboard</a>
+</li>
+<li>
+  <a href="mailto:aps2204@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/AlishaSarakki/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Section 1</h1>
+<h4 class="author">Natalie Boychuk, E. Brennan Bollman, Emily Bamforth, Alisha Sarakki, and Kailey Rishovd</h4>
+<h4 class="date">11/26/2020</h4>
+
+</div>
+
+
+<p>This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(dplyr)
+library(patchwork)
+library(leaflet)
+library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>library(rvest)</code></pre>
+<pre><code>## Loading required package: xml2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rvest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     pluck</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     guess_encoding</code></pre>
+<pre class="r"><code>library(httr)
+library(flexdashboard)
+library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:httr&#39;:
+## 
+##     config</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
+<pre><code>## Skipping install of &#39;wordcountaddin&#39; from a github remote, the SHA1 (8c063135) has not changed since last install.
+##   Use `force = TRUE` to force installation</code></pre>
+<pre class="r"><code>knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = &quot;90%&quot;
+)
+theme_set(theme_minimal() + theme(legend.position = &quot;bottom&quot;))
+options(
+  ggplot2.continuous.colour = &quot;viridis&quot;,
+  ggplot2.continuous.fill = &quot;viridis&quot;
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d</code></pre>
+<div id="data-import-and-tidying" class="section level2">
+<h2>Data import and tidying</h2>
+<pre class="r"><code>url = &quot;https://aidworkersecurity.org/incidents/search&quot;
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %&gt;% 
+  html_nodes(css = &quot;table&quot;) %&gt;%  
+  first() %&gt;% 
+  html_table() %&gt;% 
+  as_tibble()
+
+aidworker_df =
+  aidworker_df %&gt;%
+  janitor::clean_names() %&gt;% 
+  select(-source, -verified) %&gt;% 
+  rename(year = year_sort_descending) %&gt;% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ &quot;yes&quot;,
+             ingo != 0 ~ &quot;yes&quot;,
+             icrc != 0 ~ &quot;yes&quot;,
+             ifrc != 0 ~ &quot;yes&quot;,
+             other != 0 ~ &quot;yes&quot;,
+             lngo_and_nrcs != 0 ~ &quot;no&quot;),
+         intl_org_affected = as.factor(intl_org_affected)) %&gt;% 
+  relocate(id, month, day, year, country, intl_org_affected)</code></pre>
+<p>Brennan notes:</p>
+<ul>
+<li><p>I think this <code>case_when</code> approach works to identify whether an international org was affected, instead of the pivot idea. Otherwise, I agree with Natalie that there’s no way to do it without making 6 copies of each incident. The existing data already seems to be the clearest way to present the number of people from each type of org affected, and we can plot that.</p></li>
+<li><p>if happy with cleaning, we can rename the <code>aidworker_tidy_df</code> as just <code>aidworker_df</code></p></li>
+</ul>
+<p>Natalie notes:</p>
+<ul>
+<li><p>distinct was left behind from when I was trying to get the pivot_longer working. Deleted now!</p></li>
+<li><p>I’m happy with the tidyness of it now but I think it would be more useful to have a single date variable to use in our analysis - I tried mutating to get to a date but keep getting all NAs. If someone else figures this out lemme know!</p></li>
+</ul>
+<p>Emily notes:</p>
+<ul>
+<li><p>This looks great Brennan and Natalie! The <code>case_when</code> approach looks great for the org types for the reasons you outlined. I have an idea for the date variable, but what would we be using it for? Just wasn’t sure which analysis requires it! Happy to take a stab at it though - let’s discuss tomorrow?</p></li>
+<li><p>Can I remove gender variables from data frame? Don’t believe we have a need for these for our analysis.</p></li>
+<li><p>We have many “unknown” values for actor type and name, and some blank countries, lat/long…in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.</p></li>
+</ul>
+<div id="look-at-frequency-of-attacks-on-staff-of-various-types-of-organizations" class="section level3">
+<h3>Look at frequency of attacks on staff of various types of organizations</h3>
+<pre class="r"><code>aidworker_df %&gt;% 
+  ggplot(aes(x = intl_org_affected)) + 
+  geom_bar()</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-1-1.png" width="90%" /></p>
+<p>Brennan: I’m stuck on this part. Natalie - you were thinking about it conceptually a lot, any ideas?</p>
+</div>
+<div id="international-vs-national-staff-attacks" class="section level3">
+<h3>International vs National staff attacks</h3>
+<pre class="r"><code>aidworker_df %&gt;%
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %&gt;%
+  knitr::kable()</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">year</th>
+<th align="right">tot_national</th>
+<th align="right">tot_intl</th>
+<th align="right">tot_both</th>
+<th align="right">pct_intl</th>
+<th align="right">pct_national</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1997</td>
+<td align="right">45</td>
+<td align="right">30</td>
+<td align="right">75</td>
+<td align="right">40.000000</td>
+<td align="right">60.00000</td>
+</tr>
+<tr class="even">
+<td align="right">1998</td>
+<td align="right">46</td>
+<td align="right">22</td>
+<td align="right">68</td>
+<td align="right">32.352941</td>
+<td align="right">67.64706</td>
+</tr>
+<tr class="odd">
+<td align="right">1999</td>
+<td align="right">43</td>
+<td align="right">25</td>
+<td align="right">68</td>
+<td align="right">36.764706</td>
+<td align="right">63.23529</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="right">70</td>
+<td align="right">21</td>
+<td align="right">91</td>
+<td align="right">23.076923</td>
+<td align="right">76.92308</td>
+</tr>
+<tr class="odd">
+<td align="right">2001</td>
+<td align="right">62</td>
+<td align="right">28</td>
+<td align="right">90</td>
+<td align="right">31.111111</td>
+<td align="right">68.88889</td>
+</tr>
+<tr class="even">
+<td align="right">2002</td>
+<td align="right">68</td>
+<td align="right">17</td>
+<td align="right">85</td>
+<td align="right">20.000000</td>
+<td align="right">80.00000</td>
+</tr>
+<tr class="odd">
+<td align="right">2003</td>
+<td align="right">117</td>
+<td align="right">26</td>
+<td align="right">143</td>
+<td align="right">18.181818</td>
+<td align="right">81.81818</td>
+</tr>
+<tr class="even">
+<td align="right">2004</td>
+<td align="right">101</td>
+<td align="right">24</td>
+<td align="right">125</td>
+<td align="right">19.200000</td>
+<td align="right">80.80000</td>
+</tr>
+<tr class="odd">
+<td align="right">2005</td>
+<td align="right">158</td>
+<td align="right">14</td>
+<td align="right">172</td>
+<td align="right">8.139535</td>
+<td align="right">91.86047</td>
+</tr>
+<tr class="even">
+<td align="right">2006</td>
+<td align="right">214</td>
+<td align="right">26</td>
+<td align="right">240</td>
+<td align="right">10.833333</td>
+<td align="right">89.16667</td>
+</tr>
+<tr class="odd">
+<td align="right">2007</td>
+<td align="right">186</td>
+<td align="right">35</td>
+<td align="right">221</td>
+<td align="right">15.837104</td>
+<td align="right">84.16290</td>
+</tr>
+<tr class="even">
+<td align="right">2008</td>
+<td align="right">227</td>
+<td align="right">51</td>
+<td align="right">278</td>
+<td align="right">18.345324</td>
+<td align="right">81.65468</td>
+</tr>
+<tr class="odd">
+<td align="right">2009</td>
+<td align="right">221</td>
+<td align="right">74</td>
+<td align="right">295</td>
+<td align="right">25.084746</td>
+<td align="right">74.91525</td>
+</tr>
+<tr class="even">
+<td align="right">2010</td>
+<td align="right">209</td>
+<td align="right">41</td>
+<td align="right">250</td>
+<td align="right">16.400000</td>
+<td align="right">83.60000</td>
+</tr>
+<tr class="odd">
+<td align="right">2011</td>
+<td align="right">282</td>
+<td align="right">29</td>
+<td align="right">311</td>
+<td align="right">9.324759</td>
+<td align="right">90.67524</td>
+</tr>
+<tr class="even">
+<td align="right">2012</td>
+<td align="right">228</td>
+<td align="right">49</td>
+<td align="right">277</td>
+<td align="right">17.689531</td>
+<td align="right">82.31047</td>
+</tr>
+<tr class="odd">
+<td align="right">2013</td>
+<td align="right">415</td>
+<td align="right">60</td>
+<td align="right">475</td>
+<td align="right">12.631579</td>
+<td align="right">87.36842</td>
+</tr>
+<tr class="even">
+<td align="right">2014</td>
+<td align="right">300</td>
+<td align="right">32</td>
+<td align="right">332</td>
+<td align="right">9.638554</td>
+<td align="right">90.36145</td>
+</tr>
+<tr class="odd">
+<td align="right">2015</td>
+<td align="right">260</td>
+<td align="right">29</td>
+<td align="right">289</td>
+<td align="right">10.034602</td>
+<td align="right">89.96540</td>
+</tr>
+<tr class="even">
+<td align="right">2016</td>
+<td align="right">252</td>
+<td align="right">43</td>
+<td align="right">295</td>
+<td align="right">14.576271</td>
+<td align="right">85.42373</td>
+</tr>
+<tr class="odd">
+<td align="right">2017</td>
+<td align="right">285</td>
+<td align="right">28</td>
+<td align="right">313</td>
+<td align="right">8.945687</td>
+<td align="right">91.05431</td>
+</tr>
+<tr class="even">
+<td align="right">2018</td>
+<td align="right">379</td>
+<td align="right">29</td>
+<td align="right">408</td>
+<td align="right">7.107843</td>
+<td align="right">92.89216</td>
+</tr>
+<tr class="odd">
+<td align="right">2019</td>
+<td align="right">456</td>
+<td align="right">27</td>
+<td align="right">483</td>
+<td align="right">5.590062</td>
+<td align="right">94.40994</td>
+</tr>
+<tr class="even">
+<td align="right">2020</td>
+<td align="right">264</td>
+<td align="right">17</td>
+<td align="right">281</td>
+<td align="right">6.049822</td>
+<td align="right">93.95018</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">4888</td>
+<td align="right">777</td>
+<td align="right">5665</td>
+<td align="right">13.715799</td>
+<td align="right">86.28420</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>## If look at last row of data, appears &quot;NA&quot; is the total
+## Natalie note: I&#39;m only seeing NA in the year column, not anywhere else - looks like the sums worked fine. I think R just knows not to add up the years. 
+
+## Plot of percentage of nationals affected by attacks over time 
+pct_ntl =
+aidworker_df %&gt;%
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %&gt;% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line() +
+    labs(
+     x = &quot;Year&quot;,
+     y = &quot;% National&quot;
+    )</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>## Plot of percentage of internationals affected by attacks over time 
+pct_intl = 
+aidworker_df %&gt;%
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %&gt;% 
+  ggplot(aes(x = year, y = pct_intl)) + 
+  geom_line() +
+   labs(
+    x = &quot;Year&quot;,
+    y = &quot;% International&quot;
+   )</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>pct_ntl + pct_intl +
+  plot_annotation(title = &quot;Percent of Aid Workers Attacked Who Were National vs. International&quot;)</code></pre>
+<pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).
+
+## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<p>Roughly this shows that proportions of nationals attacked has always been higher than internationals, with increasing percentage of national staff attacked over time.</p>
+<pre class="r"><code>aidworker_df %&gt;% 
+  drop_na(year) %&gt;% 
+  group_by(year) %&gt;% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %&gt;% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = &quot;National Staff&quot;)) + 
+  geom_line(aes(y = tot_intl, color = &quot;International Staff&quot;)) + 
+  labs(title = &quot;Aid Worker Attacks over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Number of Aid Workers Attacked&quot;)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p>Number of aid worker attacks are increasing over time, especially among national staff.</p>
+</div>
+<div id="type-of-attack" class="section level3">
+<h3>Type of Attack</h3>
+<pre class="r"><code>aidworker_df %&gt;% 
+  filter(means_of_attack == &quot;Kidnapping&quot;) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %&gt;% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = &quot;National Staff&quot;)) + 
+  geom_line(aes(y = tot_intl, color = &quot;International Staff&quot;)) + 
+  labs(title = &quot;Aid Worker Kidnapping over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Number of Aid Workers Kidnapped&quot;)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<p>Kidnapping also increasing over time, particularly among national staff. Could put this side-by-side the total attack line plot.</p>
+<div id="attempts-to-visualize-type-of-attack-over-time---failed-so-far" class="section level4">
+<h4>Attempts to visualize type of attack over time - failed so far</h4>
+<pre class="r"><code>aidworker_df %&gt;% 
+  drop_na(year) %&gt;% 
+  group_by(year, means_of_attack) %&gt;% 
+  ggplot(aes(x = year, y = total_victims, color = means_of_attack)) + 
+  geom_point()</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<p>Above is not good.</p>
+<p>Note from Emily: What if we tried the following instead of the above, plotting by number of attacks, instead of by number of victims? Following plot still needs work (remove unknowns, any that we could combine?) but could be useful:</p>
+<pre class="r"><code>aidworker_df %&gt;% 
+  drop_na(year) %&gt;% 
+  group_by(year) %&gt;% 
+    summarise(number_attack = n(), means_of_attack) %&gt;% 
+    as_tibble() %&gt;% 
+  group_by(means_of_attack) %&gt;% 
+  ggplot(aes(x = year, y = number_attack, color = means_of_attack)) + 
+  geom_line() +
+  labs(
+    title = &quot;Types of Attack Over Time&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Number of Attacks&quot;
+  )</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;year&#39; (override with `.groups` argument)</code></pre>
+<p><img src="section-1_files/figure-html/plot_attack_type_over_time-1.png" width="90%" /></p>
+<pre class="r"><code>aidworker_df %&gt;% 
+  drop_na(year) %&gt;% 
+  group_by(year, means_of_attack) %&gt;% 
+  filter(year == 2019) %&gt;% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()</code></pre>
+<p><img src="section-1_files/figure-html/bar%20plot%20of%20types%20of%20attacks%20for%20both%20ntl%20and%20intl%20workers-1.png" width="90%" /></p>
+</div>
+</div>
+<div id="note-from-natalie-i-dont-think-we-should-use-2020-as-our-year-of-analysis-if-we-limit-ourselves-to-one-year-since-the-year-isnt-over-and-excluding-the-fallwinter-might-ignore-seasonality-effects" class="section level3">
+<h3>Note from Natalie: I don’t think we should use 2020 as our year of analysis if we limit ourselves to one year since the year isn’t over and excluding the fall/winter might ignore seasonality effects</h3>
+<p>I like this bar chart, but I think ‘count’ is the number of incidents, not the number of people affected. Would be really cool if this could be a shiny plot where could change year in a drop down to see how this changes over time? Or make a plotly so that you can hover over label to see number of intl/natl affected by each type of attack?</p>
+<p>I’m not sure how to make those things work though.</p>
+</div>
+<div id="natalie-ill-give-this-a-closer-look-tomorrow-morning" class="section level3">
+<h3>Natalie: I’ll give this a closer look tomorrow morning!</h3>
+<pre class="r"><code>## This was a failed attempt at summarizing by worker type to see if there are differences in means of attack by international vs. national status 
+
+#aidworker_df %&gt;% 
+  #select(id, year, total_national_staff, total_international_staff, means_of_attack) %&gt;% 
+  #as.numeric(c(total_international_staff, total_national_staff)) %&gt;% 
+  #group_by(means_of_attack) %&gt;% 
+  #summarize(across(total_national_staff:total_international_staff, count))
+
+aidworker_df %&gt;% 
+  drop_na(year) %&gt;% 
+  group_by(year, means_of_attack) %&gt;% 
+  select(year, means_of_attack) %&gt;% 
+  filter(year == 2019) %&gt;% 
+  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
+  geom_bar()</code></pre>
+<p><img src="section-1_files/figure-html/plot%20comparing%20attack%20type-1.png" width="90%" /></p>
+</div>
+</div>
+<div id="mapping-the-data" class="section level1">
+<h1>Mapping the data…</h1>
+<p>Emily note to self: I think lat/long need to be converted to numeric in order to utilize in leaflet. Was encountering issues - will work on this tomorrow.</p>
+<pre class="r"><code>attack_map =
+  leaflet(aidworker_df) %&gt;% 
+  addTiles()</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

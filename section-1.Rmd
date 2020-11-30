@@ -60,7 +60,7 @@ aidworker_df =
              other != 0 ~ "yes",
              lngo_and_nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
-  relocate(id, month, day, year, country, intl_org_affected) 
+  relocate(id, month, day, year, country, intl_org_affected)
 
 ```
 
@@ -252,5 +252,15 @@ aidworker_df %>%
   ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
   geom_bar()
 
+```
+
+# Mapping the data...
+
+Emily note to self: I think lat/long need to be converted to numeric in order to utilize in leaflet. Was encountering issues - will work on this tomorrow.
+
+```{r map of attacks}
+attack_map =
+  leaflet(aidworker_df) %>% 
+  addTiles()
 ```
 
