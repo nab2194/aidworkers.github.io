@@ -1,0 +1,100 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library("flexdashboard")
+library("p8105.datasets")
+library("tidyverse")
+library("plotly")
+library("shiny")
+library("tidyverse")
+library("httr")
+library("jsonlite")
+library(dplyr)
+```
+
+```{r}
+get_all_inspections = function(url) {
+  
+  all_inspections = vector("list", length = 0)
+  
+  loop_index = 1
+  chunk_size = 50000
+  DO_NEXT = TRUE
+  
+  while (DO_NEXT) {
+    message("Getting data, page ", loop_index)
+    
+    all_inspections[[loop_index]] = 
+      GET(url,
+          query = list(`$order` = "zipcode",
+                       `$limit` = chunk_size,
+                       `$offset` = as.integer((loop_index - 1) * chunk_size)
+                       )
+          ) %>%
+      content("text") %>%
+      fromJSON() %>%
+      as_tibble()
+    
+    DO_NEXT = dim(all_inspections[[loop_index]])[1] == chunk_size
+    loop_index = loop_index + 1
+  }
+  
+  all_inspections
+  
+}
+
+url = "https://data.cityofnewyork.us/resource/43nn-pn8j.json"
+
+nyc_inspections = 
+  get_all_inspections(url) %>%
+  bind_rows() 
+
+
+nyc_subset = 
+nyc_inspections %>% 
+  filter(grade %in% c("A", "B", "C"), boro == "Manhattan", cuisine_description == "Korean") 
+
+```
+
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Korean Restaurants and their health inspection grades in Manhattan, by latitude and longitude
+
+```{r}
+nyc_subset %>% 
+plot_ly(
+  x = ~latitude, y = ~longitude, color = ~grade, text = ~dba, alpha = .5,
+          type = "scatter", mode = "markers")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Korean restaurants' critical flags in census tract areas
+
+```{r}
+nyc_subset %>% 
+ plot_ly(y = ~census_tract, x = ~critical_flag, color = ~critical_flag,
+          type = "box", colors = "viridis")
+```
+
+### Number of each Korean restaurant in Manhattan
+
+```{r}
+nyc_subset %>% 
+ count(dba) %>% 
+  mutate(restaurant = fct_reorder(dba, n)) %>% 
+  plot_ly(x = ~restaurant, y = ~n, colors = "viridis", type = "bar")
+```
+

@@ -1,0 +1,29 @@
+---
+title: "P8105 Homework 4"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+---
+
+# Welcome to Alisha's Website!
+
+Pleased to make your acquaintance. Here, you can learn a bit more
+[about me](about_me-copy.html) and New York City Restaurants - my personal favorite part of the city.
+
+![](https://media.giphy.com/media/3JK9tJphUClfq/giphy.gif)
+
+
+
+
+### New York Strong - Storytime
+#### This is filler text.
+The night of November 3rd, as I was NYC-walking over to a friend's apartment, laden with alcohol in preparation of the coming bloodshed (the election), I heard an odd mixture of violent squeaking, scrambling, and flapping. This, paired with ominous light flickering, made me pause to stare at the source of the cacophony. In that moment, I beheld perhaps the most iconic happening I had ever come across during my time in New York City - 1 or 2 pigeons, locked in a fierce and chaotic squabble with 1 or 2 rats (was difficult to tell the exact quantity amidst the chaos), above the rafters of a bodega. It felt oddly symbolic, juxtaposed against the ongoing crumbling of American democracy. Do we live in a pigeon-eat-rat world or a rat-eat-pigeon world? Was Biden the rat or the pigeon? The whole situation made simultaneously no sense at all, and all the sense in the world. Quite honestly, the most prominent lesson I left with  as I continued my walk on was "New York Strong" - life will go on, and this too shall pass.  
+
+![](IMAGES/pigeons.jpg)
+
+
+
+
+

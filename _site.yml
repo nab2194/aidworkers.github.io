@@ -1,0 +1,16 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about_me-copy.html
+    - text: "Dashboard"
+      href: Dashboard.html
+    - icon: fa-envelope fa-lg
+      href: mailto:aps2204@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/AlishaSarakki/
+output:
+  html_document:
+    theme: flatly
