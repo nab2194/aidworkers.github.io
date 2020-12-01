@@ -54,81 +54,6 @@ aidworker_df %>%
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
 
 
-# tried to write a function, didn't work. Tried to group by and summarize, didn't work. Tried to mutate and create a new column for totals but that somehow didn't work either. Also tried to recode the columns, and you guessed it - that didn't work. Had to do it like this, but it's not even remotely efficient, and it isn't in a dataframe translatable to an image, so if someone has a better way, please feel free to overwrite this. 
-
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2008")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2008")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2009")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2009")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2010")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2010")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2011")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2011")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2012")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2012")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2013")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2013")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2014")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2014")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2015")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2015")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2016")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2016")) %>% 
-  count(nationals_killed)
-
 ```
 
 Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)
@@ -233,6 +158,74 @@ afghan_upp_df %>%
 
 #SHCC Afghanistan dataset (need to bring in multiple years) 
 
-Upload and tailor
+```{r}
+shcc2018_df = 
+  read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
+  janitor::clean_names() %>% 
+  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
+  filter(country_name == "Afghanistan") %>% 
+    mutate(tot_hc_workers_affected = 
+           affected_healthworker_killed + 
+           affected_healthworker_sgbv + 
+           affected_healthworker_arrested + 
+           affected_healthworker_injured + 
+           affected_healthworker_kidnapped) %>% 
+  mutate(tot_hc_facilities_affected = 
+           impact_health_facility_num +
+           event_health_facility_destroyed_num +
+           event_health_facility_damaged_num +
+           impact_health_facility_armed_entry_num +
+           impact_health_supplies_taken_num +
+           impact_health_facility_occupation_num
+           ) %>% 
+  mutate(tot_hc_transport_affected = 
+          impact_health_transport_destroyed_num + 
+           impact_health_transport_damaged_num +
+           impact_health_transport_abducted_num) 
+
+# these columns are just straight up full of N/As...........
+shcc2018_df %>% 
+  ggplot(aes(x = date_occurrence, y = affected_healthworker_killed)) +
+   geom_line() +
+  geom_line(data = shcc2018_df, aes(x = date_occurrence, y = event_health_facility_destroyed_num)) +
+  labs(
+    title = "Aidowrkers and HCFs Destroyed",
+    x = "Date",
+    y = "Number Killed"
+  ) 
+
+# If we want to do a bar graph comparing total HCWs affected vs. total healthcare facilities affected in 2018 and 2019? Something is very off here.......
+
+
+shcc2019_df = 
+  read_excel("data/2019-shcc-healthcare-afghanistan-data.xlsx", skip = 1) %>% 
+  janitor::clean_names() %>%
+  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
+  filter(country_name == "Afghanistan") %>% 
+  select(-"x12") %>%
+  mutate(
+    tot_hc_worker_affected = 
+      affected_healthworker_killed + 
+      affected_healthworker_kidnapped +
+      affected_healthworker_threatened + 
+      affected_healthworker_injured + 
+      affected_healthworker_assaulted + 
+      affected_healthworker_sgbv
+    ) %>% 
+  mutate(
+      tot_hc_facilities_affected = 
+        indicator_health_facility_destroyed_num +
+        indicator_health_facility_damaged_num + 
+        indicator_health_facility_armed_entry_num +
+        indicator_health_supplies_taken_num
+    ) %>% 
+  mutate(
+       tot_hc_transport_affected = 
+         indicator_health_transport_destroyed_num +
+         indicator_health_transport_damaged_num +
+         indicator_health_transport_abducted_num
+      )
+```
+
 
 # Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)
