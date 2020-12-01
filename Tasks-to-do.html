@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd" />
+
+
+<title>Tasks to do</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown-header">Global Trends</li>
+<li class="dropdown-header">Afghanistan</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="youtube.com">
+    <span class="fa fa-play-circle fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/nab2194/aidworkers.github.io">
+    <span class="fa fa-github fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines">
+    <span class="fa fa-ambulance fa-sm"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Tasks to do</h1>
+<h4 class="author">Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd</h4>
+<h4 class="date">20-11-30</h4>
+
+</div>
+
+
+<div id="p8105-final-project" class="section level1">
+<h1>P8105 Final Project</h1>
+<div id="title-attacks-on-aid-quantifying-risk-of-violence-among-aid-workers-in-global-humanitarian-settings" class="section level2">
+<h2>Title: “Attacks on Aid: Quantifying Risk of Violence among Aid Workers in Global Humanitarian Settings”</h2>
+</div>
+<div id="meeting-nov-30-team-members-and-task-assignments" class="section level2">
+<h2>MEETING NOV 30: Team members and task assignments</h2>
+<div id="natalie" class="section level3">
+<h3>Natalie</h3>
+<ul>
+<li><p>Will work on dashboard of attack context</p></li>
+<li><p>Regression starting</p></li>
+</ul>
+</div>
+<div id="emily" class="section level3">
+<h3>Emily</h3>
+<ul>
+<li>Map to see how much data there is: density of attacks over time with heatmap? Questions to use each GPS location or use? Or by country (center GPS coord of each country that becomes dropdown) that aggregates over year (changing heatmap over time) Dropdown to filter by: year, international_victims, national_victims, total_victims, means_of_attack, attack_context? Or just look at total victims?</li>
+</ul>
+</div>
+<div id="kailey" class="section level3">
+<h3>Kailey</h3>
+<ul>
+<li><p>Make new df for Afghanistan data using the ‘section 1’ code: reading aidworker_df from web, and then filter by country</p></li>
+<li><p>Check numbers to make sure the aidworker_df filtered for afghanistan numbers of aidworkers affected (international &amp; national) make sense?</p></li>
+<li><p>Work on Afghanistan case study more qualitatively: visualize Uppsala df stuff</p></li>
+</ul>
+</div>
+<div id="alisha" class="section level3">
+<h3>Alisha</h3>
+<ul>
+<li>Work on the Afghanistan case study more qualitatively</li>
+</ul>
+</div>
+<div id="brennan" class="section level3">
+<h3>Brennan</h3>
+<ul>
+<li><p>Manipulate aid worker dataframe so that all blanks are NA missing values.</p></li>
+<li><p>Explain process of data cleaning and unknowns as having meaning.</p></li>
+<li><p>Collapse variables of means_of_attack.</p></li>
+<li><p>Make a regional variable for Natalie’s dashboard</p></li>
+<li><p>Show basic static EDAs: -static line graph of attacks over year in most deadly countries</p></li>
+<li><p>Help with regression</p></li>
+<li><p>Report</p></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="datasets" class="section level2">
+<h2>Datasets</h2>
+<div id="uppsala" class="section level4">
+<h4>Uppsala</h4>
+<p>Uppsala GED: all georeferenced data of armed conflict from 1989. An incident where armed force used by one organized actor against another organized actor or civilian resulting in at least one death. Codebook: <a href="https://ucdp.uu.se/downloads/ged/ged201.pdf" class="uri">https://ucdp.uu.se/downloads/ged/ged201.pdf</a></p>
+<p>Humanitarian data: operational datasets of how many orgs work in country?</p>
+</div>
+<div id="aid-workers" class="section level4">
+<h4>Aid workers</h4>
+</div>
+<div id="shcc" class="section level4">
+<h4>SHCC</h4>
+<p>(Afghanistan only? iterate multiple years)</p>
+</div>
+</div>
+<div id="questions" class="section level2">
+<h2>Questions</h2>
+<ul>
+<li><p>Do aid worker violence correlate with higher overall violence?</p></li>
+<li><p>How has pattern of aid worker violence changed over time: nationals vs international attacks, type of attack, etc?</p></li>
+</ul>
+<div id="aidworker-dataset---natalie-emily-brennan" class="section level3">
+<h3>Aidworker dataset - Natalie, Emily, Brennan</h3>
+<ul>
+<li><p>Over time and countries, are there patterns to show differences in aidworker attacks? (maybe shiny plot)</p></li>
+<li><p>Different types of org workers attacked more frequently (UN vs INGO vs local NGOs)</p></li>
+<li><p>Are attacks against international aid workers different versus national aid workers? Has the proportion of attacks on international vs national aid workers changed over time.</p></li>
+<li><p>stat test on this?</p></li>
+<li><p>Is kidnapping more common among international aid workers versus national aid workers?</p></li>
+<li><p>Have types of attacks changed over time?</p></li>
+<li><p>Some sort of map with lat/long: leaflet or shiny?</p></li>
+<li><p>EDA: attack context, type of attack, actor type</p></li>
+<li><p>Aid worker interactive map: ** Include dropdown / hover over link to show major events. ** Highlight countries with attacks but no major events, or protracted conflicts: CAR, Nigeria, DRC?</p></li>
+<li><p>Logistic regression: probability experiencing attack with IVs of type NGO, national/international, context of attack, type of attack, actor type</p></li>
+</ul>
+</div>
+<div id="focus-on-afghanistan---explain-why-we-chose-this-one.-use-multiple-datasets.---alisha-kailey-brennan" class="section level3">
+<h3>Focus on afghanistan - explain why we chose this one. Use multiple datasets. - Alisha, Kailey, Brennan</h3>
+<p>Use years 2008 - 2016 (describe why in report and show code)</p>
+<ol style="list-style-type: decimal">
+<li>Overall violence - Uppsala GED201 (?)</li>
+<li>Aid worker violence</li>
+<li>Health facility attacks - SHCC</li>
+</ol>
+<p>Step 1: read in, tidy and filter datasets</p>
+<ul>
+<li><p>Filter Uppsala dataset just for this country to examine overall violence overtime alongside violence against aidworkers.</p></li>
+<li><p>Deaths among all civilians versus all aidworkers side by side</p></li>
+<li><p>SHCC Afghanistan dataset - would have to bring in multiple years.</p></li>
+<li><p>Discuss confounders (U.S. administration changes? Troop levels in country? Natural disaster?)</p></li>
+</ul>
+</div>
+<div id="website" class="section level3">
+<h3>Website</h3>
+</div>
+<div id="table-aidworker-joined-with-uppsala" class="section level3">
+<h3>TABLE – Aidworker joined with Uppsala</h3>
+<ul>
+<li>Join aidworker and Uppsala based on country &amp; date.</li>
+</ul>
+</div>
+</div>
+<div id="intended-final-products" class="section level2">
+<h2>Intended Final Products</h2>
+<ul>
+<li><p>EDA &amp; visualization on aid worker attacks: increasing over time? Proportion of ‘national’ versus international worker attack? Type of attacks?</p></li>
+<li><p>Global map of “hotspots” of aid worker attacks by type (kidnapping, landmine, etc.) - multiple years, likely using Leaflet</p></li>
+<li><p>Shiny map interactive map for one year of data with dropdown menu showing different outcomes per country: aid worker attacks, health facility attacks, civilian casualties, displacement, etc.</p></li>
+<li><p>Interactive app with a predictive model for attack risk based on the worker’s nationality, the country in which they work, type of conflict, number civilians killed in that conflict, and other predictive factors (this will involve regression analysis)</p>
+<ul>
+<li>We are open to suggestions from the teaching team as to whether this task would be feasible/valid, given that it may be difficult to determine all relevant predictors in the project time period.</li>
+</ul></li>
+</ul>
+<p><em>Visualizations</em>: potential challenges in mapping attack data given different geographic variables across datasets (latitutde vs. longitude, city or neighborhood level)</p>
+<p><em>Analyses</em>: there may be insufficient number of attacks in each country context over time to meaningfully assess differences between countries. * Any predictive models would not be able to take into consideration behavioral factors of aid workers that may influence violence, but will still allow us to examine risk factors. Similarly, the predictive model cannot predict political/civil unrest, natural disasters, resource shortages, etc. but will be able to calculate risk using these as risk factors.</p>
+<p><em>Coding</em>:</p>
+<ul>
+<li>Worldwide data may be large and unwieldy and also have multiple years of data (though aid worker attacks relatively few per country per year) - will need to do EDA to decide whether to subset certain # of years.</li>
+<li>Multiple datasets: we will at least need to combine aid worker security database with Uppsala datasets on total / civilian casualties by country etc which might be tedious.</li>
+<li>Regression analysis may require literature review and other considerations to determine if statistically valid, and also would combine indicators from multiple datasets.</li>
+<li>Consideration of doing both global analysis and ‘zero-in’ on one or two key contexts to do more granular analysis. Decision about which portion of analysis should be global and which context specific pending EDA.</li>
+</ul>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

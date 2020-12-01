@@ -11,6 +11,8 @@ library(hexbin)
 library(patchwork)
 library(leaflet)
 library(lubridate)
+library(xml2)
+library(rvest)
 
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
@@ -35,144 +37,85 @@ Which datasets are being used...
 Using the years 2008-2016 because.... and supply code 
 
 Aidworker dataset - cleaning and tailoring
+
 ```{r basic cleaning and exploring}
+#Kailey notes: from section 1 cleaning and filtered for afghanistan/year, incld. pivot longer
+
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
 aidworker_df = 
-read_csv("./data/security_incidents_2020-11-25.csv") %>%
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+afghan_aidworker_df =
+  aidworker_df %>%
   janitor::clean_names() %>% 
-  pivot_longer(
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected) %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+    pivot_longer(
     un:other,
     names_to = "org_type", 
     values_to = "number_orgs_affected"
   ) %>% 
   select(-number_orgs_affected)
 
-aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
+## Kailey notes: this date code is not working for me! 
 
-afghan_aidw_df = 
-aidworker_df %>% 
-  filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
+aidworker_df$date <- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
 
-
-# tried to write a function, didn't work. Tried to group by and summarize, didn't work. Tried to mutate and create a new column for totals but that somehow didn't work either. Also tried to recode the columns, and you guessed it - that didn't work. Had to do it like this, but it's not even remotely efficient, and it isn't in a dataframe translatable to an image, so if someone has a better way, please feel free to overwrite this. 
-
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2008")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2008")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2009")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2009")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2010")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2010")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2011")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2011")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2012")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2012")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2013")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2013")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2014")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2014")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2015")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2015")) %>% 
-  count(nationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2016")) %>% 
-  count(internationals_killed)
-
-afghan_aidw_df %>% 
-   filter(year %in% c("2016")) %>% 
-  count(nationals_killed)
 
 ```
 
-Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)
+Internationals vs. nationals killed (Not in the to-do list but has an interesting spike at 2010 and 2013... check historical context?)
 
 ```{r}
-#alisha, wondering if this would work... making two dfs one with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I'm a little confused with what to do about this data, but im going to try condensing it. 
+#Kailey notes: got this to work but the merging fix is probably not the right way to go about this.... I realized that the issue is that when you merge similar dataset, it creates duplicates. There is a bunch of information on how to fix this on stackoverflow if you search 'merge is duplicating rows in r' but I could not figure out what they wanted me to do so i used my slice-ing lol. Realizing that slice is my best friend but likely not the 'right' way or simplest way to go about things.... if you have any ideas or want to try the stack overflow fix, go for it! The numbers I get using this code seem reasonable, however! 
 
-afghan_aidw_international_df = 
-aidworker_df %>% 
-  filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+afghan_aidworker_international_df =
+  afghan_aidworker_df %>% 
   group_by(year) %>% 
   count(internationals_killed) %>% 
   mutate(
     internationals_killed_tot = n
   )
 
-afghan_aidw_national_df = 
-aidworker_df %>% 
-  filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>%
+afghan_aidworker_national_df = 
+afghan_aidworker_df %>% 
   group_by(year) %>%
   count(nationals_killed) %>% 
   mutate(
     nationals_killed_tot = n
   ) 
 
-afghan_aidw_df_new = 
-  left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = "year") %>% 
-  select(year, internationals_killed_tot, nationals_killed_tot) %>% 
+afghan_aidworker_df_new = 
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") %>% 
+  distinct(year, internationals_killed_tot, nationals_killed_tot) %>% 
+  slice(1,4,7,10,13,16,20,24,28,32,34,36,40,44,48,52,56,60) %>% 
   group_by(year) %>% 
   mutate(
     yearly_internationals_killed = sum(internationals_killed_tot),
     yearly_nationals_killed = sum(nationals_killed_tot)) %>% 
   select(year, yearly_internationals_killed, yearly_nationals_killed) %>% 
-  slice(1, 16, 28, 40, 50, 54, 68, 86, 93)
+  slice(1,4,6,9,12,14,17,21,23)
 
-# %>%  
-  # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %>% view()
-  # this line of code isn't working (and nothing similar will work) because R is not recognizing "year" as a list - does anyone have another way of aggregating the data by year?
 
-#UPDATE:alisha, i think this works!! it might not be 100% the right way to do it but it sums up per year! 
-
-afghan_aidw_df_new %>% 
+afghan_aidworker_df_new %>% 
      ggplot(aes(x = year, y = yearly_internationals_killed, col = "International")) +
    geom_line() +
   geom_line(aes(x = year, y = yearly_nationals_killed, col = "National")) +
@@ -233,6 +176,74 @@ afghan_upp_df %>%
 
 #SHCC Afghanistan dataset (need to bring in multiple years) 
 
-Upload and tailor
+```{r}
+shcc2018_df = 
+  read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
+  janitor::clean_names() %>% 
+  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
+  filter(country_name == "Afghanistan") %>% 
+    mutate(tot_hc_workers_affected = 
+           affected_healthworker_killed + 
+           affected_healthworker_sgbv + 
+           affected_healthworker_arrested + 
+           affected_healthworker_injured + 
+           affected_healthworker_kidnapped) %>% 
+  mutate(tot_hc_facilities_affected = 
+           impact_health_facility_num +
+           event_health_facility_destroyed_num +
+           event_health_facility_damaged_num +
+           impact_health_facility_armed_entry_num +
+           impact_health_supplies_taken_num +
+           impact_health_facility_occupation_num
+           ) %>% 
+  mutate(tot_hc_transport_affected = 
+          impact_health_transport_destroyed_num + 
+           impact_health_transport_damaged_num +
+           impact_health_transport_abducted_num) 
+
+# these columns are just straight up full of N/As...........
+shcc2018_df %>% 
+  ggplot(aes(x = date_occurrence, y = affected_healthworker_killed)) +
+   geom_line() +
+  geom_line(data = shcc2018_df, aes(x = date_occurrence, y = event_health_facility_destroyed_num)) +
+  labs(
+    title = "Aidowrkers and HCFs Destroyed",
+    x = "Date",
+    y = "Number Killed"
+  ) 
+
+# If we want to do a bar graph comparing total HCWs affected vs. total healthcare facilities affected in 2018 and 2019? Something is very off here.......
+
+
+shcc2019_df = 
+  read_excel("data/2019-shcc-healthcare-afghanistan-data.xlsx", skip = 1) %>% 
+  janitor::clean_names() %>%
+  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
+  filter(country_name == "Afghanistan") %>% 
+  select(-"x12") %>%
+  mutate(
+    tot_hc_worker_affected = 
+      affected_healthworker_killed + 
+      affected_healthworker_kidnapped +
+      affected_healthworker_threatened + 
+      affected_healthworker_injured + 
+      affected_healthworker_assaulted + 
+      affected_healthworker_sgbv
+    ) %>% 
+  mutate(
+      tot_hc_facilities_affected = 
+        indicator_health_facility_destroyed_num +
+        indicator_health_facility_damaged_num + 
+        indicator_health_facility_armed_entry_num +
+        indicator_health_supplies_taken_num
+    ) %>% 
+  mutate(
+       tot_hc_transport_affected = 
+         indicator_health_transport_destroyed_num +
+         indicator_health_transport_damaged_num +
+         indicator_health_transport_abducted_num
+      )
+```
+
 
 # Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)

@@ -112,6 +112,7 @@ aidworker_df %>%
 ```
 ```
 
+
 ### Look at frequency of attacks on staff of various types of organizations 
 
 ```{r}

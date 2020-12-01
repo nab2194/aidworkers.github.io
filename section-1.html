@@ -24,19 +24,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -286,24 +275,25 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
+        <li class="dropdown-header">Global Trends</li>
+<li class="dropdown-header">Afghanistan</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="about_me-copy.html">About</a>
-</li>
-<li>
-  <a href="Dashboard.html">Dashboard</a>
-</li>
-<li>
-  <a href="mailto:aps2204@cumc.columbia.edu&gt;">
-    <span class="fa fa-envelope fa-lg"></span>
+  <a href="youtube.com">
+    <span class="fa fa-play-circle fa-sm"></span>
      
   </a>
 </li>
 <li>
-  <a href="http://github.com/AlishaSarakki/">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/nab2194/aidworkers.github.io">
+    <span class="fa fa-github fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines">
+    <span class="fa fa-ambulance fa-sm"></span>
      
   </a>
 </li>
@@ -325,12 +315,12 @@ $(document).ready(function () {
 
 <p>This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(dplyr)
@@ -813,7 +803,7 @@ aidworker_df %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
