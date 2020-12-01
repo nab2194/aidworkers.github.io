@@ -18,6 +18,7 @@ library(httr)
 library(flexdashboard)
 library(plotly)
 library(viridis)
+library(stringr)
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -34,6 +35,7 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ## Data import and tidying
+
 
 ```{r scraping aidworker data and basic tidying}
 url = "https://aidworkersecurity.org/incidents/search"
@@ -62,6 +64,14 @@ aidworker_df =
          intl_org_affected = as.factor(intl_org_affected)) %>% 
   relocate(id, month, day, year, country, intl_org_affected)
 
+## This is a function that should turn strings with empty spaces into NA 
+empty_as_na <- function(x){
+    if("factor" %in% class(x)) x <- as.character(x) 
+    ifelse(as.character(x)!="", x, NA)
+}
+
+aidworker_df = 
+aidworker_df %>% mutate_each(funs(empty_as_na)) 
 ```
 
 Brennan notes: 
@@ -88,6 +98,19 @@ Emily notes:
 * We have many "unknown" values for actor type and name, and some blank countries, lat/long...in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.
 ** Natalie: I agree! 
 
+## Most dangerous countries to be an aid worker
+
+Natalie note: for some reason the rank wasn't working so I also tried sort but it wasn't working either, so if anyone has any ideas to trouble shoot that let me know!! 
+```{r}
+danger_countries = 
+aidworker_df %>%
+  group_by(country, na.rm = TRUE) %>% 
+  summarize(tot_affected_per_country = sum(total_affected, na.rm = TRUE)) %>% 
+  mutate(rank = sort(desc(tot_affected_per_country))) %>% 
+  filter(rank < 6) %>% 
+  knitr::kable()
+```
+```
 
 ### Look at frequency of attacks on staff of various types of organizations 
 

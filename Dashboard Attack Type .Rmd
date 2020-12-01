@@ -72,11 +72,10 @@ Customization {.sidebar}
 ## Means of Attack 
 methods = aidworker_df %>% distinct(means_of_attack) %>%  pull()
 
-selectInput(
-  "method_choice",
-  label = h3("Select Means of Attack"),
-  choices = methods, selected = "Kidnapping"
-)
+## selectInput(
+ ## "method_choice",
+  ##label = h3("Select Means of Attack"),
+  ## choices = methods, selected = "Kidnapping")
 
 
 ##Location of Attack 
@@ -88,7 +87,11 @@ radioButtons(
   choices = loc_attack, selected = "Road"
 )
 
-## Need to figure out how to remove the one empty option at the end.
+## Type of Organization Affected 
+org_type = aidworker_df %>% distinct(intl_org_affected) %>% pull()
+
+##org_type("org_choice", label = h3("International Organization Affected?")), org_choice = list("Yes" = 1, "No" = 2), hr(), fluidRow(column(3, verbatimTextOutput("value")))
+
 
 ```
 
@@ -98,7 +101,6 @@ Column {data-width=650}
 ### All Attacks against Aid Workers 
 
 ```{r}
-
 all_attacks = 
 aidworker_df %>% 
   drop_na(year) %>% 
@@ -109,6 +111,9 @@ aidworker_df %>%
 
 renderPlotly({ 
   all_attacks %>%
+    filter(
+      location == input$loc_choice()
+    )
   mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
   plot_ly(
     x = ~year, y = ~number_attack, type = "scatter", mode = "markers",
