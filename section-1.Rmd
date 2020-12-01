@@ -348,17 +348,29 @@ aidworker_df %>%
 
 # Mapping the data...
 
-At the moment I can only get markers for one country to appear. I think if I can get all markers on here anyway, it's going to be too busy! Looking into further...thinking of clusters, also need to work on labels.
+At the moment I can only get markers for one country to appear. Managed to cluster data, need to explore this more however.
 
+Attempt at `leaflet` map with points for attacks.
 ```{r map of attacks}
+
 attack_map =
   aidworker_df %>%
-  filter(country == "Occupied Palestinian Territories") %>% 
+  filter(country == "Occupied Palestinian Territories") %>%
   drop_na(longitude, latitude) %>% 
   leaflet() %>% 
   addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
-  addMarkers(lat = ~latitude, lng = ~longitude, label = ~total_victims)
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", aidworker_df$total_victims, "<br>", "Means of Attack:", aidworker_df$means_of_attack, "<br>", "Year:", aidworker_df$year),
+  clusterOptions = markerClusterOptions())
 
 attack_map
+```
+
+
+Map in Shiny?
+We want to map all of the global data, be able to filter by at least year, and include info on attack types, number of victims, national or international staff...
+
+```{r}
+
 ```
 
