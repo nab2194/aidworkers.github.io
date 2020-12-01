@@ -86,6 +86,7 @@ Emily notes:
 
 * We have many "unknown" values for actor type and name, and some blank countries, lat/long...in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.
 
+
 ### Look at frequency of attacks on staff of various types of organizations 
 
 ```{r}
