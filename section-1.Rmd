@@ -75,7 +75,7 @@ Natalie notes:
 
 * distinct was left behind from when I was trying to get the pivot_longer working. Deleted now! 
 
-* I'm happy with the tidyness of it now but I think it would be more useful to have a single date variable to use in our analysis - I tried mutating to get to a date but keep getting all NAs. If someone else figures this out lemme know! 
+* Realizing now that the year variable is sufficient for us! No need to mutate that :)
 
 
 Emily notes:
@@ -83,8 +83,11 @@ Emily notes:
 * This looks great Brennan and Natalie! The `case_when` approach looks great for the org types for the reasons you outlined. I have an idea for the date variable, but what would we be using it for? Just wasn't sure which analysis requires it! Happy to take a stab at it though - let's discuss tomorrow?
 
 * Can I remove gender variables from data frame? Don't believe we have a need for these for our analysis.
+** Natalie: I wonder if they're worth keeping? We could see if male vs. female gender is predictive in the logistic regression model we'll run later. 
 
 * We have many "unknown" values for actor type and name, and some blank countries, lat/long...in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.
+** Natalie: I agree! 
+
 
 ### Look at frequency of attacks on staff of various types of organizations 
 
@@ -170,6 +173,7 @@ Number of aid worker attacks are increasing over time, especially among national
 ### Type of Attack
 
 ```{r}
+kidnap_plot = 
 aidworker_df %>% 
   filter(means_of_attack == "Kidnapping") %>% 
   group_by(year) %>% 
@@ -182,9 +186,65 @@ aidworker_df %>%
   labs(title = "Aid Worker Kidnapping over time",
        x = "Year",
        y = "Number of Aid Workers Kidnapped")
+
+shoot_plot = 
+aidworker_df %>% 
+  filter(means_of_attack == "Shooting") %>% 
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Shooting over time",
+       x = "Year",
+       y = "Number of Aid Workers Shot")
+
 ```
 
+
+
 Kidnapping also increasing over time, particularly among national staff. Could put this side-by-side the total attack line plot.
+
+We can see that the same pattern is occurring with shootings among aid workers. There has been a sharp decrease in shootings among international staffers in the last 5-10 years. 
+
+
+```{r}
+aidworker_df %>% 
+  filter(means_of_attack == "Unknown") %>% 
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Attacks over time (unknown means)",
+       x = "Year",
+       y = "Number of Aid Workers Attacked via unknown means")
+```
+
+The above plot might explain part of the pattern we see above, as there is a gradual decrease in attacks of unknown means among national staff. This might be reflective of increases in reporting. 
+
+
+```{r}
+aidworker_df %>% 
+  filter(means_of_attack == "Aerial bombardment") %>% 
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Aerial Bombardment over time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked via Aerial Bombardment")
+```
+
+Natalie: I think it would be cool to have a sort of dashboard of means of attack with the changes over time. I'm going to try to make this more interactive!!
+
 
 #### Attempts to visualize type of attack over time - failed so far
 
@@ -200,6 +260,8 @@ aidworker_df %>%
 Above is not good.
 
 Note from Emily: What if we tried the following instead of the above, plotting by number of attacks, instead of by number of victims? Following plot still needs work (remove unknowns, any that we could combine?) but could be useful:
+
+Note from Natalie: I like this, but I do think it's really informative to see the national/international differences. One option is making two plots and placing them side by side via patchwork! Or we could create an option on Shiny where people can click to see national vs. international vs. total.
 
 ```{r plot_attack_type_over_time}
 aidworker_df %>% 
@@ -225,6 +287,7 @@ aidworker_df %>%
   ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
   geom_bar()
 ```
+
 
 ### Note from Natalie: I don't think we should use 2020 as our year of analysis if we limit ourselves to one year since the year isn't over and excluding the fall/winter might ignore seasonality effects 
 
