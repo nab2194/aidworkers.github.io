@@ -62,6 +62,10 @@ aidworker_df =
              other != 0 ~ "yes",
              lngo_and_nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %>% 
   relocate(id, month, day, year, country, intl_org_affected)
 
 ## This is a function that should turn strings with empty spaces into NA 
@@ -72,6 +76,7 @@ empty_as_na <- function(x){
 
 aidworker_df = 
 aidworker_df %>% mutate_each(funs(empty_as_na)) 
+
 ```
 
 Brennan notes: 
@@ -105,7 +110,7 @@ Natalie note: for some reason the rank wasn't working so I also tried sort but i
 danger_countries = 
 aidworker_df %>%
   group_by(country, na.rm = TRUE) %>% 
-  summarize(tot_affected_per_country = sum(total_affected, na.rm = TRUE)) %>% 
+  summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %>% 
   mutate(rank = sort(desc(tot_affected_per_country))) %>% 
   filter(rank < 6) %>% 
   knitr::kable()
@@ -343,11 +348,17 @@ aidworker_df %>%
 
 # Mapping the data...
 
-Emily note to self: I think lat/long need to be converted to numeric in order to utilize in leaflet. Was encountering issues - will work on this tomorrow.
+At the moment I can only get markers for one country to appear. I think if I can get all markers on here anyway, it's going to be too busy! Looking into further...thinking of clusters, also need to work on labels.
 
 ```{r map of attacks}
 attack_map =
-  leaflet(aidworker_df) %>% 
-  addTiles()
+  aidworker_df %>%
+  filter(country == "Occupied Palestinian Territories") %>% 
+  drop_na(longitude, latitude) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude, label = ~total_victims)
+
+attack_map
 ```
 

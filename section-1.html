@@ -15,7 +15,7 @@
 
 <title>Section 1</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -24,8 +24,29 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -315,12 +336,12 @@ $(document).ready(function () {
 
 <p>This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(dplyr)
@@ -361,7 +382,8 @@ library(plotly)</code></pre>
 ##     layout</code></pre>
 <pre class="r"><code>library(viridis)</code></pre>
 <pre><code>## Loading required package: viridisLite</code></pre>
-<pre class="r"><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
+<pre class="r"><code>library(stringr)
+devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
 <pre><code>## Skipping install of &#39;wordcountaddin&#39; from a github remote, the SHA1 (8c063135) has not changed since last install.
 ##   Use `force = TRUE` to force installation</code></pre>
 <pre class="r"><code>knitr::opts_chunk$set(
@@ -402,7 +424,44 @@ aidworker_df =
              other != 0 ~ &quot;yes&quot;,
              lngo_and_nrcs != 0 ~ &quot;no&quot;),
          intl_org_affected = as.factor(intl_org_affected)) %&gt;% 
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %&gt;% 
   relocate(id, month, day, year, country, intl_org_affected)</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `latitude`.
+## ℹ NAs introduced by coercion
+## ℹ Input `latitude` is `as.numeric(latitude)`.</code></pre>
+<pre><code>## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `longitude`.
+## ℹ NAs introduced by coercion
+## ℹ Input `longitude` is `as.numeric(longitude)`.</code></pre>
+<pre><code>## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion</code></pre>
+<pre class="r"><code>## This is a function that should turn strings with empty spaces into NA 
+empty_as_na &lt;- function(x){
+    if(&quot;factor&quot; %in% class(x)) x &lt;- as.character(x) 
+    ifelse(as.character(x)!=&quot;&quot;, x, NA)
+}
+
+aidworker_df = 
+aidworker_df %&gt;% mutate_each(funs(empty_as_na)) </code></pre>
+<pre><code>## Warning: `funs()` is deprecated as of dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning: `mutate_each_()` is deprecated as of dplyr 0.7.0.
+## Please use `across()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p>Brennan notes:</p>
 <ul>
 <li><p>I think this <code>case_when</code> approach works to identify whether an international org was affected, instead of the pivot idea. Otherwise, I agree with Natalie that there’s no way to do it without making 6 copies of each incident. The existing data already seems to be the clearest way to present the number of people from each type of org affected, and we can plot that.</p></li>
@@ -411,22 +470,37 @@ aidworker_df =
 <p>Natalie notes:</p>
 <ul>
 <li><p>distinct was left behind from when I was trying to get the pivot_longer working. Deleted now!</p></li>
-<li><p>I’m happy with the tidyness of it now but I think it would be more useful to have a single date variable to use in our analysis - I tried mutating to get to a date but keep getting all NAs. If someone else figures this out lemme know!</p></li>
+<li><p>Realizing now that the year variable is sufficient for us! No need to mutate that :)</p></li>
 </ul>
 <p>Emily notes:</p>
 <ul>
 <li><p>This looks great Brennan and Natalie! The <code>case_when</code> approach looks great for the org types for the reasons you outlined. I have an idea for the date variable, but what would we be using it for? Just wasn’t sure which analysis requires it! Happy to take a stab at it though - let’s discuss tomorrow?</p></li>
-<li><p>Can I remove gender variables from data frame? Don’t believe we have a need for these for our analysis.</p></li>
-<li><p>We have many “unknown” values for actor type and name, and some blank countries, lat/long…in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.</p></li>
+<li><p>Can I remove gender variables from data frame? Don’t believe we have a need for these for our analysis. ** Natalie: I wonder if they’re worth keeping? We could see if male vs. female gender is predictive in the logistic regression model we’ll run later.</p></li>
+<li><p>We have many “unknown” values for actor type and name, and some blank countries, lat/long…in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this. ** Natalie: I agree!</p></li>
 </ul>
-<div id="look-at-frequency-of-attacks-on-staff-of-various-types-of-organizations" class="section level3">
-<h3>Look at frequency of attacks on staff of various types of organizations</h3>
-<pre class="r"><code>aidworker_df %&gt;% 
+</div>
+<div id="most-dangerous-countries-to-be-an-aid-worker" class="section level2">
+<h2>Most dangerous countries to be an aid worker</h2>
+<p>Natalie note: for some reason the rank wasn’t working so I also tried sort but it wasn’t working either, so if anyone has any ideas to trouble shoot that let me know!!</p>
+<pre class="r"><code>danger_countries = 
+aidworker_df %&gt;%
+  group_by(country, na.rm = TRUE) %&gt;% 
+  summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %&gt;% 
+  mutate(rank = sort(desc(tot_affected_per_country))) %&gt;% 
+  filter(rank &lt; 6) %&gt;% 
+  knitr::kable()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;country&#39; (override with `.groups` argument)</code></pre>
+<pre><code>
+
+### Look at frequency of attacks on staff of various types of organizations 
+
+
+```r
+aidworker_df %&gt;% 
   ggplot(aes(x = intl_org_affected)) + 
   geom_bar()</code></pre>
-<p><img src="section-1_files/figure-html/unnamed-chunk-1-1.png" width="90%" /></p>
+<p><img src="section-1_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <p>Brennan: I’m stuck on this part. Natalie - you were thinking about it conceptually a lot, any ideas?</p>
-</div>
 <div id="international-vs-national-staff-attacks" class="section level3">
 <h3>International vs National staff attacks</h3>
 <pre class="r"><code>aidworker_df %&gt;%
@@ -692,7 +766,7 @@ aidworker_df %&gt;%
 <pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).
 
 ## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
-<p><img src="section-1_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<p><img src="section-1_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 <p>Roughly this shows that proportions of nationals attacked has always been higher than internationals, with increasing percentage of national staff attacked over time.</p>
 <pre class="r"><code>aidworker_df %&gt;% 
   drop_na(year) %&gt;% 
@@ -707,12 +781,13 @@ aidworker_df %&gt;%
        x = &quot;Year&quot;,
        y = &quot;Number of Aid Workers Attacked&quot;)</code></pre>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p><img src="section-1_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p><img src="section-1_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
 <p>Number of aid worker attacks are increasing over time, especially among national staff.</p>
 </div>
 <div id="type-of-attack" class="section level3">
 <h3>Type of Attack</h3>
-<pre class="r"><code>aidworker_df %&gt;% 
+<pre class="r"><code>kidnap_plot = 
+aidworker_df %&gt;% 
   filter(means_of_attack == &quot;Kidnapping&quot;) %&gt;% 
   group_by(year) %&gt;% 
   summarize(tot_national = sum(total_national_staff),
@@ -725,8 +800,52 @@ aidworker_df %&gt;%
        x = &quot;Year&quot;,
        y = &quot;Number of Aid Workers Kidnapped&quot;)</code></pre>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p><img src="section-1_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<pre class="r"><code>shoot_plot = 
+aidworker_df %&gt;% 
+  filter(means_of_attack == &quot;Shooting&quot;) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %&gt;% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = &quot;National Staff&quot;)) + 
+  geom_line(aes(y = tot_intl, color = &quot;International Staff&quot;)) + 
+  labs(title = &quot;Aid Worker Shooting over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Number of Aid Workers Shot&quot;)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <p>Kidnapping also increasing over time, particularly among national staff. Could put this side-by-side the total attack line plot.</p>
+<p>We can see that the same pattern is occurring with shootings among aid workers. There has been a sharp decrease in shootings among international staffers in the last 5-10 years.</p>
+<pre class="r"><code>aidworker_df %&gt;% 
+  filter(means_of_attack == &quot;Unknown&quot;) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %&gt;% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = &quot;National Staff&quot;)) + 
+  geom_line(aes(y = tot_intl, color = &quot;International Staff&quot;)) + 
+  labs(title = &quot;Aid Worker Attacks over time (unknown means)&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Number of Aid Workers Attacked via unknown means&quot;)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+<p>The above plot might explain part of the pattern we see above, as there is a gradual decrease in attacks of unknown means among national staff. This might be reflective of increases in reporting.</p>
+<pre class="r"><code>aidworker_df %&gt;% 
+  filter(means_of_attack == &quot;Aerial bombardment&quot;) %&gt;% 
+  group_by(year) %&gt;% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %&gt;% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = &quot;National Staff&quot;)) + 
+  geom_line(aes(y = tot_intl, color = &quot;International Staff&quot;)) + 
+  labs(title = &quot;Aid Worker Aerial Bombardment over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Number of Aid Workers Attacked via Aerial Bombardment&quot;)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p><img src="section-1_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<p>Natalie: I think it would be cool to have a sort of dashboard of means of attack with the changes over time. I’m going to try to make this more interactive!!</p>
 <div id="attempts-to-visualize-type-of-attack-over-time---failed-so-far" class="section level4">
 <h4>Attempts to visualize type of attack over time - failed so far</h4>
 <pre class="r"><code>aidworker_df %&gt;% 
@@ -734,9 +853,10 @@ aidworker_df %&gt;%
   group_by(year, means_of_attack) %&gt;% 
   ggplot(aes(x = year, y = total_victims, color = means_of_attack)) + 
   geom_point()</code></pre>
-<p><img src="section-1_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<p><img src="section-1_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <p>Above is not good.</p>
 <p>Note from Emily: What if we tried the following instead of the above, plotting by number of attacks, instead of by number of victims? Following plot still needs work (remove unknowns, any that we could combine?) but could be useful:</p>
+<p>Note from Natalie: I like this, but I do think it’s really informative to see the national/international differences. One option is making two plots and placing them side by side via patchwork! Or we could create an option on Shiny where people can click to see national vs. international vs. total.</p>
 <pre class="r"><code>aidworker_df %&gt;% 
   drop_na(year) %&gt;% 
   group_by(year) %&gt;% 
@@ -788,10 +908,18 @@ aidworker_df %&gt;%
 </div>
 <div id="mapping-the-data" class="section level1">
 <h1>Mapping the data…</h1>
-<p>Emily note to self: I think lat/long need to be converted to numeric in order to utilize in leaflet. Was encountering issues - will work on this tomorrow.</p>
+<p>At the moment I can only get markers for one country to appear. I think if I can get all markers on here anyway, it’s going to be too busy! Looking into further…thinking of clusters, also need to work on labels.</p>
 <pre class="r"><code>attack_map =
-  leaflet(aidworker_df) %&gt;% 
-  addTiles()</code></pre>
+  aidworker_df %&gt;%
+  filter(country == &quot;Occupied Palestinian Territories&quot;) %&gt;% 
+  drop_na(longitude, latitude) %&gt;% 
+  leaflet() %&gt;% 
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %&gt;% 
+  addMarkers(lat = ~latitude, lng = ~longitude, label = ~total_victims)
+
+attack_map</code></pre>
+<div id="htmlwidget-28b56b65717a47107ed3" style="width:90%;height:345.6px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-28b56b65717a47107ed3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldGrayCanvas",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[31.649741,32.31037,31.649741,32.0254688,31.4772871,31.4772871,31.41667,31.649741,31.649741,31.649741,31.3457612,32.0254688,31.66667,31.4772871,31.4772871,31.649741,31.649741,31.4772871,31.4772871,31.491189,32.2204986,31.54977,31.4772871,31.288231,31.4772871,31.4772871,31.491189,31.491189,31.41667,31.865951,31.412511,31.496933,31.491189,31.53902,31.304479,33.223252,31.288231,32.22183,31.485479,31.413847,31.401936,31.798611,31.7625,31.3,31.344444,31.563704],[35.162072,35.02863,35.162072,35.2888075,34.3215106,34.3215106,34.33333,35.162072,35.162072,35.162072,34.3025277,35.2888075,35.25,34.3215106,34.3215106,35.162072,35.162072,34.3215106,34.3215106,34.444111,35.2568883,34.5024697,34.3215106,34.253606,34.3215106,34.3215106,34.444111,34.444111,34.33333,35.21448,34.352024,34.468875,34.444111,34.53835,34.36039,35.830723,34.253606,35.25881,34.48684,35.110296,34.386018,35.248333,35.265833,34.25,34.303056,34.529523],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["5","1","1","1","2","2","1","1","1","1","1","1","1","2","1","1","1","1","1","1","1","3","1","1","1","2","1","2","1","1","1","1","1","4","1","1","1","1","1","1","1","1","1","1","2","1"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[31.288231,33.223252],"lng":[34.25,35.830723]}},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
@@ -803,7 +931,7 @@ aidworker_df %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
