@@ -20,7 +20,9 @@ library(plotly)
 library(viridis)
 library(stringr)
 library(maps)
-devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
+library(corrplot)
+
+
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
@@ -114,6 +116,8 @@ aidworker_df =
 aidworker_df %>% 
   distinct(attack_abr)
 
+## I am creating a variable based on the below table with the 10 most dangerous countries to be an aid worker that we can use a predictor in our regression model
+
 ```
 
 ## EDA on aidworker_df
@@ -127,7 +131,7 @@ aidworker_df %>%
   group_by(country) %>% 
   summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %>% 
   mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
-  filter(rank < 6) %>% 
+  filter(rank < 11) %>% 
   knitr::kable()
 ```
 
@@ -591,17 +595,19 @@ We hypothesize that the following variables may be relevant in building a model 
 * Year
 * Attack context 
 * Location 
-* Country (** note to everyone: should we just do the top 10 most dangerous countries? )
+* Country (we will have to limit this - I wonder if we should just limit to the 10 most dangerous countries? This would be Afghanistan, CAR, DRC, Iraq, Pakistan, Somalia, South Sudan, Sudan, Syrian Arab Republic, Yemen)
 * Actor type (non-state armed group, state, policy/paramilitary)
 * International org affected 
 
 
 ```{r correlation matrix}
 
-# aidworker_df %>% 
-  #mutate(year = as.numeric(year)) %>% 
- # select(gender_male, gender_female, year, location, attack_context, actor_type, country) %>% 
- # cor() %>% 
+#aidworker_df %>% 
+  #select(gender_male, gender_female, year, location, attack_context, actor_type, ) %>% 
+  
+#cor_aidworker <- cor(aidworker_df)
+
+#corrplot_aidworker <- 
 
 ```
 
