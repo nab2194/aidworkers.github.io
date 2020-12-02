@@ -348,24 +348,75 @@ aidworker_df %>%
 
 # Mapping the data...
 
-At the moment I can only get markers for one country to appear. Managed to cluster data, need to explore this more however.
+Attempt at `leaflet` map with points for attacks. When mapping all the data points, nothing appears on the map. Need to look into more. I've tried filtering to one or a handful of countries (this works), sampling the data (this sometimes works), clustering...
 
-Attempt at `leaflet` map with points for attacks.
-```{r map of attacks}
+```{r attack_map}
 
 attack_map =
   aidworker_df %>%
-  filter(country == "Occupied Palestinian Territories") %>%
-  drop_na(longitude, latitude) %>% 
+  drop_na(longitude, latitude) %>%
   leaflet() %>% 
-  addProviderTiles(providers$Esri.WorldGrayCanvas) %>% 
-  addMarkers(lat = ~latitude, lng = ~longitude,
-  popup = paste("Total Victims:", aidworker_df$total_victims, "<br>", "Means of Attack:", aidworker_df$means_of_attack, "<br>", "Year:", aidworker_df$year),
-  clusterOptions = markerClusterOptions())
-
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(
+    lat = ~latitude,
+    lng = ~longitude,
+    clusterOptions = markerClusterOptions())
+    
 attack_map
+
 ```
 
+Some of the things I tried included:
+
+Mapping data for one country (or even multiple countries) by using `filter`. This will be useful for the Afghanistan case study. We can utilize the following code for the case study portion of the project. However, we have one outlier (in the Mediterranean) which shows up for Afghanistan - likely a data entry issue, which we should resolve. Needed to make a separate data frame with the filtered country data, in order to pull variables for the popups (otherwise it plots all 3000 points, but within the country you filtered by).
+
+
+```{r afghanistan_map}
+
+afghanistan_df =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>% 
+  filter(country == "Afghanistan")
+  
+leaflet(afghanistan_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", afghanistan_df$total_victims, "<br>", "Means of Attack:", afghanistan_df$means_of_attack, "<br>", "Year:", afghanistan_df$year, "<br>", "Country:", afghanistan_df$country), clusterOptions = markerClusterOptions())
+```
+
+Tried using `slice_sample` to see how many points we could plot on the map. I got up to 1000, and then attempted 1100, which did not work, then going back down to 1000, then even 500, did not work anymore. I thought there could be an issue with plotting all 3000 points on the map, and maybe there was a point where the code would break. However, because it sometimes lets me pull 500, and sometimes 1000...something strange is going on here... The following code should pull a sample.
+
+```{r samp_attack_map}
+
+samp_attack_map =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>%
+  slice_sample(n = 500) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(
+    lat = ~latitude,
+    lng = ~longitude,
+    clusterOptions = markerClusterOptions())
+
+samp_attack_map
+```
+
+
+Hey team, here's what happens if we map a random sample, but call values to include in the popups. I think this is happening because we're referring back to the unfiltered dataset when saying what to include in the popups. It's capable of plotting all 3000 observations...but it's plotting the incidents in the wrong countries!
+
+```{r bad_example_map}
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>%
+  slice_sample(n = 500) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(
+    lat = ~latitude,
+    lng = ~longitude,
+    popup = paste("Total Victims:", aidworker_df$total_victims, "<br>", "Means of Attack:", aidworker_df$means_of_attack, "<br>", "Year:", aidworker_df$year, "<br>", "Country:", aidworker_df$country),
+    clusterOptions = markerClusterOptions())
+```
 
 Map in Shiny?
 We want to map all of the global data, be able to filter by at least year, and include info on attack types, number of victims, national or international staff...
