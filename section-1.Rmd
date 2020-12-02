@@ -19,6 +19,7 @@ library(flexdashboard)
 library(plotly)
 library(viridis)
 library(stringr)
+library(maps)
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -429,6 +430,46 @@ I think this is the df we want for our shiny map with the following dropdowns:
 
 * year
 * attack type
-* victims (select tota, international staff, national staff)
+* victims (select total, international staff, national staff)
 
 and ideally the "heatmap" would change for each! 
+
+
+
+Practicing with some spatial data here in `ggplot` before moving toward interactivity and `shiny`! Thinking about how we will join the above data frame, of attacks aggregated by country, with a shape file. We'll need a map with data that we can join our new data frame to.
+
+```{r map_world}
+map_world = map_data("world")
+
+ggplot() +
+  geom_polygon(data = map_world, aes(x = long, y = lat, group = group))
+```
+
+Looking at  `global_map_df` and `map_world`, in order to join them, I think we will have to iterate and create a df / map for each year...something to do within shiny?
+
+First, we need to compare country names between the dataframes to make sure we'll be able to join by `country` and `region`, and then update any discrepancies.
+
+```{r checking_country_names}
+x =
+  global_map_df$country %>% 
+  unique()
+
+y =
+  map_world$region %>% 
+  unique()
+
+x %in% y
+
+x[which(!(x %in% y))]
+```
+
+I now have a list of 9 countries that are in `global_map_df` but are not in `map_world`. Need to manually update...
+
+
+
+Then we'll try just one year and see if it works...
+
+```{r world_map_2019}
+
+```
+
