@@ -83,23 +83,6 @@ aidworker_df %>%
   as_tibble() %>% 
   group_by(means_of_attack)
 
-## dataframe for plot of national aid worker attacks 
-
-natl_attacks = 
-  aidworker_df %>% 
-  select(id, year, country, total_national_staff, attack_abr, attack_context, intl_org_affected, location) %>% 
-  drop_na(year) %>% 
-  as_tibble()
-
-## dataframe for plot of international aid worker attacks 
-
-intl_attacks = 
-aidworker_df %>% 
-    drop_na(year) %>%
-       drop_na(location) %>% 
-  select(id, year, country, total_international_staff, means_of_attack, attack_context, intl_org_affected, location, attack_abr) %>% 
-    as_tibble() 
-
 
 ```
 
@@ -119,16 +102,28 @@ Move the sliders to explore patterns over time.
 
 ```{r}
 
-## pull location of attack 
+## Means of attack 
+type_attack = aidworker_df %>% 
+  distinct(attack_abr) %>% pull()
+
+checkboxGroupInput("outcome_choice", 
+                   label = h3("Means of Attack"),
+                   choices = type_attack, selected = "Kidnapping")
+
+## Country 
+attack_country = aidworker_df %>% 
+  distinct(country) %>% pull()
+  
+textInput("attack_country", 
+          label = h3("Type Country of Interest"))
+
+## Location of Attack 
 loc_attack = aidworker_df %>% distinct(location) %>% pull()
 
-
-## create radio buttons input 
 radioButtons(
   "location_choice",
   label = h3("Select Attack Location"),
-  choices = loc_attack, selected = "Road"
-)
+  choices = loc_attack, selected = "Road")
 
 ## Year slider function 
 years = aidworker_df %>% distinct(year) %>% pull()
@@ -143,6 +138,7 @@ org_type = aidworker_df %>% distinct(intl_org_affected) %>% pull()
 checkboxGroupInput("org_choice", 
                    label = h3("International Organization Affected?"),
                    choices = org_type, selected = "Yes")
+
 ```
 
 
@@ -186,12 +182,25 @@ Move the sliders to explore patterns over time.
 
 ```{r}
 
+## Means of attack 
+type_attack = aidworker_df %>% 
+  distinct(attack_abr) %>% pull()
 
-## pull location of attack 
+checkboxGroupInput("outcome_choice", 
+                   label = h3("Means of Attack"),
+                   choices = type_attack, selected = "Kidnapping")
+
+## Country 
+attack_country = aidworker_df %>% 
+  distinct(country) %>% pull()
+  
+textInput("attack_country", 
+          label = h3("Type Country of Interest"))
+
+
+## Location of attack 
 loc_attack = aidworker_df %>% distinct(location) %>% pull()
 
-
-## create radio buttons input 
 radioButtons(
   "location_choice",
   label = h3("Select Attack Location"),
@@ -214,7 +223,7 @@ sliderInput(
 
 ```
 
-Column {.tabset}
+Column {data-width=650}
 -----------------------------------------------------------------------
 
 ### National Aid Worker Incidents 
@@ -222,10 +231,10 @@ Column {.tabset}
 ```{r}
 
 renderPlotly({ 
-  natl_attacks %>%
+  aidworker_df %>%
   mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
   plot_ly(
-    x = ~year, y = ~total_national_staff, type = "scatter", mode = "line",
+    x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
     alpha = 0.5, color = ~attack_abr, text = ~text_label)
 })
 
@@ -236,7 +245,9 @@ renderPlotly({
 ```{r}
 
 renderPlotly({ 
-  intl_attacks %>%
+  aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice) %>% 
     mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context)) %>% 
   plot_ly(
     x = ~year, y = ~total_international_staff, type = "scatter", mode = "lines",
