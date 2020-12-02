@@ -40,7 +40,7 @@ Using the years 2008-2016 because.... and supply code
 Aidworker dataset - cleaning and tailoring
 
 ```{r basic cleaning and exploring}
-#Kailey notes: from section 1 cleaning and filtered for afghanistan/year, incld. pivot longer
+#Kailey notes: from section 1 cleaning and filtered for afghanistan/year
 
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
