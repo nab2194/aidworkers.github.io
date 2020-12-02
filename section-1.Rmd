@@ -398,11 +398,37 @@ We want to map all of the global data, be able to filter by at least year, and i
 
 Shiny map does NOT need to be a leaflet (can drop lat/long) if we're able to group_by and summarize the variables of interest by country and then plot those. 
 
-i.e. in ideal map, would have drop down to select year, and then would be able to hover over each country to see the total victims that year, total national, total international, total kidnappings, total shootings, and maybe total bombings (aggregate several attack types atove for this).... and would be AMAZING for that to be a heat map where colors darken for increased total victims as you change year.
+i.e. in ideal map, would have drop down to select year, and then would be able to hover over each country to see the total victims that year, total national, total international, total of attack types.... and would be AMAZING for that to be a heat map where colors darken for increased total victims as you change year.
 
 What we want is something like this (map in firearms mortality tab): https://eshea6.github.io/us_gun_violence.github.io/index.html 
 
-```{r}
+```{r sample_df_for_shiny_map}
 
+global_map_df = 
+  aidworker_df %>% 
+  mutate(
+    kidnapping = case_when(means_of_attack %in% c("Kidnapping", "Kidnap-killing") ~ 1),
+    shooting = case_when(means_of_attack %in% c("Shooting") ~ 1),
+    assault = case_when(means_of_attack %in% c("Bodily assault", "Rape/sexual assault") ~ 1),
+    explosive = case_when(means_of_attack %in% c("Aerial bombardment", "Landmine", "Other Explosives", "Roadside IED",
+                                                 "Shelling", "Vehicle-born IED") ~ 1)) %>% 
+  drop_na(year) %>% 
+  group_by(country, year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_victims = sum(total_victims),
+            tot_kidnappings = sum(kidnapping, na.rm = TRUE),
+            tot_shootings = sum(shooting, na.rm = TRUE),
+            tot_assault = sum(assault, na.rm = TRUE),
+            tot_explosive = sum(explosive, na.rm = TRUE))
 ```
 
+This df collapses the means_of_attack variable into explosives, shooting, kidnapping, and assault. It sums by country and year the number of these attack events, and the number national / international / total victims (total per country/year, not by attack type). 
+
+I think this is the df we want for our shiny map with the following dropdowns:
+
+* year
+* attack type
+* victims (select tota, international staff, national staff)
+
+and ideally the "heatmap" would change for each! 
