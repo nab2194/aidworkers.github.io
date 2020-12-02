@@ -170,7 +170,7 @@ afghan_aidworker_df %>%
   geom_bar()
 ```
 
-International vs National staff attacks
+International vs National staff attacks?
 
 ```{r}
 af_pct_intl_ntl = 
