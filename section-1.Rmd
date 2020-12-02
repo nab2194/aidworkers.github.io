@@ -77,15 +77,48 @@ empty_as_na <- function(x){
 aidworker_df = 
 aidworker_df %>% mutate_each(funs(empty_as_na)) 
 
+## This is one last tidying thing to remove the "total" row in the bottom of our df, which might be skewing results: 
+
+aidworker_df =
+  aidworker_df %>% 
+  filter(country != "Total") %>% view()
+
+## This removed 7 rows rather than the 1 I intended - upon inspection it seems to have also removed NAs in the country variable. I'm ok with that since the # of NAs is so small and we'd have to drop them from our analysis anyways but open to thoughts. 
+
+##This next step is to create a variable that groups attack types together for simplicity. For our purposes, we aren't interested in the difference between roadside IED and vehicle-born IED, etc. 
+
+## This is extremely clunky. If anyone has an idea for a function to fix this I would greatly appreciate it!! 
+
+aidworker_df %>% 
+distinct(means_of_attack)
+
+aidworker_df = 
+  mutate(aidworker_df, 
+         attack_abr = case_when(
+           means_of_attack == "Kidnap-killing" ~ "Kidnapping",
+           means_of_attack == "Kidnapping" ~ "Kidnapping",
+           means_of_attack == "Body-borne IED" ~ "IED", 
+           means_of_attack == "Vehicle-born IED" ~ "IED", 
+           means_of_attack == "Roadside IED" ~ "IED",
+           means_of_attack == "Landmine" ~ "Explosives", 
+           means_of_attack == "Shelling" ~ "Explosives",
+           means_of_attack == "Other Explosives" ~ "Explosives",
+           means_of_attack == "Aerial bombardment" ~ "Explosives",
+           means_of_attack == "Rape/sexual assault" ~ "Rape/sexual assault",
+           means_of_attack == "Complex attack" ~ "Complex attack",
+           means_of_attack == "Shooting" ~ "Shooting",
+           means_of_attack == "Unknown" ~ "Unknown", 
+           means_of_attack == "Bodily assault" ~ "Bodily assault"
+           ))
+
+aidworker_df %>% 
+  distinct(attack_abr)
+
 ```
 
 ## EDA on aidworker_df
 
 ### Most dangerous countries to be an aid worker
-
-Natalie note: for some reason the rank wasn't working so I also tried sort but it wasn't working either, so if anyone has any ideas to trouble shoot that let me know!! 
-
-Brennan: Fixed! Need to use min_rank instead of sort. Don't ask me why. Although I'm not sure why it's improperly ordering Somalia and South Sudan. Minor prob.
 
 ```{r danger_countries}
 danger_countries = 
@@ -520,3 +553,55 @@ ggplot() +
 ```
 
 So we can join the two dataframes on the `country` column, but think we can only do different dataframes year by year. I don't love this. I feel I have a better understanding of the data which will be helpful, but I'm not sure this is leading us quite where we need to go. Going to move onto shiny now.
+
+##Logistic Regression of Aid Worker Attacks 
+
+This is a histogram of the  distribution of total aid worker attacks. As you can see, it is not normally distributed. However, since we have a sufficient n of observations, the Central Limit Theorum applies and we should be able to apply a normal approximation to this data. 
+
+Our outcome variable is the probability if experiencing one of 
+ 
+```{r distribution of counts across attack_abr (a collapsed version of means_of_attack)}
+aidworker_df %>% 
+  group_by(attack_abr) %>% 
+  summarize(total_attack = n()) %>% 
+  knitr::kable()
+
+## I absolutely could not get this to work, not sure why - if someone has any ideas to get this to a barplot with x axis being categories of attack_abr I might cry 
+
+##aidworker_df %>% 
+  #group_by(attack_abr) %>% 
+  #summarize(total_attack = n(), 
+            #total_victims) %>% 
+  #ggplot(aes(x = attack_abr, y = total_attack)) +
+  #geom_bar()
+
+## hg <- ggplot(hg_df, aes(x=total_attack, fill = attack_abr)) + geom_histogram(bindwidth = 2)
+#hg + xlim(0, 20) + ylim(0, 10)
+
+aidworker_df %>% 
+  distinct(actor_type)
+```
+
+Hypothesis: 
+
+We hypothesize that the following variables may be relevant in building a model to predict the log odds of attack based on attack means: 
+
+* Total men affected (gender_male)
+* Total women affected (gender_female)
+* Year
+* Attack context 
+* Location 
+* Country (** note to everyone: should we just do the top 10 most dangerous countries? )
+* Actor type (non-state armed group, state, policy/paramilitary)
+* International org affected 
+
+
+```{r correlation matrix}
+
+# aidworker_df %>% 
+  #mutate(year = as.numeric(year)) %>% 
+ # select(gender_male, gender_female, year, location, attack_context, actor_type, country) %>% 
+ # cor() %>% 
+
+```
+
