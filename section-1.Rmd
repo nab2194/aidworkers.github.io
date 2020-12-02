@@ -7,7 +7,7 @@ output: github_document
 
 This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers. 
 
-```{r setup and data visualization preferences}
+```{r setup_and_data_visualization_preferences}
 library(tidyverse)
 library(dplyr)
 library(patchwork)
@@ -36,8 +36,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ## Data import and tidying
 
-
-```{r scraping aidworker data and basic tidying}
+```{r scraping_aidworker_data_and_tidying}
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
 
@@ -79,48 +78,29 @@ aidworker_df %>% mutate_each(funs(empty_as_na))
 
 ```
 
-Brennan notes: 
+## EDA on aidworker_df
 
-
-* I think this `case_when` approach works to identify whether an international org was affected, instead of the pivot idea. Otherwise, I agree with Natalie that there's no way to do it without making 6 copies of each incident. The existing data already seems to be the clearest way to present the number of people from each type of org affected, and we can plot that.
-
-* if happy with cleaning, we can rename the `aidworker_tidy_df` as just `aidworker_df`
-
-Natalie notes: 
-
-* distinct was left behind from when I was trying to get the pivot_longer working. Deleted now! 
-
-* Realizing now that the year variable is sufficient for us! No need to mutate that :)
-
-
-Emily notes:
-
-* This looks great Brennan and Natalie! The `case_when` approach looks great for the org types for the reasons you outlined. I have an idea for the date variable, but what would we be using it for? Just wasn't sure which analysis requires it! Happy to take a stab at it though - let's discuss tomorrow?
-
-* Can I remove gender variables from data frame? Don't believe we have a need for these for our analysis.
-** Natalie: I wonder if they're worth keeping? We could see if male vs. female gender is predictive in the logistic regression model we'll run later. 
-
-* We have many "unknown" values for actor type and name, and some blank countries, lat/long...in addition to NAs for some other variables. I think we may want to be consistent across the board and make all missing data NAs. Do you all agree? If so, I can address this.
-** Natalie: I agree! 
-
-## Most dangerous countries to be an aid worker
+### Most dangerous countries to be an aid worker
 
 Natalie note: for some reason the rank wasn't working so I also tried sort but it wasn't working either, so if anyone has any ideas to trouble shoot that let me know!! 
-```{r}
+
+Brennan: Fixed! Need to use min_rank instead of sort. Don't ask me why. Although I'm not sure why it's improperly ordering Somalia and South Sudan. Minor prob.
+
+```{r danger_countries}
 danger_countries = 
 aidworker_df %>%
-  group_by(country, na.rm = TRUE) %>% 
+  filter(country != "Total") %>% 
+  group_by(country) %>% 
   summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %>% 
-  mutate(rank = sort(desc(tot_affected_per_country))) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
   filter(rank < 6) %>% 
   knitr::kable()
-```
 ```
 
 
 ### Look at frequency of attacks on staff of various types of organizations 
 
-```{r}
+```{r tbd_on_type_of_org_affected}
 aidworker_df %>% 
   ggplot(aes(x = intl_org_affected)) + 
   geom_bar()
@@ -130,7 +110,7 @@ Brennan: I'm stuck on this part. Natalie - you were thinking about it conceptual
 
 ### International vs National staff attacks
 
-```{r}
+```{r international_vs_national_staff_attacks}
 aidworker_df %>%
   group_by(year) %>% 
   summarize(tot_national = sum(total_national_staff),
@@ -182,7 +162,7 @@ pct_ntl + pct_intl +
 
 Roughly this shows that proportions of nationals attacked has always been higher than internationals, with increasing percentage of national staff attacked over time. 
 
-```{r}
+```{r intl_vs_natl_staff_attack_plot}
 aidworker_df %>% 
   drop_na(year) %>% 
   group_by(year) %>% 
@@ -201,7 +181,7 @@ Number of aid worker attacks are increasing over time, especially among national
 
 ### Type of Attack
 
-```{r}
+```{r kidnap_and_shooting}
 kidnap_plot = 
 aidworker_df %>% 
   filter(means_of_attack == "Kidnapping") %>% 
@@ -232,14 +212,12 @@ aidworker_df %>%
 
 ```
 
-
-
 Kidnapping also increasing over time, particularly among national staff. Could put this side-by-side the total attack line plot.
 
-We can see that the same pattern is occurring with shootings among aid workers. There has been a sharp decrease in shootings among international staffers in the last 5-10 years. 
+We can see that the same pattern is occurring with shootings among aid workers. There has been a sharp decrease in shootings among international staffers in the last 5-10 years. (Brennan - isn't this just stable?)
 
 
-```{r}
+```{r unknown_attacks}
 aidworker_df %>% 
   filter(means_of_attack == "Unknown") %>% 
   group_by(year) %>% 
@@ -257,7 +235,7 @@ aidworker_df %>%
 The above plot might explain part of the pattern we see above, as there is a gradual decrease in attacks of unknown means among national staff. This might be reflective of increases in reporting. 
 
 
-```{r}
+```{r aerial_bombardment}
 aidworker_df %>% 
   filter(means_of_attack == "Aerial bombardment") %>% 
   group_by(year) %>% 
@@ -275,10 +253,9 @@ aidworker_df %>%
 Natalie: I think it would be cool to have a sort of dashboard of means of attack with the changes over time. I'm going to try to make this more interactive!!
 
 
-#### Attempts to visualize type of attack over time - failed so far
+#### Attempts to visualize type of attack over time
 
-
-```{r}
+```{r scatter_type_attack}
 aidworker_df %>% 
   drop_na(year) %>% 
   group_by(year, means_of_attack) %>% 
@@ -308,7 +285,7 @@ aidworker_df %>%
   )
 ```
 
-```{r bar plot of types of attacks for both ntl and intl workers}
+```{r bar_plot_of_types_of_attacks_for_both_ntl_and_intl_workers}
 aidworker_df %>% 
   drop_na(year) %>% 
   group_by(year, means_of_attack) %>% 
@@ -317,16 +294,12 @@ aidworker_df %>%
   geom_bar()
 ```
 
-
-### Note from Natalie: I don't think we should use 2020 as our year of analysis if we limit ourselves to one year since the year isn't over and excluding the fall/winter might ignore seasonality effects 
-
 I like this bar chart, but I think 'count' is the number of incidents, not the number of people affected. Would be really cool if this could be a shiny plot where could change year in a drop down to see how this changes over time? Or make a plotly so that you can hover over label to see number of intl/natl affected by each type of attack?
 
 I'm not sure how to make those things work though. 
 
-### Natalie: I'll give this a closer look tomorrow morning! 
 
-```{r plot comparing attack type }
+```{r failed_code}
 
 ## This was a failed attempt at summarizing by worker type to see if there are differences in means of attack by international vs. national status 
 
@@ -335,16 +308,8 @@ I'm not sure how to make those things work though.
   #as.numeric(c(total_international_staff, total_national_staff)) %>% 
   #group_by(means_of_attack) %>% 
   #summarize(across(total_national_staff:total_international_staff, count))
-
-aidworker_df %>% 
-  drop_na(year) %>% 
-  group_by(year, means_of_attack) %>% 
-  select(year, means_of_attack) %>% 
-  filter(year == 2019) %>% 
-  ggplot(aes(x = means_of_attack, fill = means_of_attack)) + 
-  geom_bar()
-
 ```
+
 
 # Mapping the data...
 
@@ -384,6 +349,16 @@ leaflet(afghanistan_df) %>%
   popup = paste("Total Victims:", afghanistan_df$total_victims, "<br>", "Means of Attack:", afghanistan_df$means_of_attack, "<br>", "Year:", afghanistan_df$year, "<br>", "Country:", afghanistan_df$country), clusterOptions = markerClusterOptions())
 ```
 
+Just some code to check the map. There are 560 attacks in Afghanistan in which the location was known (from 1259 total, as shown above). That works!
+
+```{r}
+aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  drop_na(latitude, longitude) %>% 
+  n_distinct()
+```
+
+
 Tried using `slice_sample` to see how many points we could plot on the map. I got up to 1000, and then attempted 1100, which did not work, then going back down to 1000, then even 500, did not work anymore. I thought there could be an issue with plotting all 3000 points on the map, and maybe there was a point where the code would break. However, because it sometimes lets me pull 500, and sometimes 1000...something strange is going on here... The following code should pull a sample.
 
 ```{r samp_attack_map}
@@ -420,6 +395,12 @@ Hey team, here's what happens if we map a random sample, but call values to incl
 
 Map in Shiny?
 We want to map all of the global data, be able to filter by at least year, and include info on attack types, number of victims, national or international staff...
+
+Shiny map does NOT need to be a leaflet (can drop lat/long) if we're able to group_by and summarize the variables of interest by country and then plot those. 
+
+i.e. in ideal map, would have drop down to select year, and then would be able to hover over each country to see the total victims that year, total national, total international, total kidnappings, total shootings, and maybe total bombings (aggregate several attack types atove for this).... and would be AMAZING for that to be a heat map where colors darken for increased total victims as you change year.
+
+What we want is something like this (map in firearms mortality tab): https://eshea6.github.io/us_gun_violence.github.io/index.html 
 
 ```{r}
 
