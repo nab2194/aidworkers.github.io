@@ -27,9 +27,9 @@ Dropdown to filter by: year, international_victims, national_victims, total_vict
 
 ### Kailey
 
-* Make new df for Afghanistan data using the 'section 1' code: reading aidworker_df from web, and then filter by country
+* Make new df for Afghanistan data using the 'section 1' code: reading aidworker_df from web, and then filter by country (completed)
 
-* Check numbers to make sure the aidworker_df filtered for afghanistan numbers of aidworkers affected (international & national) make sense?
+* Check numbers to make sure the aidworker_df filtered for afghanistan numbers of aidworkers affected (international & national) make sense? (completed)
 
 * Work on Afghanistan case study more qualitatively: visualize Uppsala df stuff
 
