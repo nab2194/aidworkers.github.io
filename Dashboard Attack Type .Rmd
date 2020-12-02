@@ -115,7 +115,8 @@ attack_country = aidworker_df %>%
   distinct(country) %>% pull()
   
 textInput("attack_country", 
-          label = h3("Type Country of Interest"))
+          label = h3("Type Country of Interest"),
+          value = "Afghanistan")
 
 ## Location of Attack 
 loc_attack = aidworker_df %>% distinct(location) %>% pull()
@@ -126,19 +127,13 @@ radioButtons(
   choices = loc_attack, selected = "Road")
 
 ## Year slider function 
-years = aidworker_df %>% distinct(year) %>% pull()
+##Note to team - this works and is cool but changes the scale of years and sometimes goes to .5 - let's fix if we have time at the end but disregard if not 
 
-sliderInput(
-  "years_choice",
-  label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
+#years = aidworker_df %>% distinct(year) %>% pull()
 
-## Type of Organization Affected 
-org_type = aidworker_df %>% distinct(intl_org_affected) %>% pull()
-
-checkboxGroupInput("org_choice", 
-                   label = h3("International Organization Affected?"),
-                   choices = org_type, selected = "Yes")
-
+#sliderInput(
+ # "years_choice",
+  #label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
 ```
 
 
@@ -149,21 +144,15 @@ Column {tabset}
 
 ```{r}
 
-
 renderPlotly({ 
-  
-all_attacks_plot = 
-  all_attacks %>%
+  aidworker_df %>%
     filter(
-      location == input[["location_choice"]],
-      year == input[["years_choice"]],
-      intl_org_affected == input[["org_choice"]])
-
-all_attacks_plot %>% 
-  plot_ly(x = ~year, y = ~number_attack, type = "scatter", mode = "markers", alpha = 0.5, color = ~means_of_attack, text = ~text_label)
- 
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
+     mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+  plot_ly(x = ~year, y = ~total_victims, type = "scatter", mode = "lines", alpha = 0.5, color = ~attack_abr, text = ~text_label)
 })
-
 
 ```
 
@@ -195,7 +184,8 @@ attack_country = aidworker_df %>%
   distinct(country) %>% pull()
   
 textInput("attack_country", 
-          label = h3("Type Country of Interest"))
+          label = h3("Type Country of Interest"),
+          value = "Afghanistan")
 
 
 ## Location of attack 
@@ -215,11 +205,11 @@ checkboxGroupInput("org_choice",
                    choices = org_type, selected = "Yes")
 
 ## Year slider function 
-years = aidworker_df %>% distinct(year) %>% pull()
+#years = aidworker_df %>% distinct(year) %>% pull()
 
-sliderInput(
-  "years_choice",
-  label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
+#sliderInput(
+  #"years_choice",
+  #label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
 
 ```
 
@@ -232,6 +222,10 @@ Column {data-width=650}
 
 renderPlotly({ 
   aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
   mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
   plot_ly(
     x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
@@ -247,7 +241,9 @@ renderPlotly({
 renderPlotly({ 
   aidworker_df %>%
     filter(
-      attack_abr == input$outcome_choice) %>% 
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
     mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context)) %>% 
   plot_ly(
     x = ~year, y = ~total_international_staff, type = "scatter", mode = "lines",
