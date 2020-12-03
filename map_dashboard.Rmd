@@ -1,0 +1,96 @@
+---
+title: "Aid Worker Attacks"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+runtime: shiny
+---
+
+```{r setup}
+library(tidyverse)
+library(dplyr)
+library(leaflet)
+library(lubridate)
+library(rvest)
+library(httr)
+library(flexdashboard)
+library(plotly)
+library(viridis)
+library(stringr)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Data import and tidying
+
+```{r scraping_aidworker_data_and_tidying}
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
+
+empty_as_na <- function(x){
+    if("factor" %in% class(x)) x <- as.character(x) 
+    ifelse(as.character(x) != "", x, NA)
+}
+
+aidworker_df = 
+aidworker_df %>% mutate_each(funs(empty_as_na)) 
+
+```
+
+Aid Worker Attack Map
+===================================== 
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+```{r sidebar}
+
+
+```
+
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### GLOBAL MAP
+
+```{r global_map}

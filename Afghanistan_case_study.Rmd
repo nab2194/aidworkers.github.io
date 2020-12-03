@@ -11,6 +11,9 @@ library(hexbin)
 library(patchwork)
 library(leaflet)
 library(lubridate)
+library(xml2)
+library(rvest)
+library(plotly)
 
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
@@ -35,32 +38,59 @@ Which datasets are being used...
 Using the years 2008-2016 because.... and supply code 
 
 Aidworker dataset - cleaning and tailoring
+
 ```{r basic cleaning and exploring}
+#Kailey notes: from section 1 cleaning and filtered for afghanistan/year
+
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
 aidworker_df = 
-read_csv("./data/security_incidents_2020-11-25.csv") %>%
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+afghan_aidworker_df =
+  aidworker_df %>%
   janitor::clean_names() %>% 
-  pivot_longer(
-    un:other,
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected) %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"))
+```
+
+
+## Kailey notes: I found it! This pivot longer is making the duplicates occur when added to the code chunk above.. also, this date code is not working for me! 
+
+pivot_longer(
+  un:other,
     names_to = "org_type", 
     values_to = "number_orgs_affected"
   ) %>% 
   select(-number_orgs_affected)
 
-aidworker_df$date <- as.Date(with(aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
+aidworker_df$date <- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
 
-afghan_aidw_df = 
-aidworker_df %>% 
-  filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
+## Starting EDA and vis
 
-
-```
-
-Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)
+Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)
 
 ```{r}
-#alisha, wondering if this would work... making two dfs one with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I'm a little confused with what to do about this data, but im going to try condensing it. 
+#Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
 
+<<<<<<< HEAD
 
 # take code from international (part 1 dataset) - just copy paste and add a filter(country == "Afghanistan")
 
@@ -68,17 +98,21 @@ afghan_aidw_international_df =
 aidworker_df %>% 
   filter(country == "Afghanistan") %>% 
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+=======
+afghan_aidworker_international_df =
+  afghan_aidworker_df %>% 
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
   group_by(year) %>% 
-  count(internationals_killed) %>% 
+  summarise(sum(internationals_killed)) %>% 
   mutate(
-    internationals_killed_tot = n
-  )
+    internationals_killed_tot = `sum(internationals_killed)`
+  ) %>% 
+  select(year, internationals_killed_tot)
 
-afghan_aidw_national_df = 
-aidworker_df %>% 
-  filter(country == "Afghanistan") %>% 
-  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>%
+afghan_aidworker_national_df = 
+  afghan_aidworker_df %>% 
   group_by(year) %>%
+<<<<<<< HEAD
   count(nationals_killed) %>% 
   mutate(
     nationals_killed_tot = n
@@ -93,23 +127,99 @@ afghan_aidw_df_new =
     yearly_nationals_killed = sum(nationals_killed_tot)) %>% 
   select(year, yearly_internationals_killed, yearly_nationals_killed) %>% 
   slice(1, 16, 28, 40, 50, 54, 68, 86, 93) 
+=======
+  summarise(sum(nationals_killed)) %>% 
+  mutate(
+    nationals_killed_tot = `sum(nationals_killed)`
+  ) %>% 
+  select(year, nationals_killed_tot)
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
 
-# %>%  
-  # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %>% view()
-  # this line of code isn't working (and nothing similar will work) because R is not recognizing "year" as a list - does anyone have another way of aggregating the data by year?
+afghan_aidworker_df_new = 
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") 
 
-#UPDATE:alisha, i think this works!! it might not be 100% the right way to do it but it sums up per year! 
 
-afghan_aidw_df_new %>% 
-     ggplot(aes(x = year, y = yearly_internationals_killed, col = "International")) +
+afghan_aidworker_df_new %>% 
+     ggplot(aes(x = year, y = internationals_killed_tot, col = "International")) +
    geom_line() +
-  geom_line(aes(x = year, y = yearly_nationals_killed, col = "National")) +
+  geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
   labs(
     title = "Number of Aidworkers Killed By Origin (National vs. International)",
     x = "Year",
     y = "Number Killed"
   ) 
 ```
+
+More visualizations using aidworker df 
+
+```{r}
+# Kailey notes: Not sure if this visualization is 100% complete in terms of making sense/usefulness but I think something like this could be interesting. Subplotted two interactive plots. You can see the means of attack next to the attack context. For example, the aerial bombardment spike in 2015 is tied to combat/crossfire attack type (could look at historical context here). Can also see that in 2009 there were 16 kidnappings due to an ambush. Open to thoughts on this but thought something like this could be cool. 
+
+
+means_attack_p = 
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~means_of_attack, 
+    type = "scatter") %>% 
+    layout(
+    title = "Victims per year by attack type")
+
+attack_context_p =
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~attack_context, 
+    type = "scatter") %>%
+    layout(
+    title = "Victims per year by attack context")
+
+subplot(means_attack_p, attack_context_p)
+
+```
+
+
+```{r}
+afghan_aidworker_df %>% 
+     ggplot(aes(x = location, fill = means_of_attack)) +
+   geom_bar() +
+  labs(
+    title = "Attacks per location and by what means of attack",
+    x = "Location"
+  ) 
+```
+
+From section 1 vis: 
+
+looking at frequency of attacks on staff of various organizations yes/no
+
+```{r}
+afghan_aidworker_df %>% 
+  ggplot(aes(x = intl_org_affected)) + 
+  geom_bar()
+```
+
+International vs National staff attacks?
+
+```{r}
+af_pct_intl_ntl = 
+afghan_aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national, col = 3)) + 
+  geom_line() +
+   geom_line(aes(x = year, y = pct_intl, col = 2)) + 
+   labs(
+    x = "Year",
+    y = "% Attacked"
+   )
+
+## Would still need to add labels for understanding
+```
+
+## Kailey notes: need to scrape uppsala data from web instead of loading in by .csv
 
 # Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers 
 # Deaths among all civilians vs. all aidworkers side by side
@@ -121,16 +231,21 @@ Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only
 #Looking at deaths among all civilians verses all aidworkers side by side
 
 #Aidworkers: 
-aidw_killed_df =   
-afghan_aidw_df %>% 
+aidworker_deaths_p = 
+afghan_aidworker_df %>% 
   group_by(year) %>% 
-  count(total_killed) %>%
-  select(year, n) %>% 
+  summarise(sum(total_victims)) %>%
   mutate(
-    aidwk_killed = sum(n)) %>% 
-  select(year, aidwk_killed) %>% 
-  slice(1, 7, 11, 16, 21, 23, 30, 36, 43)
-
+    tot_victims = `sum(total_victims)`
+  ) %>% 
+  select(-`sum(total_victims)`) %>% 
+  ggplot(aes(x = year, y = tot_victims, col = "Aidworkers")) +
+   geom_line() +
+  labs(
+    title = "Total # of Aidworkers Killed per year",
+    x = "Year",
+    y = "Number Killed"
+  ) 
 
 #All civilians:
 afghan_upp_df = 
@@ -139,26 +254,36 @@ read_csv("./data/afghanistan_uppsala.csv") %>%
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
   select(year, deaths_civilians) %>% 
   group_by(year) %>% 
-  count(deaths_civilians) %>% 
+  summarise(sum(deaths_civilians)) %>% 
   mutate(
-    civilian_deaths = sum(n)
+    deaths_civilians_tot = `sum(deaths_civilians)`
   ) %>% 
-  select(year, civilian_deaths) %>% 
-  slice(1, 19, 39, 63, 84, 104, 123, 143, 164) 
+  select(-`sum(deaths_civilians)`)
 
-##alisha, this slice function is creating doubles for 2009 onward... i tried slicing again and taking the first of each double and got the same thing returned... very confused... doesn't seem to create and issue for the plot but still might want to fix? 
-
+civilian_deaths_p =
 afghan_upp_df %>% 
-  ggplot(aes(x = year, y = civilian_deaths, col = "Civilian")) +
+  ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
    geom_line() +
-  geom_line(data = aidw_killed_df, aes(x = year, y = aidwk_killed, col = "Aidworker")) +
   labs(
+<<<<<<< HEAD
     title = "Aidworkers and Civilians Killed",
     x = "Year",
     y = "Number Killed"
   ) 
 # use patchwork to make two separate plots and have them side-by-side
+=======
+    title = "Total # of Civilians Killed per year",
+    x = "Year",
+    y = "Number Killed"
+  ) 
+
+aidworker_deaths_p + civilian_deaths_p
+
+#Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no 'side by side' analysis here? 
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
 ```
+
+# Kailey notes: Are we using SHCC or complete scrap? 
 
 #SHCC Afghanistan dataset (need to bring in multiple years) 
 
