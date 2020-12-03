@@ -90,8 +90,18 @@ Internationals vs. nationals killed (Not in the to-do list but has an interestin
 ```{r}
 #Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
 
+<<<<<<< HEAD
+
+# take code from international (part 1 dataset) - just copy paste and add a filter(country == "Afghanistan")
+
+afghan_aidw_international_df = 
+aidworker_df %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+=======
 afghan_aidworker_international_df =
   afghan_aidworker_df %>% 
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
   group_by(year) %>% 
   summarise(sum(internationals_killed)) %>% 
   mutate(
@@ -102,11 +112,28 @@ afghan_aidworker_international_df =
 afghan_aidworker_national_df = 
   afghan_aidworker_df %>% 
   group_by(year) %>%
+<<<<<<< HEAD
+  count(nationals_killed) %>% 
+  mutate(
+    nationals_killed_tot = n
+  ) 
+
+afghan_aidw_df_new = 
+  left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = "year") %>% 
+  select(year, internationals_killed_tot, nationals_killed_tot) %>% 
+  group_by(year) %>% view()
+  mutate(
+    yearly_internationals_killed = sum(internationals_killed_tot),
+    yearly_nationals_killed = sum(nationals_killed_tot)) %>% 
+  select(year, yearly_internationals_killed, yearly_nationals_killed) %>% 
+  slice(1, 16, 28, 40, 50, 54, 68, 86, 93) 
+=======
   summarise(sum(nationals_killed)) %>% 
   mutate(
     nationals_killed_tot = `sum(nationals_killed)`
   ) %>% 
   select(year, nationals_killed_tot)
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
 
 afghan_aidworker_df_new = 
   left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") 
@@ -238,6 +265,13 @@ afghan_upp_df %>%
   ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
    geom_line() +
   labs(
+<<<<<<< HEAD
+    title = "Aidworkers and Civilians Killed",
+    x = "Year",
+    y = "Number Killed"
+  ) 
+# use patchwork to make two separate plots and have them side-by-side
+=======
     title = "Total # of Civilians Killed per year",
     x = "Year",
     y = "Number Killed"
@@ -246,6 +280,7 @@ afghan_upp_df %>%
 aidworker_deaths_p + civilian_deaths_p
 
 #Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no 'side by side' analysis here? 
+>>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
 ```
 
 # Kailey notes: Are we using SHCC or complete scrap? 
