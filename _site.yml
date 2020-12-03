@@ -4,10 +4,16 @@ navbar:
   title: "Home"
   left:
     - text: "Global Trends"
-      href:
+      menu:
+      - text: "Exploratory analyses"
+        href: exploratory_analyses.html
+      - text: "Attack Type Dashboard"
+        href: https://ebbollman.shinyapps.io/dashboard_attack_type/
     - text: "Afghanistan"
       href: 
   right:
+    - text: "Project Report"
+      href: final_report.html
     - icon: fa-play-circle fa-sm
       href: youtube.com
     - icon: fa-github fa-sm
@@ -18,3 +24,5 @@ navbar:
 output:
   html_document:
     theme: flatly
+    includes:
+      after_body: footer.html

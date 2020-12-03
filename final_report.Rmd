@@ -2,7 +2,11 @@
 title: "Project Report"
 author: "Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd"
 date: '`r format(Sys.time(), "%y-%m-%d")`'
-output: github_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
 ---
 
 # P8105 Final Project Repot 

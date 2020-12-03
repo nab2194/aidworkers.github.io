@@ -431,6 +431,25 @@ Hey team, here's what happens if we map a random sample, but call values to incl
     clusterOptions = markerClusterOptions())
 ```
 
+After attending office hours, we discussed adpating the `leaflet` map to show top 10 countries impacted, or a subset of years, as we could not plot all 3000 points.
+
+Note from making the following df and map...some of these country names are recoded later in this doc to join with the map data for the static ggplot global map. In our final project, when recoding is done, will impact some of our code, such as the following code where we filter by country.
+
+Map still doesn't work!!!!!  Will try again later.
+
+```{r danger_map}
+danger_map_df =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>% 
+  filter(country %in% c("Afghanistan", "Central African Republic", "DR Congo", "Iraq", "Pakistan", "Somalia", "South Sudan", "Sudan", "Syrian Arab Republic", "Yemen"))
+  
+leaflet(danger_map_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", danger_map_df$total_victims, "<br>", "Means of Attack:", danger_map_df$means_of_attack, "<br>", "Year:", danger_map_df$year, "<br>", "Country:", danger_map_df$country), clusterOptions = markerClusterOptions())
+```
+
+
 Map in Shiny?
 We want to map all of the global data, be able to filter by at least year, and include info on attack types, number of victims, national or international staff...
 

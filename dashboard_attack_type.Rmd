@@ -96,7 +96,7 @@ Column  {.sidebar}
 
 The plot on the right outlines types of attacks among all aid workers affected by violence. 
 
-How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, location, and type of organization (international vs. national)? 
+How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, country, and field location (on the road, at home, office/compound)? 
 
 Move the sliders to explore patterns over time.
 
@@ -115,7 +115,7 @@ attack_country = aidworker_df %>%
   distinct(country) %>% pull()
   
 textInput("attack_country", 
-          label = h3("Type Country of Interest"),
+          label = h3("Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')"),
           value = "Afghanistan")
 
 ## Location of Attack 
@@ -150,7 +150,7 @@ renderPlotly({
       attack_abr == input$outcome_choice,
       country == input$attack_country,
       location == input$location_choice) %>% 
-     mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+     mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context, '\n Event Description: ', details)) %>% 
   plot_ly(x = ~year, y = ~total_victims, type = "scatter", mode = "lines", alpha = 0.5, color = ~attack_abr, text = ~text_label)
 })
 
@@ -184,7 +184,7 @@ attack_country = aidworker_df %>%
   distinct(country) %>% pull()
   
 textInput("attack_country", 
-          label = h3("Type Country of Interest"),
+          label = h3("Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')"),
           value = "Afghanistan")
 
 
@@ -200,9 +200,9 @@ radioButtons(
 ## Type of Organization Affected 
 org_type = aidworker_df %>% distinct(intl_org_affected) %>% pull()
 
-checkboxGroupInput("org_choice", 
-                   label = h3("International Organization Affected?"),
-                   choices = org_type, selected = "Yes")
+#checkboxGroupInput("org_choice", 
+ #                  label = h3("International Organization Affected?"),
+  #                 choices = org_type, selected = "Yes")
 
 ## Year slider function 
 #years = aidworker_df %>% distinct(year) %>% pull()
@@ -226,7 +226,7 @@ renderPlotly({
       attack_abr == input$outcome_choice,
       country == input$attack_country,
       location == input$location_choice) %>% 
-  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context)) %>% 
+  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context), '\n Event Description: ', details) %>% 
   plot_ly(
     x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
     alpha = 0.5, color = ~attack_abr, text = ~text_label)
@@ -244,7 +244,7 @@ renderPlotly({
       attack_abr == input$outcome_choice,
       country == input$attack_country,
       location == input$location_choice) %>% 
-    mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context)) %>% 
+    mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context, '\n Event Description: ', details)) %>% 
   plot_ly(
     x = ~year, y = ~total_international_staff, type = "scatter", mode = "lines",
     alpha = 0.5, color = ~attack_abr, text = ~text_label)
