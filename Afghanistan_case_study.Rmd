@@ -61,6 +61,9 @@ Internationals vs. nationals killed (is this a plot of interest?? not in the to-
 ```{r}
 #alisha, wondering if this would work... making two dfs one with a new var 'internationals_killed_tot' and another 'nationals_killed_tot' and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I'm a little confused with what to do about this data, but im going to try condensing it. 
 
+
+# take code from international (part 1 dataset) - just copy paste and add a filter(country == "Afghanistan")
+
 afghan_aidw_international_df = 
 aidworker_df %>% 
   filter(country == "Afghanistan") %>% 
@@ -84,12 +87,12 @@ aidworker_df %>%
 afghan_aidw_df_new = 
   left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = "year") %>% 
   select(year, internationals_killed_tot, nationals_killed_tot) %>% 
-  group_by(year) %>% 
+  group_by(year) %>% view()
   mutate(
     yearly_internationals_killed = sum(internationals_killed_tot),
     yearly_nationals_killed = sum(nationals_killed_tot)) %>% 
   select(year, yearly_internationals_killed, yearly_nationals_killed) %>% 
-  slice(1, 16, 28, 40, 50, 54, 68, 86, 93)
+  slice(1, 16, 28, 40, 50, 54, 68, 86, 93) 
 
 # %>%  
   # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %>% view()
@@ -150,10 +153,11 @@ afghan_upp_df %>%
    geom_line() +
   geom_line(data = aidw_killed_df, aes(x = year, y = aidwk_killed, col = "Aidworker")) +
   labs(
-    title = "Aidowrkers and Civilians Killed",
+    title = "Aidworkers and Civilians Killed",
     x = "Year",
     y = "Number Killed"
   ) 
+# use patchwork to make two separate plots and have them side-by-side
 ```
 
 #SHCC Afghanistan dataset (need to bring in multiple years) 
