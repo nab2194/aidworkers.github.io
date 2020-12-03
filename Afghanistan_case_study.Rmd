@@ -33,9 +33,12 @@ scale_fill_discrete = scale_fill_viridis_d
 ##Explain 
 
 Why we chose Afghanistan... 
+Chose Afghanistan because it has consistently been among the most deadly countries for aid workers, so would have a lot of data. 
 Which datasets are being used... 
+Using Aid worker dataset and the Uppsala datset to compare aidworker deaths to Civilian deaths. We also intended to use a dataset (SHCC) describing attacks on aidworkers, health facilities, and healthcare transport, but this datset was not robust enough to support meaningful data visualization. As such, we chose to exclude it.
 
 Using the years 2008-2016 because.... and supply code 
+2008-2016 chosen to see whether there might be differences between the Bush (2008-2012) and Obama (2012-2016) administrations. 
 
 Aidworker dataset - cleaning and tailoring
 
@@ -70,7 +73,6 @@ afghan_aidworker_df =
   filter(country == "Afghanistan") %>% 
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
 
-## Alisha: This all works for me and looks great
 ```
 
 
@@ -138,7 +140,7 @@ afghan_aidworker_national_df =
   mutate(
     nationals_killed_tot = `sum(nationals_killed)`
   ) %>%
-  select(year, nationals_killed_tot)
+  select(year, nationals_killed_tot) 
 
 afghan_aidworker_df_new =
   left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year")
@@ -154,7 +156,6 @@ afghan_aidworker_df_new %>%
     y = "Number Killed"
   )
 
-# Alisha note: so when I run this I'm still getting multiples for some of the datapoints that I can't make sense of right now
 ```
 
 More visualizations using aidworker df 
@@ -179,7 +180,7 @@ afghan_aidworker_df %>%
     x = ~year, y = ~total_victims, color = ~attack_context,
     type = "scatter") %>%
     layout(
-    title = "Victims per year by attack context")
+    title = "Victims per Year by Attack Context")
 
 subplot(means_attack_p, attack_context_p)
 
@@ -191,8 +192,9 @@ afghan_aidworker_df %>%
      ggplot(aes(x = location, fill = means_of_attack)) +
    geom_bar() +
   labs(
-    title = "Attacks per location and by what means of attack",
-    x = "Location"
+    title = "Total Attacks per Location, by Means of Attack (2008-2016)",
+    x = "Location",
+    y = "Number of Attacks"
   ) 
 
 # Alisha notes: love this graph! We'll want to define the time period as well which I'll figure out ASAP. 
@@ -205,7 +207,12 @@ looking at frequency of attacks on staff of various organizations yes/no
 ```{r}
 afghan_aidworker_df %>% 
   ggplot(aes(x = intl_org_affected)) + 
-  geom_bar()
+  geom_bar(color = "blue", fill = "#FFE4E4") +
+  labs(
+    title = "Distribution of Attacks by Organization Affected (2008-2016)",
+    x = "International Organization Affected",
+    y = "Number of Attacks"
+  )
 ```
 
 International vs National staff attacks?
@@ -226,22 +233,16 @@ afghan_aidworker_df %>%
     x = "Year",
     y = "% Attacked"
    ) 
-## This one is not displaying anything for me
-## Would still need to add labels for understanding
+
 ```
 
-## Kailey notes: need to scrape uppsala data from web instead of loading in by .csv
-
-# Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers 
-# Deaths among all civilians vs. all aidworkers side by side
--- are these different questions? 
 
 Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)
 
 ```{r}
 #Looking at deaths among all civilians verses all aidworkers side by side
 
-#Aidworkers: 
+#Aidworkers, from the Aidworker dataset: 
 aidworker_deaths_p = 
 afghan_aidworker_df %>% 
   group_by(year) %>% 
@@ -250,17 +251,17 @@ afghan_aidworker_df %>%
     tot_victims = `sum(total_victims)`
   ) %>% 
   select(-`sum(total_victims)`) %>% 
-  ggplot(aes(x = year, y = tot_victims, col = "Aidworkers")) +
+  ggplot(aes(x = year, y = tot_victims)) +
    geom_line() +
   labs(
-    title = "Total # of Aidworkers Killed per year",
+    title = "Total # Aidworkers Killed per Year",
     x = "Year",
-    y = "Number Killed"
+    y = "Number Aidworkers Killed"
   ) 
 
-#All civilians:
+#All civilians, from the Uppsala dataset:
 afghan_upp_df = 
-read_csv("./data/afghanistan_uppsala.csv") %>%
+  read_csv("./data/afghanistan_uppsala.csv") %>%
   janitor::clean_names() %>% 
   filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
   select(year, deaths_civilians) %>% 
@@ -269,38 +270,30 @@ read_csv("./data/afghanistan_uppsala.csv") %>%
   mutate(
     deaths_civilians_tot = `sum(deaths_civilians)`
   ) %>% 
-  select(-`sum(deaths_civilians)`)
+  select(-`sum(deaths_civilians)`) 
 
 civilian_deaths_p =
 afghan_upp_df %>% 
-  ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
+  ggplot(aes(x = year, y = deaths_civilians_tot)) +
    geom_line() +
   labs(
-    title = "Aidworkers and Civilians Killed",
+    title = "Total # Civilians Killed per Year",
     x = "Year",
-    y = "Number Killed"
+    y = "Number Civilians Killed"
 )
+
 # use patchwork to make two separate plots and have them side-by-side
-afghan_upp_df %>% 
-  ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
-   geom_line() +
-  labs(
-    title = "Total # of Civilians Killed per year",
-    x = "Year",
-    y = "Number Killed"
-    ) 
 
 aidworker_deaths_p + civilian_deaths_p
 
-#Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no 'side by side' analysis here? 
 
 ```
 
-# Kailey notes: Are we using SHCC or complete scrap? 
 
-#SHCC Afghanistan dataset (need to bring in multiple years) 
 
-```{r}
+
+
+```{r exploration of SHCC, include=FALSE}
 shcc2018_df = 
   read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
   janitor::clean_names() %>% 

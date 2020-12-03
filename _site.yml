@@ -10,7 +10,7 @@ navbar:
       - text: "Attack Type Dashboard"
         href: https://ebbollman.shinyapps.io/dashboard_attack_type/
     - text: "Afghanistan"
-      href: 
+      href: Afghanistan_case_study.Rmd
   right:
     - text: "Project Report"
       href: final_report.html
