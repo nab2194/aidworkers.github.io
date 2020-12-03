@@ -3,6 +3,7 @@ title: "Section 1"
 author: "Natalie Boychuk, E. Brennan Bollman, Emily Bamforth, Alisha Sarakki, and Kailey Rishovd"
 date: "11/26/2020"
 output: github_document
+always_allow_html: true
 ---
 
 This document is a working draft of section 1 of our final report, which will focus on global levels of violence against aid workers. 

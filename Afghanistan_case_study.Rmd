@@ -1,6 +1,7 @@
 ---
 title: "Afghanistan Case Study" 
 output: github_document
+always_allow_html: true
 ---
 
 ```{r setup and data visualization preferences}
@@ -76,54 +77,11 @@ afghan_aidworker_df =
 ```
 
 
-## Kailey notes: I found it! This pivot longer is making the duplicates occur when added to the code chunk above.. also, this date code is not working for me! 
-
-afghan_aidworker_df %>% 
-  pivot_longer(
-  un:other,
-    names_to = "org_type", 
-    values_to = "number_orgs_affected"
-  ) %>% 
-  select(-number_orgs_affected)
-
-Was experimenting with the date conversion here
-```{r}
-
-# afghan_aidworker_df_new =
-#  afghan_aidworker_df%>% 
-#  mutate(month = as.numeric(month),
-#         day = as.numeric(day),
-#         year = as.numeric(year)) %>% view()
-
-#afghan_aidworker_df_new$date = as.Date(paste(afghan_aidworker_df_new$year, afghan_aidworker_df$month, afghan_aidworker_df_new$day, #sep = "-"), "%Y-%m-%d") 
-
-```
-
-pivot_longer(
-  un:other,
-    names_to = "org_type", 
-    values_to = "number_orgs_affected"
-  ) %>% 
-  select(-number_orgs_affected)
-
-aidworker_df$date <- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
-
 ## Starting EDA and vis
 
 Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)
 
 ```{r}
-#Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
-#Alisha notes: can't get these first few lines of code to run (117-121) so I'm just leaving them out for now...? Are they necessary?
-
-# take code from international (part 1 dataset) - just copy paste and add a filter(country == "Afghanistan")
-
-#afghan_aidw_international_df = 
-#  aidworker_df %>%
-#  filter(Country == "Afghanistan") %>% 
-#  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"))
-
-
 afghan_aidworker_international_df =
   afghan_aidworker_df %>%
   group_by(year) %>%
@@ -161,11 +119,6 @@ afghan_aidworker_df_new %>%
 More visualizations using aidworker df 
 
 ```{r}
-# Kailey notes: Not sure if this visualization is 100% complete in terms of making sense/usefulness but I think something like this could be interesting. Subplotted two interactive plots. You can see the means of attack next to the attack context. For example, the aerial bombardment spike in 2015 is tied to combat/crossfire attack type (could look at historical context here). Can also see that in 2009 there were 16 kidnappings due to an ambush. Open to thoughts on this but thought something like this could be cool. 
-
-# Alisha notes: This is great, thank you so much for making this. 
-
-
 means_attack_p =
 afghan_aidworker_df %>%
   plot_ly(
@@ -197,7 +150,6 @@ afghan_aidworker_df %>%
     y = "Number of Attacks"
   ) 
 
-# Alisha notes: love this graph! We'll want to define the time period as well which I'll figure out ASAP. 
 ```
 
 From section 1 vis: 
@@ -215,7 +167,7 @@ afghan_aidworker_df %>%
   )
 ```
 
-International vs National staff attacks?
+International vs National staff attacks
 
 ```{r}
 af_pct_intl_ntl =
@@ -252,7 +204,7 @@ afghan_aidworker_df %>%
   ) %>% 
   select(-`sum(total_victims)`) %>% 
   ggplot(aes(x = year, y = tot_victims)) +
-   geom_line() +
+   geom_line(color = "red", size =2) +
   labs(
     title = "Total # Aidworkers Killed per Year",
     x = "Year",
@@ -275,7 +227,7 @@ afghan_upp_df =
 civilian_deaths_p =
 afghan_upp_df %>% 
   ggplot(aes(x = year, y = deaths_civilians_tot)) +
-   geom_line() +
+   geom_line(color = "blue", size =2) +
   labs(
     title = "Total # Civilians Killed per Year",
     x = "Year",

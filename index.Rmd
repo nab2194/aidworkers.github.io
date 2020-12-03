@@ -8,6 +8,7 @@ output:
     toc: true
     toc_float: true
     theme: cosmo
+always_allow_html: true
 ---
 
 
@@ -23,11 +24,11 @@ Ambulance attack, via ICRC
 
 ## Motivation
 
-In recent decades, attacks on aid workers in complex crises have been steadily increasing, with a recorded 483 workers killed, kidnapped, or wounded in 2019. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time using several key comprehensive databases. 
+In recent decades, attacks on aid workers in complex crises have been steadily increasing, with a recorded 483 workers killed, kidnapped, or wounded in 2019 alone. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time using several key comprehensive databases. 
 
-Our analysis focuses on the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization): which has collected data on attacks against humanitarian aid workers globally since 1997. Additional information related to country violence comes from Safeguarding Health in Conflict Coalition (SHCC) and Uppsala Conflict Data Program (UCDP). These data are used to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). 
+Our analysis focuses on the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization), which has collected data on attacks against humanitarian aid workers globally since 1997. Additional information related to country violence comes from the Uppsala Conflict Data Program (UCDP). These data are used to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). 
 
-A closer focus on Afghanistan allows for a closer look at one of the most violent settings identified in the various databases used for global-level analysis. 
+A closer focus on Afghanistan allows for a closer look at one of the most consistently violent settings identified in the various databases used for global-level analysis. 
 
 
  
@@ -37,6 +38,7 @@ A closer focus on Afghanistan allows for a closer look at one of the most violen
  * A case study of Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers
  * A full report detailing our process (here)
  * A screencast walking you through this website (here)
+ * A 2020 tribute to aid workers (here)
 
 
 

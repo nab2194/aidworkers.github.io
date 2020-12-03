@@ -1,5 +1,6 @@
 name: "Violence Against Aidworkers"
 output_dir: "."
+always_allow_html: true
 navbar:
   title: "Home"
   left:
@@ -9,8 +10,8 @@ navbar:
         href: exploratory_analyses.html
       - text: "Attack Type Dashboard"
         href: https://ebbollman.shinyapps.io/dashboard_attack_type/
-    - text: "Afghanistan"
-      href: Afghanistan_case_study.Rmd
+      - text: "Afghanistan"
+        href: Afghanistan_case_study.html
   right:
     - text: "Project Report"
       href: final_report.html

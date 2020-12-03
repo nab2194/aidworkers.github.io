@@ -5,6 +5,7 @@ output:
     toc: true
     toc_float: true
     theme: flatly
+always_allow_html: true
 ---
 
 ```{r setup include = FALSE}
