@@ -11,7 +11,7 @@
 
 
 
-<title>Afghanistan Case Study</title>
+<title>Afghanistan_case_study.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,19 +22,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -284,11 +271,27 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="dropdown-header">Global Trends</li>
-<li class="dropdown-header">Afghanistan</li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Global Trends
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="exploratory_analyses.html">Exploratory analyses</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Afghanistan_case_study.html">Afghanistan</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="final_report.html">Project Report</a>
+</li>
+<li>
   <a href="youtube.com">
     <span class="fa fa-play-circle fa-sm"></span>
      
@@ -315,18 +318,21 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Afghanistan Case Study</h1>
 
 </div>
 
 
+<div id="afghanistan-case-study" class="section level1">
+<h1>Afghanistan Case Study</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+
+## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✓ readr   1.3.1     ✓ forcats 0.5.0
+
+## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(readxl)
@@ -336,8 +342,9 @@ library(patchwork)
 library(leaflet)
 library(lubridate)</code></pre>
 <pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## Attaching package: &#39;lubridate&#39;
+
+## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     date, intersect, setdiff, union</code></pre>
 <pre class="r"><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
@@ -355,9 +362,6 @@ options(
 )
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d</code></pre>
-<p>##Explain</p>
-<p>Why we chose Afghanistan… Which datasets are being used…</p>
-<p>Using the years 2008-2016 because…. and supply code</p>
 <p>Aidworker dataset - cleaning and tailoring</p>
 <pre class="r"><code>aidworker_df = 
 read_csv(&quot;./data/security_incidents_2020-11-25.csv&quot;) %&gt;%
@@ -383,9 +387,11 @@ read_csv(&quot;./data/security_incidents_2020-11-25.csv&quot;) %&gt;%
 ##   Details = col_character(),
 ##   Verified = col_character(),
 ##   Source = col_character()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre><code>## Warning: 3 parsing failures.
+## )
+
+## See spec(...) for full column specifications.
+
+## Warning: 3 parsing failures.
 ##  row       col               expected      actual                                       file
 ## 1693 Latitude  no trailing characters , 24.933643 &#39;./data/security_incidents_2020-11-25.csv&#39;
 ## 1693 Longitude no trailing characters )           &#39;./data/security_incidents_2020-11-25.csv&#39;
@@ -395,216 +401,183 @@ read_csv(&quot;./data/security_incidents_2020-11-25.csv&quot;) %&gt;%
 afghan_aidw_df = 
 aidworker_df %&gt;% 
   filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) </code></pre>
-<p>Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)</p>
-<pre class="r"><code>#alisha, wondering if this would work... making two dfs one with a new var &#39;internationals_killed_tot&#39; and another &#39;nationals_killed_tot&#39; and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I&#39;m a little confused with what to do about this data, but im going to try condensing it. 
+  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;))
 
-afghan_aidw_international_df = 
-aidworker_df %&gt;% 
-  filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;% 
-  group_by(year) %&gt;% 
-  count(internationals_killed) %&gt;% 
-  mutate(
-    internationals_killed_tot = n
-  )
+# tried to write a function, didn&#39;t work. Tried to group by and summarize, didn&#39;t work. Tried to mutate and create a new column for totals but that somehow didn&#39;t work either. Also tried to recode the columns, and you guessed it - that didn&#39;t work. Had to do it like this, but it&#39;s not even remotely efficient, so if someone has a better way, please feel free to overwrite this. 
 
-afghan_aidw_national_df = 
-aidworker_df %&gt;% 
-  filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;%
-  group_by(year) %&gt;%
-  count(nationals_killed) %&gt;% 
-  mutate(
-    nationals_killed_tot = n
-  ) 
-
-afghan_aidw_df_new = 
-  left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = &quot;year&quot;) %&gt;% 
-  select(year, internationals_killed_tot, nationals_killed_tot) %&gt;% 
-  group_by(year) %&gt;% 
-  mutate(
-    yearly_internationals_killed = sum(internationals_killed_tot),
-    yearly_nationals_killed = sum(nationals_killed_tot)) %&gt;% 
-  select(year, yearly_internationals_killed, yearly_nationals_killed) %&gt;% 
-  slice(1, 16, 28, 40, 50, 54, 68, 86, 93)
-
-# %&gt;%  
-  # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %&gt;% view()
-  # this line of code isn&#39;t working (and nothing similar will work) because R is not recognizing &quot;year&quot; as a list - does anyone have another way of aggregating the data by year?
-
-#UPDATE:alisha, i think this works!! it might not be 100% the right way to do it but it sums up per year! 
-
-afghan_aidw_df_new %&gt;% 
-     ggplot(aes(x = year, y = yearly_internationals_killed, col = &quot;International&quot;)) +
-   geom_line() +
-  geom_line(aes(x = year, y = yearly_nationals_killed, col = &quot;National&quot;)) +
-  labs(
-    title = &quot;Number of Aidworkers Killed By Origin (National vs. International)&quot;,
-    x = &quot;Year&quot;,
-    y = &quot;Number Killed&quot;
-  ) </code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-1-1.png" width="90%" /></p>
-<div id="filter-uppsala-dataset-for-just-afghanistan-to-examine-overall-violence-overtime-alongside-violence-against-aidworkers" class="section level1">
-<h1>Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers</h1>
-</div>
-<div id="deaths-among-all-civilians-vs.-all-aidworkers-side-by-side" class="section level1">
-<h1>Deaths among all civilians vs. all aidworkers side by side</h1>
-<p>– are these different questions?</p>
-<p>Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)</p>
-<pre class="r"><code>#Looking at deaths among all civilians verses all aidworkers side by side
-
-#Aidworkers: 
-aidw_killed_df =   
 afghan_aidw_df %&gt;% 
-  group_by(year) %&gt;% 
-  count(total_killed) %&gt;%
-  select(year, n) %&gt;% 
-  mutate(
-    aidwk_killed = sum(n)) %&gt;% 
-  select(year, aidwk_killed) %&gt;% 
-  slice(1, 7, 11, 16, 21, 23, 30, 36, 43)
-
-
-#All civilians:
-afghan_upp_df = 
-read_csv(&quot;./data/afghanistan_uppsala.csv&quot;) %&gt;%
-  janitor::clean_names() %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;% 
-  select(year, deaths_civilians) %&gt;% 
-  group_by(year) %&gt;% 
-  count(deaths_civilians) %&gt;% 
-  mutate(
-    civilian_deaths = sum(n)
-  ) %&gt;% 
-  select(year, civilian_deaths) %&gt;% 
-  slice(1, 19, 39, 63, 84, 104, 123, 143, 164) </code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   relid = col_character(),
-##   active_year = col_logical(),
-##   code_status = col_character(),
-##   conflict_name = col_character(),
-##   dyad_name = col_character(),
-##   side_a = col_character(),
-##   side_b = col_character(),
-##   source_article = col_character(),
-##   source_office = col_character(),
-##   source_date = col_character(),
-##   source_headline = col_character(),
-##   source_original = col_character(),
-##   where_coordinates = col_character(),
-##   where_description = col_character(),
-##   adm_1 = col_character(),
-##   adm_2 = col_character(),
-##   geom_wkt = col_character(),
-##   country = col_character(),
-##   region = col_character(),
-##   date_start = col_character()
-##   # ... with 1 more columns
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre><code>## Warning: 33612 parsing failures.
-## row col   expected     actual                             file
-##   1  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   2  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   3  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   4  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   5  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-## ... ... .......... .......... ................................
-## See problems(...) for more details.</code></pre>
-<pre class="r"><code>##alisha, this slice function is creating doubles for 2009 onward... i tried slicing again and taking the first of each double and got the same thing returned... very confused... doesn&#39;t seem to create and issue for the plot but still might want to fix? 
-
-afghan_upp_df %&gt;% 
-  ggplot(aes(x = year, y = civilian_deaths, col = &quot;Civilian&quot;)) +
-   geom_line() +
-  geom_line(data = aidw_killed_df, aes(x = year, y = aidwk_killed, col = &quot;Aidworker&quot;)) +
-  labs(
-    title = &quot;Aidowrkers and Civilians Killed&quot;,
-    x = &quot;Year&quot;,
-    y = &quot;Number Killed&quot;
-  ) </code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
-<p>#SHCC Afghanistan dataset (need to bring in multiple years)</p>
-<pre class="r"><code>shcc2018_df = 
-  read_excel(&quot;data/2018-shcc-attacks-data.xlsx&quot;, skip = 1) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  rename_at(vars(matches(&quot;number_&quot;)), ~ str_remove(., &quot;number_&quot;)) %&gt;% 
-  filter(country_name == &quot;Afghanistan&quot;) %&gt;% 
-    mutate(tot_hc_workers_affected = 
-           affected_healthworker_killed + 
-           affected_healthworker_sgbv + 
-           affected_healthworker_arrested + 
-           affected_healthworker_injured + 
-           affected_healthworker_kidnapped) %&gt;% 
-  mutate(tot_hc_facilities_affected = 
-           impact_health_facility_num +
-           event_health_facility_destroyed_num +
-           event_health_facility_damaged_num +
-           impact_health_facility_armed_entry_num +
-           impact_health_supplies_taken_num +
-           impact_health_facility_occupation_num
-           ) %&gt;% 
-  mutate(tot_hc_transport_affected = 
-          impact_health_transport_destroyed_num + 
-           impact_health_transport_damaged_num +
-           impact_health_transport_abducted_num) 
-
-# these columns are just straight up full of N/As...........
-shcc2018_df %&gt;% 
-  ggplot(aes(x = date_occurrence, y = affected_healthworker_killed)) +
-   geom_line() +
-  geom_line(data = shcc2018_df, aes(x = date_occurrence, y = event_health_facility_destroyed_num)) +
-  labs(
-    title = &quot;Aidowrkers and HCFs Destroyed&quot;,
-    x = &quot;Date&quot;,
-    y = &quot;Number Killed&quot;
-  ) </code></pre>
-<pre><code>## Warning: Removed 10 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 97 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
-<pre class="r"><code># If we want to do a bar graph comparing total HCWs affected vs. total healthcare facilities affected in 2018 and 2019? Something is very off here.......
-
-
-shcc2019_df = 
-  read_excel(&quot;data/2019-shcc-healthcare-afghanistan-data.xlsx&quot;, skip = 1) %&gt;% 
-  janitor::clean_names() %&gt;%
-  rename_at(vars(matches(&quot;number_&quot;)), ~ str_remove(., &quot;number_&quot;)) %&gt;% 
-  filter(country_name == &quot;Afghanistan&quot;) %&gt;% 
-  select(-&quot;x12&quot;) %&gt;%
-  mutate(
-    tot_hc_worker_affected = 
-      affected_healthworker_killed + 
-      affected_healthworker_kidnapped +
-      affected_healthworker_threatened + 
-      affected_healthworker_injured + 
-      affected_healthworker_assaulted + 
-      affected_healthworker_sgbv
-    ) %&gt;% 
-  mutate(
-      tot_hc_facilities_affected = 
-        indicator_health_facility_destroyed_num +
-        indicator_health_facility_damaged_num + 
-        indicator_health_facility_armed_entry_num +
-        indicator_health_supplies_taken_num
-    ) %&gt;% 
-  mutate(
-       tot_hc_transport_affected = 
-         indicator_health_transport_destroyed_num +
-         indicator_health_transport_damaged_num +
-         indicator_health_transport_abducted_num
-      )</code></pre>
-<pre><code>## New names:
-## * `` -&gt; ...5
-## * `` -&gt; ...6
-## * `` -&gt; ...7
-## * `` -&gt; ...12</code></pre>
-</div>
-<div id="discuss-confounders-u.s.-administration-changes-troop-levels-in-country-natural-disastor" class="section level1">
-<h1>Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)</h1>
+   filter(year %in% c(&quot;2008&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   150
+## 2                     1    24
+## 3                     3     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2008&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0    78
+## 2                1    78
+## 3                2    12
+## 4                3     6
+## 5                5     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2009&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   144
+## 2                     1     6
+## 3                     3     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2009&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0    66
+## 2                1    78
+## 3                3     6
+## 4                4     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2010&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   330
+## 2                     1     6
+## 3                     8     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2010&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   228
+## 2                1    84
+## 3                2    24
+## 4                3     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2011&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   300
+## 2                     2     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2011&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   192
+## 2                1    84
+## 3                2    12
+## 4                3     6
+## 5                4    12</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2012&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   330
+## 2                     1     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2012&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   276
+## 2                1    60</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2013&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   474
+## 2                     1    12</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2013&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   318
+## 2                1   126
+## 3                2    12
+## 4                3    12
+## 5                4     6
+## 6                5     6
+## 7                6     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2014&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   294
+## 2                     1    18
+## 3                     2    12</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2014&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   216
+## 2                1    72
+## 3                2    18
+## 4                3     6
+## 5                6     6
+## 6                8     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2015&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   162</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2015&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0    90
+## 2                1    36
+## 3                2    12
+## 4                3     6
+## 5                5     6
+## 6                9     6
+## 7               14     6</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2016&quot;)) %&gt;% 
+  count(internationals_killed)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   internationals_killed     n
+##                   &lt;dbl&gt; &lt;int&gt;
+## 1                     0   150</code></pre>
+<pre class="r"><code>afghan_aidw_df %&gt;% 
+   filter(year %in% c(&quot;2016&quot;)) %&gt;% 
+  count(nationals_killed)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   nationals_killed     n
+##              &lt;dbl&gt; &lt;int&gt;
+## 1                0   102
+## 2                1    30
+## 3                2     6
+## 4                3     6
+## 5                4     6</code></pre>
 </div>
 
 
@@ -616,7 +589,7 @@ shcc2019_df =
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

@@ -1,0 +1,10 @@
+name: dashboard_attack_type
+title:
+username:
+account: ebbollman
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3342530
+bundleId: 3936163
+url: https://ebbollman.shinyapps.io/dashboard_attack_type/
+when: 1606965734.40242

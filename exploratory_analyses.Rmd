@@ -1,0 +1,26 @@
+---
+title: "Exploratory Analyses"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+---
+
+```{r include = FALSE}
+library("tidyverse")
+library("plotly")
+```
+
+# Most Deadly Countries and Years
+
+# Plots
+
+## International vs National Staff
+
+## Attack Types
+
+
+## Means of Attack
+
+
