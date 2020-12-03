@@ -126,7 +126,7 @@ glob_map = mapCountryData(joined_map, nameColumnToPlot = "tot_victims", addLegen
 
 ```
 
-It worked!!!! I think? Can filter by year. Concerned that the documentation specifies that the df that should be merged to the map should only have one country per line. Also, we're missing important countries that didn't exist on the underlying map (Palestine, Libya, DR Congo). I think we need to find out how they're stored in the underlying map so that we can recode the country names in our df before merging.
+It worked!!!! I think? Can filter by year (manually in the code). Concerned that the documentation specifies that the df that should be merged to the map should only have one country per line. Also, we're missing important countries that didn't exist on the underlying map (Palestine, Libya, DR Congo). I think we need to find out how they're stored in the underlying map so that we can recode the country names in our df before merging.
 
 ```{r unmatched_countries}
 joined_map$country %>% 
@@ -154,6 +154,67 @@ Then I found that the `rworldmap` package has a df with a list of synonyms for t
 
 Now I'm going to go back and try merging with the new df with tidied / matched names. I ran the code and found 0 failed codes. Yay! We've matched. Next steps involve confirming that we can match multiple rows of data with the same country.
 
+```{r back to gg_plot}
+map_world = map_data("world")
+
+map_world$region =
+  recode(map_world$region,
+         'Ivory Coast' = 'Cote D\'Ivoire',
+         'Syria' = 'Syrian Arab Republic'
+         )
+
+global_map_df$country =
+  recode(global_map_df$country,
+         'Occupied Palestinian Territories' = 'Palestine',
+         'DR Congo' = 'Democratic Republic of the Congo',
+         'Congo' = 'Republic of Congo',
+         'Libyan Arab Jamahiriya' = 'Libya',
+         'Chechnya' = 'Russia'
+         )
+
+global_map_df =
+  global_map_df %>% 
+  filter(country != "Kashmir")
+
+map_world =
+  map_world %>% 
+  rename(country = region)
+
+global_map_df_2019 =
+  global_map_df %>% 
+  filter(year == "2019")
+
+joined_map_2019 =
+  left_join(map_world, global_map_df_2019) %>% 
+  mutate(polygon_fill = ifelse(is.na(tot_victims), F, T))
+
+ggplot() +
+  geom_polygon(data = joined_map_2019, aes(x = long, y = lat, group = group, fill = polygon_fill))
+
+```
+
+After working through all this...if we want the map to be interactive (labels showing our data, etc.) I think we need to stick with `leaflet`. We can utilize a polygon layer in `leaflet`...I downloaded a geojson file, map of the world, from https://geojson-maps.ash.ms/
+
+```{r back_to_leaflet}
+countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
+
+main_map = leaflet(countries) %>% 
+  addTiles() %>% 
+  addPolygons()
+
+main_map
+```
+
+The above imposes polygons on the map. This is good. I think we can play around with the size of the outlines, as well as the fill.
+
+What will take a decent amount of work is mapping our data onto this map. (1) Need to compare names again to figure out how to merge? What names to update so we have a common variable to join on. (2) Think we may also have a problem with having countries being listed multiple times in our df (our observations are aggregated attacks within a country per year, not only per country). Make a function that plots individual data frames per year?
+
+```{r}
+view(countries)
+view(countries$name)
+```
+
+More thoughts for the morning...maybe geojson file contains lat/long data...should check. Can we somehow plot with lat long and aggregate by country? Although weird things were happening when trying to plot point data in leaflet earlier.
 
 Aid Worker Attack Map
 ===================================== 
@@ -173,3 +234,4 @@ Column {.tabset}
 ### GLOBAL MAP
 
 ```{r global_map}
+
