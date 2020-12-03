@@ -84,15 +84,16 @@ afghan_aidworker_df %>%
   ) %>% 
   select(-number_orgs_affected)
 
+Was experimenting with the date conversion here
 ```{r}
 
-afghan_aidworker_df_new =
-  afghan_aidworker_df%>% 
-  mutate(month = as.numeric(month),
-         day = as.numeric(day),
-         year = as.numeric(year)) %>% view()
+# afghan_aidworker_df_new =
+#  afghan_aidworker_df%>% 
+#  mutate(month = as.numeric(month),
+#         day = as.numeric(day),
+#         year = as.numeric(year)) %>% view()
 
-afghan_aidworker_df_new$date = as.Date(paste(afghan_aidworker_df_new$year, afghan_aidworker_df$month, afghan_aidworker_df_new$day, sep = "-"), "%Y-%m-%d") 
+#afghan_aidworker_df_new$date = as.Date(paste(afghan_aidworker_df_new$year, afghan_aidworker_df$month, afghan_aidworker_df_new$day, #sep = "-"), "%Y-%m-%d") 
 
 ```
 
@@ -122,44 +123,28 @@ Internationals vs. nationals killed (Not in the to-do list but has an interestin
 
 
 afghan_aidworker_international_df =
-  afghan_aidworker_df %>% 
-  group_by(year) %>% 
-  summarise(sum(internationals_killed)) %>% 
+  afghan_aidworker_df %>%
+  group_by(year) %>%
+  summarise(sum(internationals_killed)) %>%
   mutate(
     internationals_killed_tot = `sum(internationals_killed)`
-  ) %>% 
+  ) %>%
   select(year, internationals_killed_tot)
 
-afghan_aidworker_national_df = 
-  afghan_aidworker_df %>% 
+afghan_aidworker_national_df =
+  afghan_aidworker_df %>%
   group_by(year) %>%
-  count(nationals_killed) %>% 
-  mutate(
-    nationals_killed_tot = n
-  ) 
-
-afghan_aidw_df_new = 
-  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") %>% 
-  select(year, internationals_killed_tot, nationals_killed_tot) %>% 
-  group_by(year) %>% view()
-  mutate(
-    yearly_internationals_killed = sum(internationals_killed_tot),
-    yearly_nationals_killed = sum(nationals_killed_tot)) %>% 
-  select(year, yearly_internationals_killed, yearly_nationals_killed) %>% 
-  slice(1, 16, 28, 40, 50, 54, 68, 86, 93)
-  
-  summarise(sum(nationals_killed)) %>% 
+  summarise(sum(nationals_killed)) %>%
   mutate(
     nationals_killed_tot = `sum(nationals_killed)`
-  ) %>% 
+  ) %>%
   select(year, nationals_killed_tot)
 
+afghan_aidworker_df_new =
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year")
 
-afghan_aidworker_df_new = 
-  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") 
 
-
-afghan_aidworker_df_new %>% 
+afghan_aidworker_df_new %>%
      ggplot(aes(x = year, y = internationals_killed_tot, col = "International")) +
    geom_line() +
   geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
@@ -167,7 +152,7 @@ afghan_aidworker_df_new %>%
     title = "Number of Aidworkers Killed By Origin (National vs. International)",
     x = "Year",
     y = "Number Killed"
-  ) 
+  )
 
 # Alisha note: so when I run this I'm still getting multiples for some of the datapoints that I can't make sense of right now
 ```
@@ -180,18 +165,18 @@ More visualizations using aidworker df
 # Alisha notes: This is great, thank you so much for making this. 
 
 
-means_attack_p = 
+means_attack_p =
 afghan_aidworker_df %>%
   plot_ly(
-    x = ~year, y = ~total_victims, color = ~means_of_attack, 
-    type = "scatter") %>% 
+    x = ~year, y = ~total_victims, color = ~means_of_attack,
+    type = "scatter") %>%
     layout(
     title = "Victims per year by attack type")
 
 attack_context_p =
 afghan_aidworker_df %>%
   plot_ly(
-    x = ~year, y = ~total_victims, color = ~attack_context, 
+    x = ~year, y = ~total_victims, color = ~attack_context,
     type = "scatter") %>%
     layout(
     title = "Victims per year by attack context")
@@ -226,22 +211,22 @@ afghan_aidworker_df %>%
 International vs National staff attacks?
 
 ```{r}
-af_pct_intl_ntl = 
+af_pct_intl_ntl =
 afghan_aidworker_df %>%
-  group_by(year) %>% 
+  group_by(year) %>%
   summarize(tot_national = sum(total_national_staff),
             tot_intl = sum(total_international_staff),
             tot_both = sum(total_victims),
             pct_intl = (tot_intl/tot_both)*100,
-            pct_national = (tot_national/tot_both)*100) %>% 
-  ggplot(aes(x = year, y = pct_national, col = 3)) + 
+            pct_national = (tot_national/tot_both)*100) %>%
+  ggplot(aes(x = year, y = pct_national, col = 3)) +
   geom_line() +
-   geom_line(aes(x = year, y = pct_intl, col = 2)) + 
+   geom_line(aes(x = year, y = pct_intl, col = 2)) +
    labs(
     x = "Year",
     y = "% Attacked"
-   )
-
+   ) 
+## This one is not displaying anything for me
 ## Would still need to add labels for understanding
 ```
 
@@ -291,22 +276,24 @@ afghan_upp_df %>%
   ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
    geom_line() +
   labs(
-<<<<<<< HEAD
     title = "Aidworkers and Civilians Killed",
     x = "Year",
     y = "Number Killed"
-  ) 
+)
 # use patchwork to make two separate plots and have them side-by-side
-=======
+afghan_upp_df %>% 
+  ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
+   geom_line() +
+  labs(
     title = "Total # of Civilians Killed per year",
     x = "Year",
     y = "Number Killed"
-  ) 
+    ) 
 
 aidworker_deaths_p + civilian_deaths_p
 
 #Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no 'side by side' analysis here? 
->>>>>>> f508b2456d482820cb90337375df1b2c6e5c5ef3
+
 ```
 
 # Kailey notes: Are we using SHCC or complete scrap? 
@@ -381,6 +368,7 @@ shcc2019_df =
          indicator_health_transport_abducted_num
       )
 ```
+
 
 
 # Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)

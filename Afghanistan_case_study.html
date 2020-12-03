@@ -24,6 +24,13 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -321,12 +328,12 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(readxl)
@@ -340,6 +347,28 @@ library(lubridate)</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>library(xml2)
+library(rvest)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rvest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     pluck</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     guess_encoding</code></pre>
+<pre class="r"><code>library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
 <pre class="r"><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
 <pre><code>## Skipping install of &#39;wordcountaddin&#39; from a github remote, the SHA1 (8c063135) has not changed since last install.
 ##   Use `force = TRUE` to force installation</code></pre>
@@ -359,92 +388,177 @@ scale_fill_discrete = scale_fill_viridis_d</code></pre>
 <p>Why we chose Afghanistan… Which datasets are being used…</p>
 <p>Using the years 2008-2016 because…. and supply code</p>
 <p>Aidworker dataset - cleaning and tailoring</p>
-<pre class="r"><code>aidworker_df = 
-read_csv(&quot;./data/security_incidents_2020-11-25.csv&quot;) %&gt;%
+<pre class="r"><code>#Kailey notes: from section 1 cleaning and filtered for afghanistan/year
+
+url = &quot;https://aidworkersecurity.org/incidents/search&quot;
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %&gt;% 
+  html_nodes(css = &quot;table&quot;) %&gt;%  
+  first() %&gt;% 
+  html_table() %&gt;% 
+  as_tibble()
+
+afghan_aidworker_df =
+  aidworker_df %&gt;%
   janitor::clean_names() %&gt;% 
-  pivot_longer(
-    un:other,
-    names_to = &quot;org_type&quot;, 
-    values_to = &quot;number_orgs_affected&quot;
-  ) %&gt;% 
-  select(-number_orgs_affected)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   Country = col_character(),
-##   Region = col_character(),
-##   District = col_character(),
-##   City = col_character(),
-##   `Means of attack` = col_character(),
-##   `Attack context` = col_character(),
-##   Location = col_character(),
-##   `Actor type` = col_character(),
-##   `Actor name` = col_character(),
-##   Details = col_character(),
-##   Verified = col_character(),
-##   Source = col_character()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre><code>## Warning: 3 parsing failures.
-##  row       col               expected      actual                                       file
-## 1693 Latitude  no trailing characters , 24.933643 &#39;./data/security_incidents_2020-11-25.csv&#39;
-## 1693 Longitude no trailing characters )           &#39;./data/security_incidents_2020-11-25.csv&#39;
-## 2804 Latitude  no trailing characters ,           &#39;./data/security_incidents_2020-11-25.csv&#39;</code></pre>
-<pre class="r"><code>aidworker_df$date &lt;- as.Date(with(aidworker_df, paste(year, month, day, sep = &quot;-&quot;)), &quot;%Y-%m-%d&quot;)
-
-afghan_aidw_df = 
-aidworker_df %&gt;% 
+  select(-source, -verified) %&gt;% 
+  rename(year = year_sort_descending) %&gt;% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ &quot;yes&quot;,
+             ingo != 0 ~ &quot;yes&quot;,
+             icrc != 0 ~ &quot;yes&quot;,
+             ifrc != 0 ~ &quot;yes&quot;,
+             other != 0 ~ &quot;yes&quot;,
+             lngo_and_nrcs != 0 ~ &quot;no&quot;),
+         intl_org_affected = as.factor(intl_org_affected)) %&gt;% 
+  relocate(id, month, day, year, country, intl_org_affected) %&gt;% 
   filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) </code></pre>
-<p>Internationals vs. nationals killed (is this a plot of interest?? not in the to-do list but I guess we could use it? Interesting spike)</p>
-<pre class="r"><code>#alisha, wondering if this would work... making two dfs one with a new var &#39;internationals_killed_tot&#39; and another &#39;nationals_killed_tot&#39; and then merging the datasets? I am not sure why it is making so many rows for each year? Kailey - there are multiple because it records aid workers from different organizations as separate datapoints? I&#39;m a little confused with what to do about this data, but im going to try condensing it. 
+  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) 
 
-afghan_aidw_international_df = 
-aidworker_df %&gt;% 
-  filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;% 
-  group_by(year) %&gt;% 
-  count(internationals_killed) %&gt;% 
-  mutate(
-    internationals_killed_tot = n
-  )
+## Alisha: This all works for me and looks great</code></pre>
+<div id="kailey-notes-i-found-it-this-pivot-longer-is-making-the-duplicates-occur-when-added-to-the-code-chunk-above..-also-this-date-code-is-not-working-for-me" class="section level2">
+<h2>Kailey notes: I found it! This pivot longer is making the duplicates occur when added to the code chunk above.. also, this date code is not working for me!</h2>
+<p>afghan_aidworker_df %&gt;% pivot_longer( un:other, names_to = “org_type”, values_to = “number_orgs_affected” ) %&gt;% select(-number_orgs_affected)</p>
+<p>Was experimenting with the date conversion here</p>
+<pre class="r"><code># afghan_aidworker_df_new =
+#  afghan_aidworker_df%&gt;% 
+#  mutate(month = as.numeric(month),
+#         day = as.numeric(day),
+#         year = as.numeric(year)) %&gt;% view()
 
-afghan_aidw_national_df = 
-aidworker_df %&gt;% 
-  filter(country == &quot;Afghanistan&quot;) %&gt;% 
-  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;%
+#afghan_aidworker_df_new$date = as.Date(paste(afghan_aidworker_df_new$year, afghan_aidworker_df$month, afghan_aidworker_df_new$day, #sep = &quot;-&quot;), &quot;%Y-%m-%d&quot;) </code></pre>
+<p>pivot_longer( un:other, names_to = “org_type”, values_to = “number_orgs_affected” ) %&gt;% select(-number_orgs_affected)</p>
+<p>aidworker_df$date &lt;- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = “-”)), “%Y-%m-%d”)</p>
+</div>
+<div id="starting-eda-and-vis" class="section level2">
+<h2>Starting EDA and vis</h2>
+<p>Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)</p>
+<pre class="r"><code>#Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
+#Alisha notes: can&#39;t get these first few lines of code to run (117-121) so I&#39;m just leaving them out for now...? Are they necessary?
+
+# take code from international (part 1 dataset) - just copy paste and add a filter(country == &quot;Afghanistan&quot;)
+
+#afghan_aidw_international_df = 
+#  aidworker_df %&gt;%
+#  filter(Country == &quot;Afghanistan&quot;) %&gt;% 
+#  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;))
+
+
+afghan_aidworker_international_df =
+  afghan_aidworker_df %&gt;%
   group_by(year) %&gt;%
-  count(nationals_killed) %&gt;% 
+  summarise(sum(internationals_killed)) %&gt;%
   mutate(
-    nationals_killed_tot = n
-  ) 
-
-afghan_aidw_df_new = 
-  left_join(afghan_aidw_international_df, afghan_aidw_national_df, by = &quot;year&quot;) %&gt;% 
-  select(year, internationals_killed_tot, nationals_killed_tot) %&gt;% 
-  group_by(year) %&gt;% 
+    internationals_killed_tot = `sum(internationals_killed)`
+  ) %&gt;%
+  select(year, internationals_killed_tot)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>afghan_aidworker_national_df =
+  afghan_aidworker_df %&gt;%
+  group_by(year) %&gt;%
+  summarise(sum(nationals_killed)) %&gt;%
   mutate(
-    yearly_internationals_killed = sum(internationals_killed_tot),
-    yearly_nationals_killed = sum(nationals_killed_tot)) %&gt;% 
-  select(year, yearly_internationals_killed, yearly_nationals_killed) %&gt;% 
-  slice(1, 16, 28, 40, 50, 54, 68, 86, 93)
+    nationals_killed_tot = `sum(nationals_killed)`
+  ) %&gt;%
+  select(year, nationals_killed_tot)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>afghan_aidworker_df_new =
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = &quot;year&quot;)
 
-# %&gt;%  
-  # aggregate(cbind(deaths_civilians, deaths_unknown) ~ year, sum) %&gt;% view()
-  # this line of code isn&#39;t working (and nothing similar will work) because R is not recognizing &quot;year&quot; as a list - does anyone have another way of aggregating the data by year?
 
-#UPDATE:alisha, i think this works!! it might not be 100% the right way to do it but it sums up per year! 
-
-afghan_aidw_df_new %&gt;% 
-     ggplot(aes(x = year, y = yearly_internationals_killed, col = &quot;International&quot;)) +
+afghan_aidworker_df_new %&gt;%
+     ggplot(aes(x = year, y = internationals_killed_tot, col = &quot;International&quot;)) +
    geom_line() +
-  geom_line(aes(x = year, y = yearly_nationals_killed, col = &quot;National&quot;)) +
+  geom_line(aes(x = year, y = nationals_killed_tot, col = &quot;National&quot;)) +
   labs(
     title = &quot;Number of Aidworkers Killed By Origin (National vs. International)&quot;,
     x = &quot;Year&quot;,
     y = &quot;Number Killed&quot;
+  )</code></pre>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<pre class="r"><code># Alisha note: so when I run this I&#39;m still getting multiples for some of the datapoints that I can&#39;t make sense of right now</code></pre>
+<p>More visualizations using aidworker df</p>
+<pre class="r"><code># Kailey notes: Not sure if this visualization is 100% complete in terms of making sense/usefulness but I think something like this could be interesting. Subplotted two interactive plots. You can see the means of attack next to the attack context. For example, the aerial bombardment spike in 2015 is tied to combat/crossfire attack type (could look at historical context here). Can also see that in 2009 there were 16 kidnappings due to an ambush. Open to thoughts on this but thought something like this could be cool. 
+
+# Alisha notes: This is great, thank you so much for making this. 
+
+
+means_attack_p =
+afghan_aidworker_df %&gt;%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~means_of_attack,
+    type = &quot;scatter&quot;) %&gt;%
+    layout(
+    title = &quot;Victims per year by attack type&quot;)
+
+attack_context_p =
+afghan_aidworker_df %&gt;%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~attack_context,
+    type = &quot;scatter&quot;) %&gt;%
+    layout(
+    title = &quot;Victims per year by attack context&quot;)
+
+subplot(means_attack_p, attack_context_p)</code></pre>
+<pre><code>## No scatter mode specifed:
+##   Setting the mode to markers
+##   Read more about this attribute -&gt; https://plot.ly/r/reference/#scatter-mode</code></pre>
+<pre><code>## Warning: `arrange_()` is deprecated as of dplyr 0.7.0.
+## Please use `arrange()` instead.
+## See vignette(&#39;programming&#39;) for more help
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
+## Returning the palette you asked for with that many colors
+
+## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
+## Returning the palette you asked for with that many colors</code></pre>
+<pre><code>## No scatter mode specifed:
+##   Setting the mode to markers
+##   Read more about this attribute -&gt; https://plot.ly/r/reference/#scatter-mode</code></pre>
+<div id="htmlwidget-393eb0fe27ebe67daec7" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-393eb0fe27ebe67daec7">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per year by attack context","hovermode":"closest","showlegend":true},"attrs":{"119f64db7516":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"119f3e42b15":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>afghan_aidworker_df %&gt;% 
+     ggplot(aes(x = location, fill = means_of_attack)) +
+   geom_bar() +
+  labs(
+    title = &quot;Attacks per location and by what means of attack&quot;,
+    x = &quot;Location&quot;
   ) </code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-1-1.png" width="90%" /></p>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+<pre class="r"><code># Alisha notes: love this graph! We&#39;ll want to define the time period as well which I&#39;ll figure out ASAP. </code></pre>
+<p>From section 1 vis:</p>
+<p>looking at frequency of attacks on staff of various organizations yes/no</p>
+<pre class="r"><code>afghan_aidworker_df %&gt;% 
+  ggplot(aes(x = intl_org_affected)) + 
+  geom_bar()</code></pre>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<p>International vs National staff attacks?</p>
+<pre class="r"><code>af_pct_intl_ntl =
+afghan_aidworker_df %&gt;%
+  group_by(year) %&gt;%
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %&gt;%
+  ggplot(aes(x = year, y = pct_national, col = 3)) +
+  geom_line() +
+   geom_line(aes(x = year, y = pct_intl, col = 2)) +
+   labs(
+    x = &quot;Year&quot;,
+    y = &quot;% Attacked&quot;
+   ) </code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>## This one is not displaying anything for me
+## Would still need to add labels for understanding</code></pre>
+</div>
+<div id="kailey-notes-need-to-scrape-uppsala-data-from-web-instead-of-loading-in-by-.csv" class="section level2">
+<h2>Kailey notes: need to scrape uppsala data from web instead of loading in by .csv</h2>
+</div>
 <div id="filter-uppsala-dataset-for-just-afghanistan-to-examine-overall-violence-overtime-alongside-violence-against-aidworkers" class="section level1">
 <h1>Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers</h1>
 </div>
@@ -455,30 +569,34 @@ afghan_aidw_df_new %&gt;%
 <pre class="r"><code>#Looking at deaths among all civilians verses all aidworkers side by side
 
 #Aidworkers: 
-aidw_killed_df =   
-afghan_aidw_df %&gt;% 
+aidworker_deaths_p = 
+afghan_aidworker_df %&gt;% 
   group_by(year) %&gt;% 
-  count(total_killed) %&gt;%
-  select(year, n) %&gt;% 
+  summarise(sum(total_victims)) %&gt;%
   mutate(
-    aidwk_killed = sum(n)) %&gt;% 
-  select(year, aidwk_killed) %&gt;% 
-  slice(1, 7, 11, 16, 21, 23, 30, 36, 43)
-
-
-#All civilians:
+    tot_victims = `sum(total_victims)`
+  ) %&gt;% 
+  select(-`sum(total_victims)`) %&gt;% 
+  ggplot(aes(x = year, y = tot_victims, col = &quot;Aidworkers&quot;)) +
+   geom_line() +
+  labs(
+    title = &quot;Total # of Aidworkers Killed per year&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Number Killed&quot;
+  ) </code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>#All civilians:
 afghan_upp_df = 
 read_csv(&quot;./data/afghanistan_uppsala.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;% 
   filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) %&gt;% 
   select(year, deaths_civilians) %&gt;% 
   group_by(year) %&gt;% 
-  count(deaths_civilians) %&gt;% 
+  summarise(sum(deaths_civilians)) %&gt;% 
   mutate(
-    civilian_deaths = sum(n)
+    deaths_civilians_tot = `sum(deaths_civilians)`
   ) %&gt;% 
-  select(year, civilian_deaths) %&gt;% 
-  slice(1, 19, 39, 63, 84, 104, 123, 143, 164) </code></pre>
+  select(-`sum(deaths_civilians)`)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -514,18 +632,32 @@ read_csv(&quot;./data/afghanistan_uppsala.csv&quot;) %&gt;%
 ##   5  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
 ## ... ... .......... .......... ................................
 ## See problems(...) for more details.</code></pre>
-<pre class="r"><code>##alisha, this slice function is creating doubles for 2009 onward... i tried slicing again and taking the first of each double and got the same thing returned... very confused... doesn&#39;t seem to create and issue for the plot but still might want to fix? 
-
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>civilian_deaths_p =
 afghan_upp_df %&gt;% 
-  ggplot(aes(x = year, y = civilian_deaths, col = &quot;Civilian&quot;)) +
+  ggplot(aes(x = year, y = deaths_civilians_tot, col = &quot;Civilian&quot;)) +
    geom_line() +
-  geom_line(data = aidw_killed_df, aes(x = year, y = aidwk_killed, col = &quot;Aidworker&quot;)) +
   labs(
-    title = &quot;Aidowrkers and Civilians Killed&quot;,
+    title = &quot;Aidworkers and Civilians Killed&quot;,
     x = &quot;Year&quot;,
     y = &quot;Number Killed&quot;
-  ) </code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+)
+# use patchwork to make two separate plots and have them side-by-side
+afghan_upp_df %&gt;% 
+  ggplot(aes(x = year, y = deaths_civilians_tot, col = &quot;Civilian&quot;)) +
+   geom_line() +
+  labs(
+    title = &quot;Total # of Civilians Killed per year&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Number Killed&quot;
+    ) </code></pre>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+<pre class="r"><code>aidworker_deaths_p + civilian_deaths_p</code></pre>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-7-2.png" width="90%" /></p>
+<pre class="r"><code>#Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no &#39;side by side&#39; analysis here? </code></pre>
+</div>
+<div id="kailey-notes-are-we-using-shcc-or-complete-scrap" class="section level1">
+<h1>Kailey notes: Are we using SHCC or complete scrap?</h1>
 <p>#SHCC Afghanistan dataset (need to bring in multiple years)</p>
 <pre class="r"><code>shcc2018_df = 
   read_excel(&quot;data/2018-shcc-attacks-data.xlsx&quot;, skip = 1) %&gt;% 
@@ -565,7 +697,7 @@ shcc2018_df %&gt;%
 <pre><code>## Warning: Removed 97 row(s) containing missing values (geom_path).</code></pre>
 <pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
 ## the group aesthetic?</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
 <pre class="r"><code># If we want to do a bar graph comparing total HCWs affected vs. total healthcare facilities affected in 2018 and 2019? Something is very off here.......
 
 
