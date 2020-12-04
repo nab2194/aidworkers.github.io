@@ -2,6 +2,7 @@
 title: "Patterns in Aid Worker Attacks over Time"
 output: 
   flexdashboard::flex_dashboard:
+    theme: cosmo 
     orientation: columns
     vertical_layout: fill
     source_code: embed
@@ -17,6 +18,7 @@ library(tidyverse)
 library(shiny)
 library(xml2)
 library(rvest)
+library(rsconnect)
 ```
 
 ```{r loading and tidying data }
@@ -242,3 +244,11 @@ renderPlotly({
 })
 
 ```
+
+```{r}
+library(shiny)
+deployApp()
+
+
+```
+
