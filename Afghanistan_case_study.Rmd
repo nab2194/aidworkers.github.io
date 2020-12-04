@@ -15,6 +15,7 @@ library(lubridate)
 library(xml2)
 library(rvest)
 library(plotly)
+library(ps)
 
 devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(

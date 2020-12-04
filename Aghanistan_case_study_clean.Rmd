@@ -1,0 +1,254 @@
+---
+title: "Afghanistan Case Study" 
+output: github_document
+---
+
+```{r setup and data visualization preferences}
+library(tidyverse)
+library(readxl)
+library(p8105.datasets)
+library(hexbin)
+library(patchwork)
+library(leaflet)
+library(lubridate)
+library(xml2)
+library(rvest)
+library(plotly)
+
+devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+##Explain 
+
+Why we chose Afghanistan... 
+Which datasets are being used... 
+
+Using the years 2008-2016 because.... and supply code 
+
+Aidworker dataset - cleaning and tailoring
+
+```{r basic cleaning and exploring}
+#Kailey notes: from section 1 cleaning and filtered for afghanistan/year
+
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+afghan_aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected) %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"))
+```
+
+
+## Kailey notes: I found it! This pivot longer is making the duplicates occur when added to the code chunk above.. also, this date code is not working for me! 
+
+pivot_longer(
+  un:other,
+    names_to = "org_type", 
+    values_to = "number_orgs_affected"
+  ) %>% 
+  select(-number_orgs_affected)
+
+aidworker_df$date <- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = "-")), "%Y-%m-%d")
+
+## Starting EDA and vis
+
+Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)
+
+```{r}
+#Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
+
+afghan_aidworker_international_df =
+  afghan_aidworker_df %>% 
+  group_by(year) %>% 
+  summarise(sum(internationals_killed)) %>% 
+  mutate(
+    internationals_killed_tot = `sum(internationals_killed)`
+  ) %>% 
+  select(year, internationals_killed_tot)
+
+afghan_aidworker_national_df = 
+  afghan_aidworker_df %>% 
+  group_by(year) %>%
+  summarise(sum(nationals_killed)) %>% 
+  mutate(
+    nationals_killed_tot = `sum(nationals_killed)`
+  ) %>% 
+  select(year, nationals_killed_tot)
+
+afghan_aidworker_df_new = 
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year") 
+
+
+afghan_aidworker_df_new %>% 
+     ggplot(aes(x = year, y = internationals_killed_tot, col = "International")) +
+   geom_line() +
+  geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
+  labs(
+    title = "Number of Aidworkers Killed By Origin (National vs. International)",
+    x = "Year",
+    y = "Number Killed"
+  ) 
+```
+
+More visualizations using aidworker df 
+
+```{r}
+# Kailey notes: Not sure if this visualization is 100% complete in terms of making sense/usefulness but I think something like this could be interesting. Subplotted two interactive plots. You can see the means of attack next to the attack context. For example, the aerial bombardment spike in 2015 is tied to combat/crossfire attack type (could look at historical context here). Can also see that in 2009 there were 16 kidnappings due to an ambush. Open to thoughts on this but thought something like this could be cool. 
+
+
+means_attack_p = 
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~means_of_attack, 
+    type = "scatter") %>% 
+    layout(
+    title = "Victims per year by attack type")
+
+attack_context_p =
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~attack_context, 
+    type = "scatter") %>%
+    layout(
+    title = "Victims per year by attack context")
+
+subplot(means_attack_p, attack_context_p)
+
+```
+
+
+```{r}
+afghan_aidworker_df %>% 
+     ggplot(aes(x = location, fill = means_of_attack)) +
+   geom_bar() +
+  labs(
+    title = "Attacks per location and by what means of attack",
+    x = "Location"
+  ) 
+```
+
+From section 1 vis: 
+
+looking at frequency of attacks on staff of various organizations yes/no
+
+```{r}
+afghan_aidworker_df %>% 
+  ggplot(aes(x = intl_org_affected)) + 
+  geom_bar()
+```
+
+International vs National staff attacks?
+
+```{r}
+af_pct_intl_ntl = 
+afghan_aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national, col = 3)) + 
+  geom_line() +
+   geom_line(aes(x = year, y = pct_intl, col = 2)) + 
+   labs(
+    x = "Year",
+    y = "% Attacked"
+   )
+
+## Would still need to add labels for understanding
+```
+
+## Kailey notes: need to scrape uppsala data from web instead of loading in by .csv
+
+# Filter Uppsala dataset for just Afghanistan to examine overall violence overtime alongside violence against aidworkers 
+# Deaths among all civilians vs. all aidworkers side by side
+-- are these different questions? 
+
+Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)
+
+```{r}
+#Looking at deaths among all civilians verses all aidworkers side by side
+
+#Aidworkers: 
+aidworker_deaths_p = 
+afghan_aidworker_df %>% 
+  group_by(year) %>% 
+  summarise(sum(total_victims)) %>%
+  mutate(
+    tot_victims = `sum(total_victims)`
+  ) %>% 
+  select(-`sum(total_victims)`) %>% 
+  ggplot(aes(x = year, y = tot_victims, col = "Aidworkers")) +
+   geom_line() +
+  labs(
+    title = "Total # of Aidworkers Killed per year",
+    x = "Year",
+    y = "Number Killed"
+  ) 
+
+#All civilians:
+afghan_upp_df = 
+read_csv("./data/afghanistan_uppsala.csv") %>%
+  janitor::clean_names() %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+  select(year, deaths_civilians) %>% 
+  group_by(year) %>% 
+  summarise(sum(deaths_civilians)) %>% 
+  mutate(
+    deaths_civilians_tot = `sum(deaths_civilians)`
+  ) %>% 
+  select(-`sum(deaths_civilians)`)
+
+civilian_deaths_p =
+afghan_upp_df %>% 
+  ggplot(aes(x = year, y = deaths_civilians_tot, col = "Civilian")) +
+   geom_line() +
+  labs(
+    title = "Total # of Civilians Killed per year",
+    x = "Year",
+    y = "Number Killed"
+  ) 
+
+aidworker_deaths_p + civilian_deaths_p
+
+#Kailey notes: Total victims = all aidworkers killed, right? Do these make sense to go side by side or is there no 'side by side' analysis here? 
+```
+
+# Kailey notes: Are we using SHCC or complete scrap? 
+
+
+# Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)
