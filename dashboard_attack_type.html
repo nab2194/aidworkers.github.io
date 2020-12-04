@@ -2764,7 +2764,7 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out1f1592b83618828c" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="out3373ef292374b3e7" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 </div>
 </div>
@@ -2906,14 +2906,31 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="outfc582cb70cb2a5dc" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="outee02326853887248" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 <div id="section-international-aid-worker-incidents" class="section level3">
 <h3>International Aid Worker Incidents</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out40dee1b3bd9c36b2" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="outd853b48ed089ffbb" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<pre><code>Preparing to deploy application...DONE
+Uploading bundle for application: 3354006...DONE
+Deploying bundle: 3944283 for application: 3354006 ...
+Waiting for task: 835041875
+  building: Parsing manifest
+  building: Building image: 4495202
+  building: Fetching packages
+  building: Installing packages
+  building: Installing files
+  building: Pushing image: 4495202
+  deploying: Starting instances
+  rollforward: Activating new instances
+  terminating: Stopping old instances
+Application successfully deployed to https://ebbollman.shinyapps.io/aidworkersgithub/</code></pre>
 </div>
 </div>
 </div>
@@ -2941,6 +2958,7 @@ $(document).ready(function () {
 title: "Patterns in Aid Worker Attacks over Time"
 output: 
   flexdashboard::flex_dashboard:
+    theme: cosmo 
     orientation: columns
     vertical_layout: fill
     source_code: embed
@@ -2956,6 +2974,7 @@ library(tidyverse)
 library(shiny)
 library(xml2)
 library(rvest)
+library(rsconnect)
 ```
 
 ```{r loading and tidying data }
@@ -3181,6 +3200,14 @@ renderPlotly({
 })
 
 ```
+
+```{r}
+library(shiny)
+deployApp()
+
+
+```
+
 </code></pre>
 </div>
 <script type="text/javascript">
