@@ -1,6 +1,9 @@
 ---
 title: "Afghanistan Case Study" 
-output: github_document
+output: 
+  html_document: 
+    toc: true 
+    toc_float: true 
 ---
 
 ```{r setup and data visualization preferences}
@@ -15,7 +18,6 @@ library(xml2)
 library(rvest)
 library(plotly)
 
-devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,

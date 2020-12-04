@@ -2764,7 +2764,7 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out37ed3e50b5fb8da9" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="outec787c841fe99bc6" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 </div>
 </div>
@@ -2906,14 +2906,14 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out8b89c82c68855e8a" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="out210adeadb349e13d" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 <div id="section-international-aid-worker-incidents" class="section level3">
 <h3>International Aid Worker Incidents</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="outdf8fdfbbefeafb10" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="out5900c2c1e813390d" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 </div>
 </div>
@@ -3012,15 +3012,6 @@ aidworker_df =
            means_of_attack == "Unknown" ~ "Unknown", 
            means_of_attack == "Bodily assault" ~ "Bodily assault"
            ))
-
-## dataframe for all aid worker attacks 
-
-all_attacks = 
-aidworker_df %>% 
-  drop_na(year) %>% 
-  select(id, year, country, total_national_staff, means_of_attack, attack_context, intl_org_affected, location, attack_abr) %>% 
-  as_tibble() %>% 
-  group_by(means_of_attack)
 
 
 ```

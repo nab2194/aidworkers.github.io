@@ -22,6 +22,4 @@ navbar:
 output:
   html_document:
     theme: flatly
-  includes:
-    after_body: footer.html
     
