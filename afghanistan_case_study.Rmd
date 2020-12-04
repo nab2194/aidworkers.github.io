@@ -154,12 +154,12 @@ subplot(means_attack_p, attack_context_p)
 Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left [19 dead and 37 wounded](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003) (including patients and aid workers).
 
 On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that 
-hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. 
+[hit](https://www.msf.org/kunduz-hospital-attack-depth) a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. 
 
 Kunduz was the Taliban's last stronghold before being driven out by NATO. 
 
 ![](https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg)
-MSF hospital in Kunduz, post-U.S. air strike via [MSF](https://msf-media.imgix.net/AssetLink/0vrsc8d066cx508418gj1qhr3e1345em.jpg)
+MSF hospital in Kunduz, post-U.S. air strike (via [MSF](https://msf-media.imgix.net/AssetLink/0vrsc8d066cx508418gj1qhr3e1345em.jpg))
 
 
 

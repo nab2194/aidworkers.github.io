@@ -16,8 +16,7 @@ always_allow_html: true
 
 
 
-
-via [NYT](https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg)
+Afghan police officer on duty at an ICRC compound post-attack. via [NYT](https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg)
 
 
 
@@ -36,9 +35,10 @@ We want to acknowledge that some of the content in this website including images
 
  * Stratified analyses of global trends in violence against aid workers
  * A case study of Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers
- * A full report detailing our process (see report tab)
+ * A full report detailing our process (see Project Report tab)
  * A screencast walking you through this website (see play button icon)
- * A 2020 tribute to aid workers (see ambulance icon)
+ * The github repository containing our raw code and analyses (see Github icon)
+ * A World Health Organization 2020 tribute to aid workers (see ambulance icon)
 
 
 
