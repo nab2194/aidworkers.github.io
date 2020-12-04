@@ -327,7 +327,7 @@ aidworker_df %>%
 ```
 
 
-Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 are discussed in the accompanying case study. 
+Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 are discussed in the accompanying case study. A rise in attacks in Syria corresponds to the start of the Syrian Civil War in 2011.  
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -390,7 +390,7 @@ danger_countries_df =
   mutate(rank = min_rank(desc(tot_attacks))) %>% 
   filter(rank < 6)
 
-plot_type = 
+  plot_type = 
   aidworker_df %>%
   filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
                         "Syrian Arab Republic")) %>% 
@@ -401,11 +401,10 @@ plot_type =
   ggplot(aes(x = country, y = attacks, fill = attack_abr)) + 
   geom_bar(stat="identity") + 
   labs(x = "Country",
-       y = "Number of attacks") + 
-  viridis::scale_fill_viridis(
-    name = "Attack type",
-    discrete = TRUE
-  )
+       y = "Number of Attacks (Type)") + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) + 
+  theme(legend.text=element_text(size=10)) + 
+  theme(legend.title = element_blank())
 
 plot_context = 
   aidworker_df %>%
@@ -418,14 +417,13 @@ plot_context =
   ggplot(aes(x = country, y = attacks, fill = attack_context)) + 
   geom_bar(stat="identity") + 
   labs(x = "Country",
-       y = "Number of attacks") + 
-  viridis::scale_fill_viridis(
-    name = "Attack context",
-    discrete = TRUE
-  )
+       y = "Number of Attacks (Context)") + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) +
+  theme(legend.text=element_text(size=10)) + 
+  theme(legend.title = element_blank())
 
 plot_type + plot_context + 
-plot_annotation(title = "Most Dangerous Countries: Attack Types and Contexts")
+plot_annotation(title = "Most Dangerous Countries: Attack Types (Left) and Contexts (Right)")
 
 ```
 
