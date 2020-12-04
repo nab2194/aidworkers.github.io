@@ -74,15 +74,6 @@ aidworker_df =
            means_of_attack == "Bodily assault" ~ "Bodily assault"
            ))
 
-## dataframe for all aid worker attacks 
-
-all_attacks = 
-aidworker_df %>% 
-  drop_na(year) %>% 
-  select(id, year, country, total_national_staff, means_of_attack, attack_context, intl_org_affected, location, attack_abr) %>% 
-  as_tibble() %>% 
-  group_by(means_of_attack)
-
 
 ```
 
