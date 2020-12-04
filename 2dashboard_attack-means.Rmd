@@ -1,0 +1,246 @@
+---
+title: "Aid Worker Attacks by Means of Attack over Time"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: cosmo 
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)
+library(plotly)
+library(viridis)
+library(tidyverse)
+library(shiny)
+library(xml2)
+library(rvest)
+library(rsconnect)
+```
+
+```{r loading and tidying data }
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
+
+aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  drop_na(location) %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
+
+empty_as_na <- function(x){
+    if("factor" %in% class(x)) x <- as.character(x) 
+    ifelse(as.character(x)!="", x, NA)
+}
+
+aidworker_df = 
+aidworker_df %>% mutate_each(funs(empty_as_na))
+
+aidworker_df = 
+  mutate(aidworker_df, 
+         attack_abr = case_when(
+           means_of_attack == "Kidnap-killing" ~ "Kidnapping",
+           means_of_attack == "Kidnapping" ~ "Kidnapping",
+           means_of_attack == "Body-borne IED" ~ "IED", 
+           means_of_attack == "Vehicle-born IED" ~ "IED", 
+           means_of_attack == "Roadside IED" ~ "IED",
+           means_of_attack == "Landmine" ~ "Explosives", 
+           means_of_attack == "Shelling" ~ "Explosives",
+           means_of_attack == "Other Explosives" ~ "Explosives",
+           means_of_attack == "Aerial bombardment" ~ "Explosives",
+           means_of_attack == "Rape/sexual assault" ~ "Rape/sexual assault",
+           means_of_attack == "Complex attack" ~ "Complex attack",
+           means_of_attack == "Shooting" ~ "Shooting",
+           means_of_attack == "Unknown" ~ "Unknown", 
+           means_of_attack == "Bodily assault" ~ "Bodily assault"
+           ))
+
+
+```
+
+Attacks on Aid Workers Over Time 
+==================================================
+
+Column  {.sidebar}
+-----------------------------------------------------------------------
+
+
+
+The plot on the right outlines types of attacks among all aid workers affected by violence. 
+
+How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, country, and field location (on the road, at home, office/compound)? 
+
+Move the sliders to explore patterns over time.
+
+```{r}
+
+## Means of attack 
+type_attack = aidworker_df %>% 
+  distinct(attack_abr) %>% pull()
+
+checkboxGroupInput("outcome_choice", 
+                   label = h3("Means of Attack"),
+                   choices = type_attack, selected = "Kidnapping")
+
+## Country 
+attack_country = aidworker_df %>% 
+  distinct(country) %>% pull()
+  
+textInput("attack_country", 
+          label = h3("Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')"),
+          value = "Afghanistan")
+
+## Location of Attack 
+loc_attack = aidworker_df %>% distinct(location) %>% pull()
+
+radioButtons(
+  "location_choice",
+  label = h3("Select Attack Location"),
+  choices = loc_attack, selected = "Road")
+
+## Year slider function 
+##Note to team - this works and is cool but changes the scale of years and sometimes goes to .5 - let's fix if we have time at the end but disregard if not 
+
+#years = aidworker_df %>% distinct(year) %>% pull()
+
+#sliderInput(
+ # "years_choice",
+  #label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
+```
+
+
+Column {tabset}
+-----------------------------------------------------------------------
+
+### All Attacks against Aid Workers 
+
+```{r}
+
+renderPlotly({ 
+  aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
+     mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context, '\n Event Description: ', details)) %>% 
+  plot_ly(x = ~year, y = ~total_victims, type = "scatter", mode = "lines", alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})
+
+```
+
+Attacks by Worker Nationality 
+=========================================
+
+Column  {.sidebar}
+-----------------------------------------------------------------------
+
+
+These plots highlight differences in attacks among national and international staff of aid organizations. 
+
+How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, location, and type of organization (international vs. national)? 
+  
+Move the sliders to explore patterns over time.
+
+```{r}
+
+## Means of attack 
+type_attack = aidworker_df %>% 
+  distinct(attack_abr) %>% pull()
+
+checkboxGroupInput("outcome_choice", 
+                   label = h3("Means of Attack"),
+                   choices = type_attack, selected = "Kidnapping")
+
+## Country 
+attack_country = aidworker_df %>% 
+  distinct(country) %>% pull()
+  
+textInput("attack_country", 
+          label = h3("Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')"),
+          value = "Afghanistan")
+
+
+## Location of attack 
+loc_attack = aidworker_df %>% distinct(location) %>% pull()
+
+radioButtons(
+  "location_choice",
+  label = h3("Select Attack Location"),
+  choices = loc_attack, selected = "Road"
+)
+
+## Type of Organization Affected 
+org_type = aidworker_df %>% distinct(intl_org_affected) %>% pull()
+
+#checkboxGroupInput("org_choice", 
+ #                  label = h3("International Organization Affected?"),
+  #                 choices = org_type, selected = "Yes")
+
+## Year slider function 
+#years = aidworker_df %>% distinct(year) %>% pull()
+
+#sliderInput(
+  #"years_choice",
+  #label = h3("Select Date Range"),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = "")
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### National Aid Worker Incidents 
+
+```{r}
+
+renderPlotly({ 
+  aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
+  mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context), '\n Event Description: ', details) %>% 
+  plot_ly(
+    x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
+    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})
+
+```
+
+### International Aid Worker Incidents 
+
+```{r}
+
+renderPlotly({ 
+  aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
+    mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context, '\n Event Description: ', details)) %>% 
+  plot_ly(
+    x = ~year, y = ~total_international_staff, type = "scatter", mode = "lines",
+    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})
+
+```
+

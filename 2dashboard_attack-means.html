@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Aid Worker Attacks by Means of Attack over Time</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="exploratory_analyses.html">Explore Global Trends</a>
+</li>
+<li>
+  <a href="dashboard_attack_type.html">Attack Type Dashboard</a>
+</li>
+<li>
+  <a href="afghanistan_case_study.html">Zoom In: Afghanistan</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="final_report.html">Project Report</a>
+</li>
+<li>
+  <a href="youtube.com">
+    <span class="fa fa-play-circle fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/nab2194/aidworkers.github.io">
+    <span class="fa fa-github fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines">
+    <span class="fa fa-ambulance fa-sm"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Aid Worker Attacks by Means of Attack over Time</h1>
+
+</div>
+
+
+<pre class="r"><code>url = &quot;https://aidworkersecurity.org/incidents/search&quot;
+aidworker_html = read_html(url)
+
+aidworker_df = 
+  aidworker_html %&gt;% 
+  html_nodes(css = &quot;table&quot;) %&gt;%  
+  first() %&gt;% 
+  html_table() %&gt;% 
+  as_tibble()
+
+aidworker_df =
+  aidworker_df %&gt;%
+  janitor::clean_names() %&gt;% 
+  drop_na(location) %&gt;% 
+  select(-source, -verified) %&gt;% 
+  rename(year = year_sort_descending) %&gt;% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ &quot;yes&quot;,
+             ingo != 0 ~ &quot;yes&quot;,
+             icrc != 0 ~ &quot;yes&quot;,
+             ifrc != 0 ~ &quot;yes&quot;,
+             other != 0 ~ &quot;yes&quot;,
+             lngo_and_nrcs != 0 ~ &quot;no&quot;),
+         intl_org_affected = as.factor(intl_org_affected)) %&gt;% 
+  relocate(id, month, day, year, country, intl_org_affected)
+
+empty_as_na &lt;- function(x){
+    if(&quot;factor&quot; %in% class(x)) x &lt;- as.character(x) 
+    ifelse(as.character(x)!=&quot;&quot;, x, NA)
+}
+
+aidworker_df = 
+aidworker_df %&gt;% mutate_each(funs(empty_as_na))</code></pre>
+<pre><code>## Warning: `funs()` is deprecated as of dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning: `mutate_each_()` is deprecated as of dplyr 0.7.0.
+## Please use `across()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre class="r"><code>aidworker_df = 
+  mutate(aidworker_df, 
+         attack_abr = case_when(
+           means_of_attack == &quot;Kidnap-killing&quot; ~ &quot;Kidnapping&quot;,
+           means_of_attack == &quot;Kidnapping&quot; ~ &quot;Kidnapping&quot;,
+           means_of_attack == &quot;Body-borne IED&quot; ~ &quot;IED&quot;, 
+           means_of_attack == &quot;Vehicle-born IED&quot; ~ &quot;IED&quot;, 
+           means_of_attack == &quot;Roadside IED&quot; ~ &quot;IED&quot;,
+           means_of_attack == &quot;Landmine&quot; ~ &quot;Explosives&quot;, 
+           means_of_attack == &quot;Shelling&quot; ~ &quot;Explosives&quot;,
+           means_of_attack == &quot;Other Explosives&quot; ~ &quot;Explosives&quot;,
+           means_of_attack == &quot;Aerial bombardment&quot; ~ &quot;Explosives&quot;,
+           means_of_attack == &quot;Rape/sexual assault&quot; ~ &quot;Rape/sexual assault&quot;,
+           means_of_attack == &quot;Complex attack&quot; ~ &quot;Complex attack&quot;,
+           means_of_attack == &quot;Shooting&quot; ~ &quot;Shooting&quot;,
+           means_of_attack == &quot;Unknown&quot; ~ &quot;Unknown&quot;, 
+           means_of_attack == &quot;Bodily assault&quot; ~ &quot;Bodily assault&quot;
+           ))</code></pre>
+<div id="attacks-on-aid-workers-over-time" class="section level1">
+<h1>Attacks on Aid Workers Over Time</h1>
+<div id="column" class="section level2 sidebar">
+<h2>Column</h2>
+<p>The plot on the right outlines types of attacks among all aid workers affected by violence.</p>
+<p>How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, country, and field location (on the road, at home, office/compound)?</p>
+<p>Move the sliders to explore patterns over time.</p>
+<pre class="r"><code>## Means of attack 
+type_attack = aidworker_df %&gt;% 
+  distinct(attack_abr) %&gt;% pull()
+
+checkboxGroupInput(&quot;outcome_choice&quot;, 
+                   label = h3(&quot;Means of Attack&quot;),
+                   choices = type_attack, selected = &quot;Kidnapping&quot;)</code></pre>
+<div id="outcome_choice" class="form-group shiny-input-checkboxgroup shiny-input-container">
+<label class="control-label" for="outcome_choice">
+<h3>Means of Attack</h3>
+</label>
+<div class="shiny-options-group">
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Unknown"/>
+<span>Unknown</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Shooting"/>
+<span>Shooting</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Kidnapping" checked="checked"/>
+<span>Kidnapping</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Explosives"/>
+<span>Explosives</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="IED"/>
+<span>IED</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Bodily assault"/>
+<span>Bodily assault</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Rape/sexual assault"/>
+<span>Rape/sexual assault</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Complex attack"/>
+<span>Complex attack</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value/>
+<span>NA</span>
+</label>
+</div>
+</div>
+</div>
+<pre class="r"><code>## Country 
+attack_country = aidworker_df %&gt;% 
+  distinct(country) %&gt;% pull()
+  
+textInput(&quot;attack_country&quot;, 
+          label = h3(&quot;Type Country of Interest (Try &#39;Somalia&#39;, &#39;Afghanistan&#39;, or &#39;DR Congo&#39;)&quot;),
+          value = &quot;Afghanistan&quot;)</code></pre>
+<div class="form-group shiny-input-container">
+<label class="control-label" for="attack_country">
+<h3>Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')</h3>
+</label>
+<input id="attack_country" type="text" class="form-control" value="Afghanistan"/>
+</div>
+<pre class="r"><code>## Location of Attack 
+loc_attack = aidworker_df %&gt;% distinct(location) %&gt;% pull()
+
+radioButtons(
+  &quot;location_choice&quot;,
+  label = h3(&quot;Select Attack Location&quot;),
+  choices = loc_attack, selected = &quot;Road&quot;)</code></pre>
+<div id="location_choice" class="form-group shiny-input-radiogroup shiny-input-container">
+<label class="control-label" for="location_choice">
+<h3>Select Attack Location</h3>
+</label>
+<div class="shiny-options-group">
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Unknown"/>
+<span>Unknown</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Office/compound"/>
+<span>Office/compound</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Road" checked="checked"/>
+<span>Road</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Home"/>
+<span>Home</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Project site"/>
+<span>Project site</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Custody"/>
+<span>Custody</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Public location"/>
+<span>Public location</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value/>
+<span>NA</span>
+</label>
+</div>
+</div>
+</div>
+<pre class="r"><code>## Year slider function 
+##Note to team - this works and is cool but changes the scale of years and sometimes goes to .5 - let&#39;s fix if we have time at the end but disregard if not 
+
+#years = aidworker_df %&gt;% distinct(year) %&gt;% pull()
+
+#sliderInput(
+ # &quot;years_choice&quot;,
+  #label = h3(&quot;Select Date Range&quot;),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = &quot;&quot;)</code></pre>
+</div>
+<div id="column-tabset" class="section level2">
+<h2>Column {tabset}</h2>
+<div id="all-attacks-against-aid-workers" class="section level3">
+<h3>All Attacks against Aid Workers</h3>
+<pre class="r"><code>renderPlotly({ 
+  aidworker_df %&gt;%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %&gt;% 
+     mutate(text_label = str_c(&quot;Country: &quot;, country, &#39;\nAttack Context: &#39;, attack_context, &#39;\n Event Description: &#39;, details)) %&gt;% 
+  plot_ly(x = ~year, y = ~total_victims, type = &quot;scatter&quot;, mode = &quot;lines&quot;, alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})</code></pre>
+<div id="outaf5dc0dcefd098b4" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+</div>
+</div>
+</div>
+<div id="attacks-by-worker-nationality" class="section level1">
+<h1>Attacks by Worker Nationality</h1>
+<div id="column-1" class="section level2 sidebar">
+<h2>Column</h2>
+<p>These plots highlight differences in attacks among national and international staff of aid organizations.</p>
+<p>How have attacks on aid workers changed over time? Do means of attack (IED, sexual assault, kidnapping, etc.) change based on the context, location, and type of organization (international vs. national)?</p>
+<p>Move the sliders to explore patterns over time.</p>
+<pre class="r"><code>## Means of attack 
+type_attack = aidworker_df %&gt;% 
+  distinct(attack_abr) %&gt;% pull()
+
+checkboxGroupInput(&quot;outcome_choice&quot;, 
+                   label = h3(&quot;Means of Attack&quot;),
+                   choices = type_attack, selected = &quot;Kidnapping&quot;)</code></pre>
+<div id="outcome_choice" class="form-group shiny-input-checkboxgroup shiny-input-container">
+<label class="control-label" for="outcome_choice">
+<h3>Means of Attack</h3>
+</label>
+<div class="shiny-options-group">
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Unknown"/>
+<span>Unknown</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Shooting"/>
+<span>Shooting</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Kidnapping" checked="checked"/>
+<span>Kidnapping</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Explosives"/>
+<span>Explosives</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="IED"/>
+<span>IED</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Bodily assault"/>
+<span>Bodily assault</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Rape/sexual assault"/>
+<span>Rape/sexual assault</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value="Complex attack"/>
+<span>Complex attack</span>
+</label>
+</div>
+<div class="checkbox">
+<label>
+<input type="checkbox" name="outcome_choice" value/>
+<span>NA</span>
+</label>
+</div>
+</div>
+</div>
+<pre class="r"><code>## Country 
+attack_country = aidworker_df %&gt;% 
+  distinct(country) %&gt;% pull()
+  
+textInput(&quot;attack_country&quot;, 
+          label = h3(&quot;Type Country of Interest (Try &#39;Somalia&#39;, &#39;Afghanistan&#39;, or &#39;DR Congo&#39;)&quot;),
+          value = &quot;Afghanistan&quot;)</code></pre>
+<div class="form-group shiny-input-container">
+<label class="control-label" for="attack_country">
+<h3>Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')</h3>
+</label>
+<input id="attack_country" type="text" class="form-control" value="Afghanistan"/>
+</div>
+<pre class="r"><code>## Location of attack 
+loc_attack = aidworker_df %&gt;% distinct(location) %&gt;% pull()
+
+radioButtons(
+  &quot;location_choice&quot;,
+  label = h3(&quot;Select Attack Location&quot;),
+  choices = loc_attack, selected = &quot;Road&quot;
+)</code></pre>
+<div id="location_choice" class="form-group shiny-input-radiogroup shiny-input-container">
+<label class="control-label" for="location_choice">
+<h3>Select Attack Location</h3>
+</label>
+<div class="shiny-options-group">
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Unknown"/>
+<span>Unknown</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Office/compound"/>
+<span>Office/compound</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Road" checked="checked"/>
+<span>Road</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Home"/>
+<span>Home</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Project site"/>
+<span>Project site</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Custody"/>
+<span>Custody</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value="Public location"/>
+<span>Public location</span>
+</label>
+</div>
+<div class="radio">
+<label>
+<input type="radio" name="location_choice" value/>
+<span>NA</span>
+</label>
+</div>
+</div>
+</div>
+<pre class="r"><code>## Type of Organization Affected 
+org_type = aidworker_df %&gt;% distinct(intl_org_affected) %&gt;% pull()
+
+#checkboxGroupInput(&quot;org_choice&quot;, 
+ #                  label = h3(&quot;International Organization Affected?&quot;),
+  #                 choices = org_type, selected = &quot;Yes&quot;)
+
+## Year slider function 
+#years = aidworker_df %&gt;% distinct(year) %&gt;% pull()
+
+#sliderInput(
+  #&quot;years_choice&quot;,
+  #label = h3(&quot;Select Date Range&quot;),  1997, 2020, value = c(2015, 2019), step = NULL, round = FALSE, ticks = TRUE, animate = FALSE, sep = &quot;&quot;)</code></pre>
+</div>
+<div id="column-2" class="section level2" data-width="650">
+<h2>Column</h2>
+<div id="national-aid-worker-incidents" class="section level3">
+<h3>National Aid Worker Incidents</h3>
+<pre class="r"><code>renderPlotly({ 
+  aidworker_df %&gt;%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %&gt;% 
+  mutate(text_label = str_c(&quot;Country: &quot;, country, &#39;\nAttack Context: &#39;, attack_context), &#39;\n Event Description: &#39;, details) %&gt;% 
+  plot_ly(
+    x = ~year, y = ~total_national_staff, type = &quot;scatter&quot;, mode = &quot;lines&quot;,
+    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})</code></pre>
+<div id="outae20c0633407aa7e" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+</div>
+<div id="international-aid-worker-incidents" class="section level3">
+<h3>International Aid Worker Incidents</h3>
+<pre class="r"><code>renderPlotly({ 
+  aidworker_df %&gt;%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %&gt;% 
+    mutate(text_label = str_c(&quot;Country: &quot;, country, &#39;\nAttack Context:&#39;, attack_context, &#39;\n Event Description: &#39;, details)) %&gt;% 
+  plot_ly(
+    x = ~year, y = ~total_international_staff, type = &quot;scatter&quot;, mode = &quot;lines&quot;,
+    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+})</code></pre>
+<div id="out34a40512019f8776" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
