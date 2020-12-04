@@ -128,6 +128,38 @@ layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Yea
 
 ## Most dangerous countries
 
+```{r}
+plot_2 = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_attacks = n_distinct(id),
+            tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_victims = sum(total_victims)) %>% 
+  mutate(rank = min_rank(desc(tot_victims))) %>% 
+  filter(rank < 51) %>% 
+  mutate(country = fct_reorder(country, tot_victims)) %>% 
+  mutate(text_label = 
+           str_c("Total Victims: ", tot_victims, "\nRank: ", rank, "\nInternational Staff: ",
+                 tot_intl, "\nNational Staff: ", tot_national)) %>% 
+  plot_ly(
+    x = ~country, y = ~tot_victims, text = ~text_label,
+          type = "scatter", mode = "markers")
+  
+layout(plot_2,
+       title = "Top 50 Most Dangerous Countries for Aid Workers",
+       xaxis = list(title = paste0(c(rep("&nbsp;", 20),
+                                         "Country",
+                                         rep("&nbsp;", 20),
+                                         rep("\n&nbsp;", 3)),
+                                       collapse = "")),
+       yaxis = list(title = "Total Victims"))
+
+
+```
+
+
+
 Types of violence for national and international staff
 
 ```{r message = FALSE, warning = FALSE}
