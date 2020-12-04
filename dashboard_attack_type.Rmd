@@ -245,10 +245,3 @@ renderPlotly({
 
 ```
 
-```{r}
-library(shiny)
-deployApp()
-
-
-```
-
