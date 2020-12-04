@@ -76,10 +76,6 @@ afghan_aidworker_df =
 
 ```
 
-```{r}
-# aidworker_df %>% 
-```
-
 
 ## Starting EDA and vis
 
