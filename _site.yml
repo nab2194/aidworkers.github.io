@@ -8,7 +8,7 @@ navbar:
     - text: "Attack Type Dashboard"
       href: dashboard_attack_type.html
     - text: "Zoom In: Afghanistan"
-      href: Afghanistan_case_study_clean.html
+      href: afghanistan_case_study.html
   right:
     - text: "Project Report"
       href: final_report.html
@@ -22,4 +22,6 @@ navbar:
 output:
   html_document:
     theme: flatly
+    
+    
     
