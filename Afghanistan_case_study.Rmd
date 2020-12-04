@@ -33,10 +33,10 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ##Explain 
 
-Why we chose Afghanistan... 
-Chose Afghanistan because it has consistently been among the most deadly countries for aid workers, so would have a lot of data. 
+We chose to focus on Afghanistan because it has consistently been among the most deadly countries for aid workers, so we expected fairly robust data. Further, Afghanistan especially has been heavily affected by American occupation, which has changed dramatically between presidential administrations. 
+
 Which datasets are being used... 
-Using Aid worker dataset and the Uppsala datset to compare aidworker deaths to Civilian deaths. We also intended to use a dataset (SHCC) describing attacks on aidworkers, health facilities, and healthcare transport, but this datset was not robust enough to support meaningful data visualization. As such, we chose to exclude it.
+We are using the aid worker dataset and the Uppsala datset to compare aidworker deaths to Civilian deaths. We also intended to use a dataset (SHCC) describing attacks on aidworkers, health facilities, and healthcare transport, but this dataset was not robust enough to support meaningful data visualization. As such, we chose to exclude it.
 
 Using the years 2008-2016 because.... and supply code 
 2008-2016 chosen to see whether there might be differences between the Bush (2008-2012) and Obama (2012-2016) administrations. 
@@ -84,12 +84,12 @@ Internationals vs. nationals killed (Not in the to-do list but has an interestin
 ```{r}
 afghan_aidworker_international_df =
   afghan_aidworker_df %>% 
-  group_by(year) %>% view()
+  group_by(year) %>% 
   summarise(sum(internationals_killed)) %>%
   mutate(
     internationals_killed_tot = `sum(internationals_killed)`
   ) %>%
-  select(year, internationals_killed_tot) %>% view()
+  select(year, internationals_killed_tot) 
 
 afghan_aidworker_national_df =
   afghan_aidworker_df %>%
@@ -109,12 +109,20 @@ afghan_aidworker_df_new %>%
    geom_line() +
   geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
   labs(
-    title = "Number of Aidworkers Killed By Origin (National vs. International)",
+    title = "Number of Aid Workers Killed By Origin (National vs. International)",
     x = "Year",
     y = "Number Killed"
   )
 
 ```
+
+*2012* - The drop in aid worker death is correlated with the withdrawal of half of American troops in Afghanistan. 
+
+*2013* - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the UN in 2013, "Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk...About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent.  Security arrangements of those organizations and the United Nations often left local humanitarian organizations less secure." Local aid workers rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations. After noting this sharp increase in attacks against local aid workers, many aid organizations took steps to decrease apparent distinctions between international and national aid workers in an effort to protect national aid workers' security.
+
+
+
+
 
 More visualizations using aidworker df 
 
@@ -139,6 +147,12 @@ subplot(means_attack_p, attack_context_p)
 
 ```
 
+Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left 19 dead and 37 wounded (including patients and aid workers).
+
+On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that 
+hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape burned to death, while hospital staff scrambled to evacuate as many patients as possible. 
+
+Kunduz was the Taliban's last stronghold before being driven out by NATO. 
 
 ```{r}
 afghan_aidworker_df %>% 
@@ -207,9 +221,9 @@ afghan_aidworker_df %>%
   ggplot(aes(x = year, y = tot_victims)) +
    geom_line(color = "red", size =2) +
   labs(
-    title = "Total # Aidworkers Killed per Year",
+    title = "Total # Aid Workers Killed per Year",
     x = "Year",
-    y = "Number Aidworkers Killed"
+    y = "Number Aid Workers Killed"
   ) 
 
 #All civilians, from the Uppsala dataset:
