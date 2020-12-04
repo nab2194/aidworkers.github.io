@@ -1,14 +1,13 @@
 name: "Violence Against Aidworkers"
 output_dir: "."
-always_allow_html: true
 navbar:
   title: "Home"
   left:
-    - text: "Exploratoration of Global Trends"
+    - text: "Explore Global Trends"
       href: exploratory_analyses.html
     - text: "Attack Type Dashboard"
       href: dashboard_attack_type.html
-    - text: "Afghanistan"
+    - text: "Zoom In: Afghanistan"
       href: Afghanistan_case_study_clean.html
   right:
     - text: "Project Report"
@@ -25,3 +24,4 @@ output:
     theme: flatly
   includes:
     after_body: footer.html
+    
