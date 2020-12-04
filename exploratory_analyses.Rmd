@@ -126,9 +126,9 @@ layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Yea
 ```
 
 
-
 ## Most dangerous countries
 
+Types of violence for national and international staff
 
 ```{r message = FALSE, warning = FALSE}
 danger_countries_df = 
@@ -163,11 +163,12 @@ aidworker_df %>%
   viridis::scale_fill_viridis(
     name = "Violence Type",
     discrete = TRUE
-  )
+  ) + 
+  theme(axis.text.x = element_text(angle = -70, vjust = 0.5, hjust=1))
 ```
 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 danger_countries_df = 
   aidworker_df %>%
   group_by(country) %>% 
@@ -200,9 +201,35 @@ aidworker_df %>%
   viridis::scale_fill_viridis(
     name = "Violence Type",
     discrete = TRUE
-  )
+  ) + 
+  theme(axis.text.x = element_text(angle = -70, vjust = 0.5, hjust=1))
 ```
 
+
+
+Top 5 Most Dangerous countries over time
+
+```{r message = FALSE, warning = FALSE}
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, year) %>% 
+  summarize(tot_victims = sum(total_victims)) %>% 
+  ggplot(aes(x = year, y = tot_victims, color = country)) + 
+  geom_line() + 
+  labs(
+    title = "Top 5 Most Dangerous Countries Over Time",
+    x = "Year",
+    y = "Total Aidworker Victims"
+  )
+```
 
 
 ## Most dangerous countries
