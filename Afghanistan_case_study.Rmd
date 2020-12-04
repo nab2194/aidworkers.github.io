@@ -1,10 +1,15 @@
 ---
-title: "Afghanistan Case Study" 
-output: github_document
-always_allow_html: true
+title: "Afghanistan Case Study"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide 
+    theme: cosmo
+    always_allow_html: true
 ---
 
-```{r setup and data visualization preferences}
+```{r include = FALSE}
 library(tidyverse)
 library(readxl)
 library(p8105.datasets)
@@ -32,19 +37,13 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-##Explain 
+
+## Why Afghanistan?
 
 We chose to focus on Afghanistan because it has consistently been among the most deadly countries for aid workers, so we expected fairly robust data. Further, Afghanistan especially has been heavily affected by American occupation, which has changed dramatically between presidential administrations. 
 
-Which datasets are being used... 
-We are using the aid worker dataset and the Uppsala datset to compare aidworker deaths to Civilian deaths. We also intended to use a dataset (SHCC) describing attacks on aidworkers, health facilities, and healthcare transport, but this dataset was not robust enough to support meaningful data visualization. As such, we chose to exclude it.
 
-Using the years 2008-2016 because.... and supply code 
-2008-2016 chosen to see whether there might be differences between the Bush (2008-2012) and Obama (2012-2016) administrations. 
-
-Aidworker dataset - cleaning and tailoring
-
-```{r basic cleaning and exploring}
+```{r message = FALSE, warning = FALSE}
 #Kailey notes: from section 1 cleaning and filtered for afghanistan/year
 
 url = "https://aidworkersecurity.org/incidents/search"
@@ -78,11 +77,11 @@ afghan_aidworker_df =
 ```
 
 
-## Starting EDA and vis
+## International vs. National NGO Staff Deaths
 
-Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)
+International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs or local NGOs. 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 afghan_aidworker_international_df =
   afghan_aidworker_df %>% 
   group_by(year) %>% 
@@ -123,13 +122,13 @@ afghan_aidworker_df_new %>%
 
 After noting this sharp increase in attacks against local aid workers, many aid organizations took steps to decrease apparent distinctions between international and national aid workers in an effort to protect national aid workers' security. 
 
+![](https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg)
+ICRC staff in Afghanistan (via UN News)
 
+## Attack Types
 
-
-
-More visualizations using aidworker df 
-
-```{r}
+Aid workers are uniquely vulnerable to attacks given the dangerous settings in which they work. While aid workers are somewhat protected by International Humanitarian Law and the organizations they work with, this does not guarantee safety, especially in conflict-heavy contexts. 
+```{r message = FALSE, warning = FALSE}
 means_attack_p =
 afghan_aidworker_df %>%
   plot_ly(
@@ -157,7 +156,14 @@ hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders),
 
 Kunduz was the Taliban's last stronghold before being driven out by NATO. 
 
-```{r}
+![](https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg)
+MSF hospital in Kunduz, post-U.S. air strike (via MSF)
+
+## Location of Attack
+
+Aid workers are targeted in a variety of settings, though some more than others. 
+
+```{r message=FALSE, warning=FALSE}
 afghan_aidworker_df %>% 
      ggplot(aes(x = location, fill = means_of_attack)) +
    geom_bar() +
@@ -173,11 +179,15 @@ Aid workers are most vulnerable when traveling on the road. In many of these inc
 
 Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (Landmines) also represent major challenges to road travel. IEDs especially do not involve significant planning and are difficult to predict and avoid, making them especially common and particularly dangerous (Aid Worker Security Report 2014).
 
+![](https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg)
+Taliban attack on USAID (via BBC)
 From section 1 vis: 
 
-looking at frequency of attacks on staff of various organizations yes/no
+## Attacks Targeting Organizations
 
-```{r}
+The type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable. 
+
+```{r message = FALSE, warning = FALSE}
 afghan_aidworker_df %>% 
   ggplot(aes(x = intl_org_affected)) + 
   geom_bar(color = "blue", fill = "#FFE4E4") +
@@ -188,12 +198,14 @@ afghan_aidworker_df %>%
   )
 ```
 
-International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors (especially those from the West). These acts of violence were primarily perpetrated by the Taliban. 
+International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. These acts of violence were primarily perpetrated by the Taliban. 
 
+![](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg)
+Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via BBC)
 
 International vs National staff attacks
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 af_pct_intl_ntl =
 afghan_aidworker_df %>%
   group_by(year) %>%
@@ -214,9 +226,11 @@ afghan_aidworker_df %>%
 ```
 
 
-Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)
+## Aidworker vs. Civilian Death
 
-```{r}
+Aidworkers and civilians are both extremely vulnerable during conflicts, but in different ways. In Afghanistan, both groups' mortality has been severely affected by U.S. military occupation.
+
+```{r message=FALSE, warning=FALSE}
 #Looking at deaths among all civilians verses all aidworkers side by side
 
 #Aidworkers, from the Aidworker dataset: 
@@ -265,9 +279,16 @@ aidworker_deaths_p + civilian_deaths_p
 
 
 ```
+*2010* - The spike in deaths of both aid workers and civilians is correlated with a 50% increase in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.
 
+*2011* - Bin Laden was killed by the U.S. Army and CIA.
 
+*2013* - As noted previously, the 2013 spike in aid worker deaths was a product of the U.S. airstrike on an MSF hospital in Kunduz.This spike was not noticeably mirrored among civilians.  
 
+*2014* - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is elected. (via Council on Foreign Relations) 
+
+![](https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg)
+U.S. Troops in Afghanistan (via Al Jazeera)
 
 
 ```{r exploration of SHCC, include=FALSE}
@@ -338,7 +359,3 @@ shcc2019_df =
          indicator_health_transport_abducted_num
       )
 ```
-
-
-
-# Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)
