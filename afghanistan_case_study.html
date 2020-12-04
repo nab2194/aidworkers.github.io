@@ -11,17 +11,30 @@
 
 
 
-<title>afghanistan_case_study.utf8</title>
+<title>Afghanistan Case Study</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -102,33 +115,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 60px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .dropdown-submenu {
   position: relative;
@@ -245,7 +258,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -255,6 +334,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -310,44 +399,21 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
+
+<h1 class="title toc-ignore">Afghanistan Case Study</h1>
 
 </div>
 
 
-<div id="afghanistan-case-study" class="section level1">
-<h1>Afghanistan Case Study</h1>
-<pre class="r"><code>library(tidyverse)
-library(readxl)
-library(p8105.datasets)
-library(hexbin)
-library(patchwork)
-library(leaflet)
-library(lubridate)
-library(xml2)
-library(rvest)
-library(plotly)
-
-devtools::install_github(&quot;benmarwick/wordcountaddin&quot;,  type = &quot;source&quot;, dependencies = TRUE)</code></pre>
-<pre><code>## Skipping install of &#39;wordcountaddin&#39; from a github remote, the SHA1 (8c063135) has not changed since last install.
-##   Use `force = TRUE` to force installation</code></pre>
-<pre class="r"><code>knitr::opts_chunk$set(
-  fig.width = 6,
-  fig.asp = .6,
-  out.width = &quot;90%&quot;
-)
-theme_set(theme_minimal() + theme(legend.position = &quot;bottom&quot;))
-options(
-  ggplot2.continuous.colour = &quot;viridis&quot;,
-  ggplot2.continuous.fill = &quot;viridis&quot;
-)
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d</code></pre>
-<p>##Explain</p>
-<p>Why we chose Afghanistan… Chose Afghanistan because it has consistently been among the most deadly countries for aid workers, so would have a lot of data. Which datasets are being used… Using Aid worker dataset and the Uppsala datset to compare aidworker deaths to Civilian deaths. We also intended to use a dataset (SHCC) describing attacks on aidworkers, health facilities, and healthcare transport, but this datset was not robust enough to support meaningful data visualization. As such, we chose to exclude it.</p>
-<p>Using the years 2008-2016 because…. and supply code 2008-2016 chosen to see whether there might be differences between the Bush (2008-2012) and Obama (2012-2016) administrations.</p>
-<p>Aidworker dataset - cleaning and tailoring</p>
 <pre class="r"><code>#Kailey notes: from section 1 cleaning and filtered for afghanistan/year
 
 url = &quot;https://aidworkersecurity.org/incidents/search&quot;
@@ -377,53 +443,28 @@ afghan_aidworker_df =
   relocate(id, month, day, year, country, intl_org_affected) %&gt;% 
   filter(country == &quot;Afghanistan&quot;) %&gt;% 
   filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;)) </code></pre>
-<div id="kailey-notes-i-found-it-this-pivot-longer-is-making-the-duplicates-occur-when-added-to-the-code-chunk-above..-also-this-date-code-is-not-working-for-me" class="section level2">
-<h2>Kailey notes: I found it! This pivot longer is making the duplicates occur when added to the code chunk above.. also, this date code is not working for me!</h2>
-<p>afghan_aidworker_df %&gt;% pivot_longer( un:other, names_to = “org_type”, values_to = “number_orgs_affected” ) %&gt;% select(-number_orgs_affected)</p>
-<p>Was experimenting with the date conversion here</p>
-<pre class="r"><code># afghan_aidworker_df_new =
-#  afghan_aidworker_df%&gt;% 
-#  mutate(month = as.numeric(month),
-#         day = as.numeric(day),
-#         year = as.numeric(year)) %&gt;% view()
-
-#afghan_aidworker_df_new$date = as.Date(paste(afghan_aidworker_df_new$year, afghan_aidworker_df$month, afghan_aidworker_df_new$day, #sep = &quot;-&quot;), &quot;%Y-%m-%d&quot;) </code></pre>
-<p>pivot_longer( un:other, names_to = “org_type”, values_to = “number_orgs_affected” ) %&gt;% select(-number_orgs_affected)</p>
-<p>aidworker_df$date &lt;- as.Date(with(afghan_aidworker_df, paste(year, month, day, sep = “-”)), “%Y-%m-%d”)</p>
-</div>
-<div id="starting-eda-and-vis" class="section level2">
-<h2>Starting EDA and vis</h2>
-<p>Internationals vs. nationals killed (Not in the to-do list but has an interesting spikes and dips; check historical context?)</p>
-<pre class="r"><code>#Kailey notes: FINALLY figured this out. got rid of all duplicates and strange number counts.
-#Alisha notes: can&#39;t get these first few lines of code to run (117-121) so I&#39;m just leaving them out for now...? Are they necessary?
-
-# take code from international (part 1 dataset) - just copy paste and add a filter(country == &quot;Afghanistan&quot;)
-
-#afghan_aidw_international_df = 
-#  aidworker_df %&gt;%
-#  filter(Country == &quot;Afghanistan&quot;) %&gt;% 
-#  filter(year %in% c(&quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;, &quot;2016&quot;))
-
-
-afghan_aidworker_international_df =
-  afghan_aidworker_df %&gt;%
-  group_by(year) %&gt;%
+<div id="international-vs.-national-ngo-staff-deaths" class="section level2">
+<h2>International vs. National NGO Staff Deaths</h2>
+<p>International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs or local NGOs.</p>
+<pre class="r"><code>afghan_aidworker_international_df =
+  afghan_aidworker_df %&gt;% 
+  group_by(year) %&gt;% 
   summarise(sum(internationals_killed)) %&gt;%
   mutate(
     internationals_killed_tot = `sum(internationals_killed)`
   ) %&gt;%
-  select(year, internationals_killed_tot)</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>afghan_aidworker_national_df =
+  select(year, internationals_killed_tot) 
+
+afghan_aidworker_national_df =
   afghan_aidworker_df %&gt;%
   group_by(year) %&gt;%
   summarise(sum(nationals_killed)) %&gt;%
   mutate(
     nationals_killed_tot = `sum(nationals_killed)`
   ) %&gt;%
-  select(year, nationals_killed_tot) </code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>afghan_aidworker_df_new =
+  select(year, nationals_killed_tot) 
+
+afghan_aidworker_df_new =
   left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = &quot;year&quot;)
 
 
@@ -432,18 +473,20 @@ afghan_aidworker_df_new %&gt;%
    geom_line() +
   geom_line(aes(x = year, y = nationals_killed_tot, col = &quot;National&quot;)) +
   labs(
-    title = &quot;Number of Aidworkers Killed By Origin (National vs. International)&quot;,
+    title = &quot;Number of Aid Workers Killed By Origin (National vs. International)&quot;,
     x = &quot;Year&quot;,
     y = &quot;Number Killed&quot;
   )</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-gfm/unnamed-chunk-2-1.png" width="90%" /></p>
-<p>More visualizations using aidworker df</p>
-<pre class="r"><code># Kailey notes: Not sure if this visualization is 100% complete in terms of making sense/usefulness but I think something like this could be interesting. Subplotted two interactive plots. You can see the means of attack next to the attack context. For example, the aerial bombardment spike in 2015 is tied to combat/crossfire attack type (could look at historical context here). Can also see that in 2009 there were 16 kidnappings due to an ambush. Open to thoughts on this but thought something like this could be cool. 
-
-# Alisha notes: This is great, thank you so much for making this. 
-
-
-means_attack_p =
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
+<p><em>2012</em> - The significant drop in aid worker death is correlated with the withdrawal of half of American troops in Afghanistan.</p>
+<p><em>2013</em> - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the UN in 2013, “Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk…About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent.” It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. “Security arrangements of those organizations and the United Nations often left local humanitarian organizations less secure” (UN 2013). National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations.</p>
+<p>After noting this sharp increase in attacks against local aid workers, many aid organizations took steps to decrease apparent distinctions between international and national aid workers in an effort to protect national aid workers’ security.</p>
+<p><img src="https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg" /> ICRC staff in Afghanistan (via UN News)</p>
+</div>
+<div id="attack-types" class="section level2">
+<h2>Attack Types</h2>
+<p>Aid workers are uniquely vulnerable to attacks given the dangerous settings in which they work. While aid workers are somewhat protected by International Humanitarian Law and the organizations they work with, this does not guarantee safety, especially in conflict-heavy contexts.</p>
+<pre class="r"><code>means_attack_p =
 afghan_aidworker_df %&gt;%
   plot_ly(
     x = ~year, y = ~total_victims, color = ~means_of_attack,
@@ -460,28 +503,16 @@ afghan_aidworker_df %&gt;%
     title = &quot;Victims per Year by Attack Context&quot;)
 
 subplot(means_attack_p, attack_context_p)</code></pre>
-<pre><code>## No scatter mode specifed:
-##   Setting the mode to markers
-##   Read more about this attribute -&gt; https://plot.ly/r/reference/#scatter-mode
-
-## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
-## Returning the palette you asked for with that many colors
-
-## Warning in RColorBrewer::brewer.pal(N, &quot;Set2&quot;): n too large, allowed maximum for palette Set2 is 8
-## Returning the palette you asked for with that many colors
-
-## No scatter mode specifed:
-##   Setting the mode to markers
-##   Read more about this attribute -&gt; https://plot.ly/r/reference/#scatter-mode</code></pre>
-
-
-<div id="htmlwidget-d950278e58b9d4447fcc" class="plotly html-widget" style="width:90%;height:345.6px;">
-
+<div id="htmlwidget-eb4af0e5479ddad48284" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eb4af0e5479ddad48284">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per Year by Attack Context","hovermode":"closest","showlegend":true},"attrs":{"2f834e9689ce":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"2f837d315bb0":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left 19 dead and 37 wounded (including patients and aid workers) (Reuters).</p>
+<p>On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape burned to death, while hospital staff scrambled to evacuate as many patients as possible (Reuters).</p>
+<p>Kunduz was the Taliban’s last stronghold before being driven out by NATO.</p>
+<p><img src="https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg" /> MSF hospital in Kunduz, post-U.S. air strike (via MSF)</p>
 </div>
-
-<script type="application/json" data-for="htmlwidget-d950278e58b9d4447fcc">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per Year by Attack Context","hovermode":"closest","showlegend":true},"attrs":{"1e8a683d7aad":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"1e8a1c412952":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-
-
+<div id="location-of-attack" class="section level2">
+<h2>Location of Attack</h2>
+<p>Aid workers are targeted in a variety of settings, though some more than others.</p>
 <pre class="r"><code>afghan_aidworker_df %&gt;% 
      ggplot(aes(x = location, fill = means_of_attack)) +
    geom_bar() +
@@ -490,10 +521,14 @@ subplot(means_attack_p, attack_context_p)</code></pre>
     x = &quot;Location&quot;,
     y = &quot;Number of Attacks&quot;
   ) </code></pre>
-<p><img src="Afghanistan_case_study_files/figure-gfm/unnamed-chunk-4-1.png" width="90%" /></p>
-<pre class="r"><code># Alisha notes: love this graph! We&#39;ll want to define the time period as well which I&#39;ll figure out ASAP. </code></pre>
-<p>From section 1 vis:</p>
-<p>looking at frequency of attacks on staff of various organizations yes/no</p>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<p>Aid workers are most vulnerable when traveling on the road. In many of these incidents, aid workers are collateral damage, caught in the crossfire between government vehicles (Afghan National Army and International Security Assistance Force). After the International Security Assistance Force withdrew in 2011, road ambushes and attacks increased consistently.</p>
+<p>Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (Landmines) also represent major challenges to road travel. IEDs especially do not involve significant planning and are difficult to predict and avoid, making them especially common and particularly dangerous (Aid Worker Security Report 2014).</p>
+<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg" /> Taliban attack on USAID (via BBC)</p>
+</div>
+<div id="attacks-targeting-organizations" class="section level2">
+<h2>Attacks Targeting Organizations</h2>
+<p>The type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable.</p>
 <pre class="r"><code>afghan_aidworker_df %&gt;% 
   ggplot(aes(x = intl_org_affected)) + 
   geom_bar(color = &quot;blue&quot;, fill = &quot;#FFE4E4&quot;) +
@@ -502,8 +537,9 @@ subplot(means_attack_p, attack_context_p)</code></pre>
     x = &quot;International Organization Affected&quot;,
     y = &quot;Number of Attacks&quot;
   )</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-gfm/unnamed-chunk-5-1.png" width="90%" /></p>
-<p>International vs National staff attacks?</p>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+<p>International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. These acts of violence were primarily perpetrated by the Taliban.</p>
+<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg" /> Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via BBC)</p>
 <pre class="r"><code>af_pct_intl_ntl =
 afghan_aidworker_df %&gt;%
   group_by(year) %&gt;%
@@ -512,6 +548,7 @@ afghan_aidworker_df %&gt;%
             tot_both = sum(total_victims),
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %&gt;%
+  
   ggplot(aes(x = year, y = pct_national, col = 3)) +
   geom_line() +
    geom_line(aes(x = year, y = pct_intl, col = 2)) +
@@ -519,8 +556,10 @@ afghan_aidworker_df %&gt;%
     x = &quot;Year&quot;,
     y = &quot;% Attacked&quot;
    ) </code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p>Uppsala data upload and cleaning/tailoring (downloaded data for Afghanistan only)</p>
+</div>
+<div id="aidworker-vs.-civilian-death" class="section level2">
+<h2>Aidworker vs. Civilian Death</h2>
+<p>Aidworkers and civilians are both extremely vulnerable during conflicts, but in different ways. In Afghanistan, both groups’ mortality has been severely affected by U.S. military occupation.</p>
 <pre class="r"><code>#Looking at deaths among all civilians verses all aidworkers side by side
 
 #Aidworkers, from the Aidworker dataset: 
@@ -533,14 +572,14 @@ afghan_aidworker_df %&gt;%
   ) %&gt;% 
   select(-`sum(total_victims)`) %&gt;% 
   ggplot(aes(x = year, y = tot_victims)) +
-   geom_line() +
+   geom_line(color = &quot;red&quot;, size =2) +
   labs(
-    title = &quot;Total # Aidworkers Killed per Year&quot;,
+    title = &quot;Total # Aid Workers Killed per Year&quot;,
     x = &quot;Year&quot;,
-    y = &quot;Number Aidworkers Killed&quot;
-  ) </code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>#All civilians, from the Uppsala dataset:
+    y = &quot;Number Aid Workers Killed&quot;
+  ) 
+
+#All civilians, from the Uppsala dataset:
 afghan_upp_df = 
   read_csv(&quot;./data/afghanistan_uppsala.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;% 
@@ -551,50 +590,12 @@ afghan_upp_df =
   mutate(
     deaths_civilians_tot = `sum(deaths_civilians)`
   ) %&gt;% 
-  select(-`sum(deaths_civilians)`) </code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   relid = col_character(),
-##   active_year = col_logical(),
-##   code_status = col_character(),
-##   conflict_name = col_character(),
-##   dyad_name = col_character(),
-##   side_a = col_character(),
-##   side_b = col_character(),
-##   source_article = col_character(),
-##   source_office = col_character(),
-##   source_date = col_character(),
-##   source_headline = col_character(),
-##   source_original = col_character(),
-##   where_coordinates = col_character(),
-##   where_description = col_character(),
-##   adm_1 = col_character(),
-##   adm_2 = col_character(),
-##   geom_wkt = col_character(),
-##   country = col_character(),
-##   region = col_character(),
-##   date_start = col_character()
-##   # ... with 1 more columns
-## )
+  select(-`sum(deaths_civilians)`) 
 
-## See spec(...) for full column specifications.
-
-## Warning: 33612 parsing failures.
-## row col   expected     actual                             file
-##   1  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   2  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   3  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   4  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-##   5  -- 47 columns 48 columns &#39;./data/afghanistan_uppsala.csv&#39;
-## ... ... .......... .......... ................................
-## See problems(...) for more details.
-
-## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>civilian_deaths_p =
+civilian_deaths_p =
 afghan_upp_df %&gt;% 
   ggplot(aes(x = year, y = deaths_civilians_tot)) +
-   geom_line() +
+   geom_line(color = &quot;blue&quot;, size =2) +
   labs(
     title = &quot;Total # Civilians Killed per Year&quot;,
     x = &quot;Year&quot;,
@@ -604,15 +605,17 @@ afghan_upp_df %&gt;%
 # use patchwork to make two separate plots and have them side-by-side
 
 aidworker_deaths_p + civilian_deaths_p</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" /></p>
-</div>
-</div>
-<div id="discuss-confounders-u.s.-administration-changes-troop-levels-in-country-natural-disastor" class="section level1">
-<h1>Discuss confounders (U.S. administration changes? Troop levels in country? Natural disastor?)</h1>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-8-1.png" width="90%" /> <em>2010</em> - The spike in deaths of both aid workers and civilians is correlated with a 50% increase in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.</p>
+<p><em>2011</em> - Bin Laden was killed by the U.S. Army and CIA.</p>
+<p><em>2013</em> - As noted previously, the 2013 spike in aid worker deaths was a product of the U.S. airstrike on an MSF hospital in Kunduz.This spike was not noticeably mirrored among civilians.</p>
+<p><em>2014</em> - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is elected. (via Council on Foreign Relations)</p>
+<p><img src="https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg" /> U.S. Troops in Afghanistan (via Al Jazeera)</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -644,7 +647,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
