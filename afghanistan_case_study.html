@@ -11,7 +11,7 @@
 
 
 
-<title>Afghanistan Case Study</title>
+<title>Afghanistan</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
 <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
@@ -35,6 +37,15 @@
 <script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -409,7 +420,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Afghanistan Case Study</h1>
+<h1 class="title toc-ignore">Afghanistan</h1>
 
 </div>
 
@@ -479,9 +490,9 @@ afghan_aidworker_df_new %&gt;%
   )</code></pre>
 <p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-3-1.png" width="90%" /></p>
 <p><em>2012</em> - The significant drop in aid worker death is correlated with the withdrawal of half of American troops in Afghanistan.</p>
-<p><em>2013</em> - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the UN in 2013, “Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk…About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent.” It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. “Security arrangements of those organizations and the United Nations often left local humanitarian organizations less secure” (UN 2013). National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations.</p>
+<p><em>2013</em> - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents, especially as <a href="https://reliefweb.int/report/afghanistan/afghanistan-worlds-most-dangerous-place-aid-workers">tensions</a> between government and insurgent groups rose sharply. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the <a href="https://www.un.org/press/en/2014/sc11524.doc.htm">UN in 2013</a>, “Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk…About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent.” It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. “Security arrangements of those organizations and the United Nations often left local humanitarian organizations <a href="https://www.un.org/press/en/2014/sc11524.doc.htm">less secure</a>”. National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations.</p>
 <p>After noting this sharp increase in attacks against local aid workers, many aid organizations took steps to decrease apparent distinctions between international and national aid workers in an effort to protect national aid workers’ security.</p>
-<p><img src="https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg" /> ICRC staff in Afghanistan (via UN News)</p>
+<p><img src="https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg" /> ICRC staff in Afghanistan (via <a href="https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg">UN News</a>)</p>
 </div>
 <div id="attack-types" class="section level2">
 <h2>Attack Types</h2>
@@ -503,17 +514,12 @@ afghan_aidworker_df %&gt;%
     title = &quot;Victims per Year by Attack Context&quot;)
 
 subplot(means_attack_p, attack_context_p)</code></pre>
-<<<<<<< HEAD:Afghanistan_case_study.html
-<div id="htmlwidget-aed405137bfc7dc8d231" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-aed405137bfc7dc8d231">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per Year by Attack Context","hovermode":"closest","showlegend":true},"attrs":{"352b1b872bb2":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"352b4745c13c":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-=======
-<div id="htmlwidget-5080eb520ae01dc14f3d" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5080eb520ae01dc14f3d">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per Year by Attack Context","hovermode":"closest","showlegend":true},"attrs":{"34891ec9429":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"348952f310bb":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
->>>>>>> 72a4cc18de1959551770c073f7284bb364e02faa:afghanistan_case_study.html
-<p>Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left 19 dead and 37 wounded (including patients and aid workers) (Reuters).</p>
-<p>On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape burned to death, while hospital staff scrambled to evacuate as many patients as possible (Reuters).</p>
+<div id="htmlwidget-24295e3f1293b2bfab75" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24295e3f1293b2bfab75">{"x":{"data":[{"x":[2008,2009,2013,2015,2016],"y":[4,1,1,49,1],"type":"scatter","mode":"markers","name":"Aerial bombardment","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[1,1,1,3,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,2,2,1,1,4,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Bodily assault","marker":{"color":"rgba(199,169,129,1)","line":{"color":"rgba(199,169,129,1)"}},"textfont":{"color":"rgba(199,169,129,1)"},"error_y":{"color":"rgba(199,169,129,1)"},"error_x":{"color":"rgba(199,169,129,1)"},"line":{"color":"rgba(199,169,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2012,2013,2013,2013],"y":[1,12,1,1,4,1],"type":"scatter","mode":"markers","name":"Body-borne IED","marker":{"color":"rgba(246,143,106,1)","line":{"color":"rgba(246,143,106,1)"}},"textfont":{"color":"rgba(246,143,106,1)"},"error_y":{"color":"rgba(246,143,106,1)"},"error_x":{"color":"rgba(246,143,106,1)"},"line":{"color":"rgba(246,143,106,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2013,2014],"y":[9,4,4,2,2],"type":"scatter","mode":"markers","name":"Complex attack","marker":{"color":"rgba(195,154,163,1)","line":{"color":"rgba(195,154,163,1)"}},"textfont":{"color":"rgba(195,154,163,1)"},"error_y":{"color":"rgba(195,154,163,1)"},"error_x":{"color":"rgba(195,154,163,1)"},"line":{"color":"rgba(195,154,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2010,2011,2011,2011,2011,2013,2013,2013,2014,2015,2015,2015],"y":[2,1,1,1,4,1,1,6,3,5,1,2,1,5,1,2],"type":"scatter","mode":"markers","name":"Kidnap-killing","marker":{"color":"rgba(157,157,202,1)","line":{"color":"rgba(157,157,202,1)"}},"textfont":{"color":"rgba(157,157,202,1)"},"error_y":{"color":"rgba(157,157,202,1)"},"error_x":{"color":"rgba(157,157,202,1)"},"line":{"color":"rgba(157,157,202,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,3,2,1,1,1,3,1,2,1,1,1,16,2,3,1,5,2,3,4,2,2,2,2,2,5,4,4,1,2,2,1,1,3,1,1,1,3,2,1,1,3,2,3,1,4,2,3,4,1,1,2,3,1,5,4,2,1,1,2,1,1,1,2,4,4,1,2,1,3,3,5,4,1,1,3,1,1,1,1,10,3,11,2,3,1,3,3,2,2,5,2,1,3,1,3,2,3,1,1,3,1,1,3,2,1,4,1,1,2,1,1,4,1,5,3,7,3,2,1,6,3,1,4,1,3,1,2,1,2,1,3,2,2,1,2,1,2,4,5,7,2,7,1,1,2,1,3,2,1,4,1],"type":"scatter","mode":"markers","name":"Kidnapping","marker":{"color":"rgba(206,146,197,1)","line":{"color":"rgba(206,146,197,1)"}},"textfont":{"color":"rgba(206,146,197,1)"},"error_y":{"color":"rgba(206,146,197,1)"},"error_x":{"color":"rgba(206,146,197,1)"},"line":{"color":"rgba(206,146,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2015],"y":[5,1],"type":"scatter","mode":"markers","name":"Landmine","marker":{"color":"rgba(220,159,172,1)","line":{"color":"rgba(220,159,172,1)"}},"textfont":{"color":"rgba(220,159,172,1)"},"error_y":{"color":"rgba(220,159,172,1)"},"error_x":{"color":"rgba(220,159,172,1)"},"line":{"color":"rgba(220,159,172,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2012,2013,2014],"y":[3,3,1],"type":"scatter","mode":"markers","name":"Other Explosives","marker":{"color":"rgba(186,200,114,1)","line":{"color":"rgba(186,200,114,1)"}},"textfont":{"color":"rgba(186,200,114,1)"},"error_y":{"color":"rgba(186,200,114,1)"},"error_x":{"color":"rgba(186,200,114,1)"},"line":{"color":"rgba(186,200,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013],"y":[1],"type":"scatter","mode":"markers","name":"Rape/sexual assault","marker":{"color":"rgba(196,217,74,1)","line":{"color":"rgba(196,217,74,1)"}},"textfont":{"color":"rgba(196,217,74,1)"},"error_y":{"color":"rgba(196,217,74,1)"},"error_x":{"color":"rgba(196,217,74,1)"},"line":{"color":"rgba(196,217,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2009,2010,2010,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2015,2016],"y":[1,3,3,2,3,1,1,1,1,1,3,2,1,1,1,3,1,3,2,1,1,1],"type":"scatter","mode":"markers","name":"Roadside IED","marker":{"color":"rgba(242,217,54,1)","line":{"color":"rgba(242,217,54,1)"}},"textfont":{"color":"rgba(242,217,54,1)"},"error_y":{"color":"rgba(242,217,54,1)"},"error_x":{"color":"rgba(242,217,54,1)"},"line":{"color":"rgba(242,217,54,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2009,2010,2010,2010,2011,2011,2013,2013,2013],"y":[1,1,4,1,1,3,1,1,1],"type":"scatter","mode":"markers","name":"Shelling","marker":{"color":"rgba(246,209,94,1)","line":{"color":"rgba(246,209,94,1)"}},"textfont":{"color":"rgba(246,209,94,1)"},"error_y":{"color":"rgba(246,209,94,1)"},"error_x":{"color":"rgba(246,209,94,1)"},"line":{"color":"rgba(246,209,94,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016],"y":[1,1,2,1,5,1,1,1,1,1,1,1,1,1,4,1,1,1,1,2,1,1,2,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,4,1,1,1,1,1,1,1,4,1,1,1,2,1,1,1,1,1,1,4,2,1,7,1,1,1,2,1,1,1,2,1,2,9,1,2,1,2,7,3,1,1,1],"type":"scatter","mode":"markers","name":"Shooting","marker":{"color":"rgba(231,198,142,1)","line":{"color":"rgba(231,198,142,1)"}},"textfont":{"color":"rgba(231,198,142,1)"},"error_y":{"color":"rgba(231,198,142,1)"},"error_x":{"color":"rgba(231,198,142,1)"},"line":{"color":"rgba(231,198,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2012,2012,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015],"y":[1,1,12,1,2,6,1,1,1,1,1,5,1,1,1,1,1,10,1,1,1,2,1,1,1,1,1,1,4,3,1,3,2,1,11,6,7,2,3],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(207,188,163,1)","line":{"color":"rgba(207,188,163,1)"}},"textfont":{"color":"rgba(207,188,163,1)"},"error_y":{"color":"rgba(207,188,163,1)"},"error_x":{"color":"rgba(207,188,163,1)"},"line":{"color":"rgba(207,188,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2009,2010,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2014,2014,2014,2014,2015,2016],"y":[4,1,1,1,3,2,2,2,3,5,2,1,1,1,1,1,2,1,2,1,3],"type":"scatter","mode":"markers","name":"Vehicle-born IED","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016,2016],"y":[2,1,12,2,1,2,3,5,1,6,4,1,1,1,1,1,1,1,1,16,5,1,5,1,1,2,4,1,2,2,10,2,5,3,2,1,4,4,1,2,2,1,2,2,3,1,1,1,3,1,1,1,3,3,2,1,1,1,1,3,3,1,2,2,3,2,3,4,1,1,2,1,3,1,1,4,1,1,1,2,1,1,1,2,1,1,4,2,1,3,1,4,4,2,1,1,1,1,3,4,1,1,1,3,1,4,1,1,3,11,3,2,2,1,3,1,3,2,2,1,1,1,1,1,5,2,1,4,3,2,2,7,1,1,3,3,3,1,2,2,1,2,1,6,4,2,5,3,2,3,1,3,1,2,3,1,2,1,3,1,2,1,1,1,2,5,2,7,2,1,3,1,3,1,4,1,1],"type":"scatter","mode":"markers","name":"Ambush","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2009,2009,2009,2009,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2015,2015,2016,2016],"y":[4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,2,1,49,2,1,1],"type":"scatter","mode":"markers","name":"Combat/Crossfire","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2016,2016,2016],"y":[1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,2,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,3,1,2,1,1,1,1,1,1,1],"type":"scatter","mode":"markers","name":"Individual attack","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2012,2013],"y":[2,2],"type":"scatter","mode":"markers","name":"Mob violence","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2009,2009,2010,2010,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2015,2015,2015,2015,2016,2016,2016,2016,2016],"y":[2,1,1,1,12,1,1,2,1,1,9,1,1,2,5,3,2,4,5,5,1,2,3,1,4,4,3,2,1,1,2,2,1,9,1,1,3,7,7,1,1],"type":"scatter","mode":"markers","name":"Raid","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x2","yaxis":"y2","frame":null},{"x":[2008,2008,2008,2008,2008,2008,2009,2009,2009,2009,2009,2009,2009,2009,2009,2009,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2010,2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016],"y":[1,1,1,1,2,1,3,2,1,1,1,3,2,1,1,5,1,1,3,1,3,4,2,2,4,1,1,2,1,1,1,1,1,6,1,4,1,1,4,3,1,1,10,1,5,1,3,1,1,3,2,2,3,1,4,1,1,1,1,1,1,1,4,1,1,3,1,11,1,1,7,2,1,7,3,1,6,4,5,1,2,1,2,2,1,4,2,2],"type":"scatter","mode":"markers","name":"Unknown","marker":{"color":"rgba(255,217,47,1)","line":{"color":"rgba(255,217,47,1)"}},"textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"line":{"color":"rgba(255,217,47,1)"},"xaxis":"x2","yaxis":"y2","frame":null}],"layout":{"xaxis":{"domain":[0,0.48],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.52,1],"automargin":true,"anchor":"y2"},"yaxis2":{"domain":[0,1],"automargin":true,"anchor":"x2"},"yaxis":{"domain":[0,1],"automargin":true,"anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Victims per Year by Attack Context","hovermode":"closest","showlegend":true},"attrs":{"3dd3232d3b82":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"3dd36e9de5d8":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left <a href="https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003">19 dead and 37 wounded</a> (including patients and aid workers).</p>
+<p>On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that hit a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape <a href="https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003">burned to death</a>, while hospital staff scrambled to evacuate as many patients as possible.</p>
 <p>Kunduz was the Taliban’s last stronghold before being driven out by NATO.</p>
-<p><img src="https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg" /> MSF hospital in Kunduz, post-U.S. air strike (via MSF)</p>
+<p><img src="https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg" /> MSF hospital in Kunduz, post-U.S. air strike via <a href="https://msf-media.imgix.net/AssetLink/0vrsc8d066cx508418gj1qhr3e1345em.jpg">MSF</a></p>
 </div>
 <div id="location-of-attack" class="section level2">
 <h2>Location of Attack</h2>
@@ -527,24 +533,24 @@ subplot(means_attack_p, attack_context_p)</code></pre>
     y = &quot;Number of Attacks&quot;
   ) </code></pre>
 <p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
-<p>Aid workers are most vulnerable when traveling on the road. In many of these incidents, aid workers are collateral damage, caught in the crossfire between government vehicles (Afghan National Army and International Security Assistance Force). After the International Security Assistance Force withdrew in 2011, road ambushes and attacks increased consistently.</p>
-<p>Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (Landmines) also represent major challenges to road travel. IEDs especially do not involve significant planning and are difficult to predict and avoid, making them especially common and particularly dangerous (Aid Worker Security Report 2014).</p>
-<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg" /> Taliban attack on USAID (via BBC)</p>
+<p>Aid workers are most vulnerable when traveling on the road. In many of these incidents, aid workers are collateral damage, caught in the crossfire between government vehicles (Afghan National Army and International Security Assistance Force) and insurgent groups. After the International Security Assistance Force withdrew in 2011, road ambushes and attacks <a href="https://aidworkersecurity.org/sites/default/files/2020-08/Aid%20Worker%20Security%20Report%202014.pdf">increased substantially</a>.</p>
+<p>Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (landmines) also represent major challenges to road travel. IEDs do not involve significant planning and are difficult to predict and avoid, making them <a href="https://aidworkersecurity.org/sites/default/files/2020-08/Aid%20Worker%20Security%20Report%202014.pdf">especially common and particularly dangerous</a>, as you can see in the figure above.</p>
+<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg" /> Taliban attack on USAID (via <a href="https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg">BBC</a>)</p>
 </div>
 <div id="attacks-targeting-organizations" class="section level2">
 <h2>Attacks Targeting Organizations</h2>
-<p>The type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable.</p>
+<p>Type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable.</p>
 <pre class="r"><code>afghan_aidworker_df %&gt;% 
   ggplot(aes(x = intl_org_affected)) + 
-  geom_bar(color = &quot;blue&quot;, fill = &quot;#FFE4E4&quot;) +
+  geom_bar(color = &quot;blue&quot;, fill = &quot;lightsteelblue2&quot;) +
   labs(
     title = &quot;Distribution of Attacks by Organization Affected (2008-2016)&quot;,
     x = &quot;International Organization Affected&quot;,
     y = &quot;Number of Attacks&quot;
   )</code></pre>
 <p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
-<p>International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. These acts of violence were primarily perpetrated by the Taliban.</p>
-<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg" /> Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via BBC)</p>
+<p>International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. Between the years of 2008-2016, these acts of violence were primarily perpetrated by the Taliban.</p>
+<p><img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg" /> Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via <a href="https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg">BBC</a>)</p>
 <pre class="r"><code>af_pct_intl_ntl =
 afghan_aidworker_df %&gt;%
   group_by(year) %&gt;%
@@ -610,12 +616,353 @@ afghan_upp_df %&gt;%
 # use patchwork to make two separate plots and have them side-by-side
 
 aidworker_deaths_p + civilian_deaths_p</code></pre>
-<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-8-1.png" width="90%" /> <em>2010</em> - The spike in deaths of both aid workers and civilians is correlated with a 50% increase in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.</p>
+<p><img src="Afghanistan_case_study_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+<p><em>2010</em> - The spike in deaths of both aid workers and civilians is correlated with a <a href="https://www.cfr.org/timeline/us-war-afghanistan">50% increase</a> in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.</p>
 <p><em>2011</em> - Bin Laden was killed by the U.S. Army and CIA.</p>
-<p><em>2013</em> - As noted previously, the 2013 spike in aid worker deaths was a product of the U.S. airstrike on an MSF hospital in Kunduz.This spike was not noticeably mirrored among civilians.</p>
-<p><em>2014</em> - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is elected. (via Council on Foreign Relations)</p>
-<p><img src="https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg" /> U.S. Troops in Afghanistan (via Al Jazeera)</p>
+<p><em>2013</em> - As noted previously, the 2013 spike in aid worker deaths was a product of particularly deadly tensions between insurgent groups and government forces.</p>
+<p><em>2014</em> - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is <a href="https://www.nytimes.com/2014/05/28/world/asia/us-to-complete-afghan-pullout-by-end-of-2016-obama-to-say.html">elected</a>.</p>
+<p><img src="https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg" /> U.S. Troops in Afghanistan (via <a href="https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg">Al Jazeera</a>)</p>
 </div>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>footer.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="exploratory_analyses.html">Explore Global Trends</a>
+</li>
+<li>
+  <a href="https://ebbollman.shinyapps.io/dashboard_attack_type/">Attack Type Dashboard</a>
+</li>
+<li>
+  <a href="afghanistan_case_study.html">Zoom In: Afghanistan</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="final_report.html">Project Report</a>
+</li>
+<li>
+  <a href="youtube.com">
+    <span class="fa fa-play-circle fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/nab2194/aidworkers.github.io">
+    <span class="fa fa-github fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines">
+    <span class="fa fa-ambulance fa-sm"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<html>
+ 
+<hr />
+<p><small></p>
+Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd
+</p>
+<p style="text-align: center;">
+<p>Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.0.3) and <a href="https://rstudio.com">RStudio</a> (v1.3.1073). <br></p>
+<p style="text-align: center;">
+<p>Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v4.13.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.5.0). <br></p>
+<p style="text-align: center;">
+<p><a href="https://aidworkersecurity.org/">Click here</a> to see publicly available Aid Worker Security dataset, a project of Humanitarian Outcomes.</p>
+<p style="text-align: center;">
+<p><a href="https://ucdp.uu.se/">Click here</a> to see publicly available Uppsala Conflict Data Program, a project of Uppsala University Department of Peace and Conflict Research.</p>
+<p><br></p>
+2020
+</p>
+<p></small></p>
+</html>
 
 <!DOCTYPE html>
 
@@ -1006,6 +1353,53 @@ $(document).ready(function () {
 </html>
 
 
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
+
 </div>
 </div>
 
@@ -1015,7 +1409,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

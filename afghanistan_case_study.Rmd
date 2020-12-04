@@ -1,5 +1,5 @@
 ---
-title: "Afghanistan Case Study"
+title: "Afghanistan"
 output: 
   html_document:
     toc: true
@@ -116,12 +116,12 @@ afghan_aidworker_df_new %>%
 
 *2012* - The significant drop in aid worker death is correlated with the withdrawal of half of American troops in Afghanistan. 
 
-*2013* - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the UN in 2013, "Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk...About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent." It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. "Security arrangements of those organizations and the United Nations often left local humanitarian organizations less secure" (UN 2013). National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations. 
+*2013* - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents, especially as [tensions](https://reliefweb.int/report/afghanistan/afghanistan-worlds-most-dangerous-place-aid-workers) between government and insurgent groups rose sharply. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the [UN in 2013](https://www.un.org/press/en/2014/sc11524.doc.htm), "Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk...About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent." It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. "Security arrangements of those organizations and the United Nations often left local humanitarian organizations [less secure](https://www.un.org/press/en/2014/sc11524.doc.htm)".  National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations. 
 
 After noting this sharp increase in attacks against local aid workers, many aid organizations took steps to decrease apparent distinctions between international and national aid workers in an effort to protect national aid workers' security. 
 
 ![](https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg)
-ICRC staff in Afghanistan (via UN News)
+ICRC staff in Afghanistan (via [UN News](https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg))
 
 
 
@@ -181,12 +181,12 @@ afghan_aidworker_df %>%
 
 ```
 
-Aid workers are most vulnerable when traveling on the road. In many of these incidents, aid workers are collateral damage, caught in the crossfire between government vehicles (Afghan National Army and International Security Assistance Force). After the International Security Assistance Force withdrew in 2011, road ambushes and attacks increased consistently. 
+Aid workers are most vulnerable when traveling on the road. In many of these incidents, aid workers are collateral damage, caught in the crossfire between government vehicles (Afghan National Army and International Security Assistance Force) and insurgent groups. After the International Security Assistance Force withdrew in 2011, road ambushes and attacks [increased substantially](https://aidworkersecurity.org/sites/default/files/2020-08/Aid%20Worker%20Security%20Report%202014.pdf). 
 
-Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (Landmines) also represent major challenges to road travel. IEDs especially do not involve significant planning and are difficult to predict and avoid, making them especially common and particularly dangerous (Aid Worker Security Report 2014).
+Roads are extremely difficult to protect. Attacks and ambush can come in the form of illegitimate checkpoints, road blocks, and geographically poorly protected areas (bends in the road, choke points). Drive-by shootings, carjacking, and IEDs (landmines) also represent major challenges to road travel. IEDs do not involve significant planning and are difficult to predict and avoid, making them [especially common and particularly dangerous](https://aidworkersecurity.org/sites/default/files/2020-08/Aid%20Worker%20Security%20Report%202014.pdf), as you can see in the figure above.
 
 ![](https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg)
-Taliban attack on USAID (via BBC)
+Taliban attack on USAID (via [BBC](https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg))
 
 
 
@@ -194,12 +194,12 @@ Taliban attack on USAID (via BBC)
 
 ## Attacks Targeting Organizations
 
-The type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable. 
+Type of organization is important, especially when it comes to attacks by local actors such as the Taliban and Islamic State. Resistance to the West makes international NGOs particularly vulnerable. 
 
 ```{r message = FALSE, warning = FALSE}
 afghan_aidworker_df %>% 
   ggplot(aes(x = intl_org_affected)) + 
-  geom_bar(color = "blue", fill = "#FFE4E4") +
+  geom_bar(color = "blue", fill = "lightsteelblue2") +
   labs(
     title = "Distribution of Attacks by Organization Affected (2008-2016)",
     x = "International Organization Affected",
@@ -207,10 +207,10 @@ afghan_aidworker_df %>%
   )
 ```
 
-International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. These acts of violence were primarily perpetrated by the Taliban. 
+International organizations are more frequently targeted, especially in Afghanistan, due to local mistrust of international actors. Between the years of 2008-2016, these acts of violence were primarily perpetrated by the Taliban. 
 
 ![](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg)
-Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via BBC)
+Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via [BBC](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg))
 
 
 
@@ -290,16 +290,17 @@ aidworker_deaths_p + civilian_deaths_p
 
 
 ```
-*2010* - The spike in deaths of both aid workers and civilians is correlated with a 50% increase in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.
+
+*2010* - The spike in deaths of both aid workers and civilians is correlated with a [50% increase](https://www.cfr.org/timeline/us-war-afghanistan) in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.
 
 *2011* - Bin Laden was killed by the U.S. Army and CIA.
 
-*2013* - As noted previously, the 2013 spike in aid worker deaths was a product of the U.S. airstrike on an MSF hospital in Kunduz.This spike was not noticeably mirrored among civilians.  
+*2013* - As noted previously, the 2013 spike in aid worker deaths was a product of particularly deadly tensions between insurgent groups and government forces.  
 
-*2014* - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is elected. (via Council on Foreign Relations) 
+*2014* - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is [elected](https://www.nytimes.com/2014/05/28/world/asia/us-to-complete-afghan-pullout-by-end-of-2016-obama-to-say.html).  
 
 ![](https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg)
-U.S. Troops in Afghanistan (via Al Jazeera)
+U.S. Troops in Afghanistan (via [Al Jazeera](https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg))
 
 
 ```{r exploration of SHCC, include=FALSE}
