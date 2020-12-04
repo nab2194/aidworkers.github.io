@@ -12,20 +12,20 @@ always_allow_html: true
 ---
 
 
-
-Attacks on aid workers have been steadily increasing since 1997, particularly among national staff. In all but one of world's five most deadly countries for aid workers (Afghanistan, South Sudan, Syria, Somalia, and Sudan), a higher percentage of aid workers killed are comprised of national staff members. Our exploratory analysis demonstrates that additional research is needed on the factors that increase national staff vulnerability to attacks. 
+Attacks on aid workers have been steadily increasing since 1997, particularly among national staff. In all but one of world's five most deadly countries for aid workers, a higher percentage of aid workers killed are comprised of national staff members. Our exploratory analysis demonstrates that additional research is needed on the factors that increase national staff vulnerability to attacks.
 
 
 ![](IMAGES/white-helmets-ft.jpg)
 White Helmets, via The Intercept 
 
 
-Our interactive dashboard shows that ....
+In Afghanistan, attacks against national aid workers have remained consistently higher than those against international aid workers. Attacks most commonly occur on the road and affect international organizations, potentially suggesting that international organizations employing national staff are targeted by armed groups.
+
+Importantly, aid workers are now on the frontline of the COVID-19 pandemic response in conflict-affected countries, who may be hit especially hard by the virus. [Experience from Ebola](https://www.npr.org/2019/11/28/783582331/it-was-unmistakably-a-directed-attack-4-ebola-workers-killed-in-congo) shows us that pandemics tend to exacerbate existing tensions, leading to increases in violence against aid workers. As international organizations maintain travel restrictions that limit work of international aid workers, national aid workers will likely carry most of the burden of the response. Given this, increasing attention must be placed on protecting aid workers, and particularly national aid workers, who are a crucial part of the pandemic response in fragile settings. 
 
 
-Importantly, aid workers are now on the frontline of the COVID-19 pandemic response in conflict-affected countries. A recent article in the Lancet suggests that violence against health workers in fragile settings will likely be exacerbated by the COVID-19 pandemic, and that national workers will be particularly vulnerable. 
+## "Saving lives should never cost lives." 
 
 
-
-
+You may be wondering why people continue to work in humanitarian assistance, given the obvious risks outlined throughout this website. This International Humanitarian Day, the United Nations Office for the Coordination of Humanitarian Affairs (UNOCHA) released stories from humanitarian assistance workers around the world. We encourage you to read their stories [here.](https://unocha.exposure.co/meet-reallifeheroes)
 
