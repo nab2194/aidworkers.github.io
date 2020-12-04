@@ -105,7 +105,9 @@ Modern humanitarian action began in 1859 with the founding of the Red Cross move
 
 ## Attack trends over time
 
-Incidents of aid worker attacks have been increasing over the past 23 years of data collection, as the plot below shows. Hover over points to display total victims in each year, with a breakdown of 'national' (local) staff and 'international' (expatriate) staff affected. 
+
+Incidents of aid worker attacks have been increasing over the past 23 years of data collection, as the plot below shows.  Hover over points to display total victims in each year, with a breakdown of 'national' (local) staff and 'international' (expatriate) staff affected.
+
 
 ```{r message = FALSE, warning = FALSE}
 plot_1 = 
@@ -125,10 +127,21 @@ plot_1 =
 layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Year"), yaxis = list(title = "Number of Attack Incidents"))
 ```
 
-
-## Most dangerous countries
-
 ```{r}
+
+```
+
+## International vs National Staff
+
+
+
+## Most Dangerous Countries
+
+
+As the interactive plot below shows, the violence against aid workers is concentrated primarily in a few countries, with a very high number of aid worker victims in Afghanistan.  
+
+
+```{r message = FALSE, warning = FALSE}
 plot_2 = 
   aidworker_df %>%
   group_by(country) %>% 
@@ -148,19 +161,13 @@ plot_2 =
   
 layout(plot_2,
        title = "Top 50 Most Dangerous Countries for Aid Workers",
-       xaxis = list(title = paste0(c(rep("&nbsp;", 20),
-                                         "Country",
-                                         rep("&nbsp;", 20),
-                                         rep("\n&nbsp;", 3)),
-                                       collapse = "")),
+       xaxis = NULL,
        yaxis = list(title = "Total Victims"))
-
-
 ```
 
 
+The next two plots look at the top 10 countries for national staff victims and international staff victims: demonstrating the proportion of victims who were wounded, kidnapped, and killed.
 
-Types of violence for national and international staff
 
 ```{r message = FALSE, warning = FALSE}
 danger_countries_df = 
@@ -196,8 +203,11 @@ aidworker_df %>%
     name = "Violence Type",
     discrete = TRUE
   ) + 
-  theme(axis.text.x = element_text(angle = -70, vjust = 0.5, hjust=1))
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1))
 ```
+
+
+In Syria and Somalia, national staff were killed more than they were kidnapped or simply wounded.
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -234,12 +244,41 @@ aidworker_df %>%
     name = "Violence Type",
     discrete = TRUE
   ) + 
-  theme(axis.text.x = element_text(angle = -70, vjust = 0.5, hjust=1))
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1))
 ```
 
 
+Kidnapping comprises a greater proportion of attacks among international staff in many countries than among national staff.
 
-Top 5 Most Dangerous countries over time
+The table below ranks the top 10 countries by number of attacks and demonstrates the percentage of international and national staff victims who were killed or kidnapped.
+
+
+```{r message = FALSE, warning = FALSE}
+aidworker_df %>% 
+  group_by(country) %>% 
+  summarize(attacks = n_distinct(id),
+            nationals = sum(total_national_staff),
+            internationals = sum(total_international_staff),
+            tot_victims = sum(total_victims),
+            sum_national_kill = sum(nationals_killed),
+            sum_national_kidnap = sum(nationals_kidnapped),
+            pct_nationals_killed = (sum_national_kill/nationals)*100,
+            pct_nationals_kidnapped = (sum_national_kidnap/nationals)*100,
+            sum_intl_kill = sum(internationals_killed),
+            sum_intl_kidnap = sum(internationals_kidnapped),
+            pct_intl_killed = (sum_intl_kill/internationals)*100,
+            pct_intl_kidnapped = (sum_intl_kidnap/internationals)*100) %>%
+  mutate(rank = min_rank(desc(attacks))) %>% 
+  filter(rank < 11) %>%
+  arrange(rank) %>% 
+  select(country, rank, attacks, nationals, pct_nationals_killed,
+         pct_nationals_kidnapped, internationals, pct_intl_killed, pct_intl_kidnapped) %>%
+  knitr::kable()
+```
+
+
+Finally, this plot shows victims of the top 5 most dangerous countries over time. As the Afghanistan Case Study discusses, the spike in 2013 was partly related to the U.S. Military bombing of a Medecins Sans Frontieres hospital in Kunduz.
+
 
 ```{r message = FALSE, warning = FALSE}
 danger_countries_df = 
@@ -264,14 +303,6 @@ aidworker_df %>%
 ```
 
 
-## Most dangerous countries
-
-
-
-
-# Plots
-
-## International vs National Staff
 
 ## Attack Types
 
