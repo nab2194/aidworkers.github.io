@@ -23,7 +23,6 @@ Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v4.1
 <a href="https://ucdp.uu.se/">Click here</a> to see publicly available Uppsala Conflict Data Program, a project of Uppsala University Department of Peace and Conflict Research. 
 
 <br>
-<br>
 
 2020
 </p>
