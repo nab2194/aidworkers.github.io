@@ -76,6 +76,10 @@ afghan_aidworker_df =
 
 ```
 
+```{r}
+# aidworker_df %>% 
+```
+
 
 ## Starting EDA and vis
 
@@ -83,13 +87,13 @@ Internationals vs. nationals killed (Not in the to-do list but has an interestin
 
 ```{r}
 afghan_aidworker_international_df =
-  afghan_aidworker_df %>%
-  group_by(year) %>%
+  afghan_aidworker_df %>% 
+  group_by(year) %>% view()
   summarise(sum(internationals_killed)) %>%
   mutate(
     internationals_killed_tot = `sum(internationals_killed)`
   ) %>%
-  select(year, internationals_killed_tot)
+  select(year, internationals_killed_tot) %>% view()
 
 afghan_aidworker_national_df =
   afghan_aidworker_df %>%
@@ -178,6 +182,7 @@ afghan_aidworker_df %>%
             tot_both = sum(total_victims),
             pct_intl = (tot_intl/tot_both)*100,
             pct_national = (tot_national/tot_both)*100) %>%
+  
   ggplot(aes(x = year, y = pct_national, col = 3)) +
   geom_line() +
    geom_line(aes(x = year, y = pct_intl, col = 2)) +
