@@ -1,0 +1,14 @@
+---
+title: "Conclusions"
+output: 
+  html_document:
+    css: "style.css"
+    fig_width: 6
+    fig_height: 7
+    toc: true
+    toc_float: true
+    theme: cosmo
+always_allow_html: true
+---
+
+
