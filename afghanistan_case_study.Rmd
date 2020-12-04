@@ -303,6 +303,13 @@ aidworker_deaths_p + civilian_deaths_p
 U.S. Troops in Afghanistan (via [Al Jazeera](https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg))
 
 
+## Map of Aidworker Attacks
+
+Finally, this map shows locations and details of aidworker attacks from the incidents in which a specific location was known. 
+
+
+
+
 ```{r exploration of SHCC, include=FALSE}
 shcc2018_df = 
   read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
