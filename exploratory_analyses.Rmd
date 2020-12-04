@@ -8,7 +8,7 @@ output:
 always_allow_html: true
 ---
 
-```{r setup include = FALSE}
+```{r include = FALSE}
 library(tidyverse)
 library(dplyr)
 library(patchwork)
@@ -35,7 +35,7 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r df_tidy include = FALSE}
+```{r include = FALSE}
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
 
@@ -77,9 +77,29 @@ aidworker_df %>% mutate_each(funs(empty_as_na))
 
 aidworker_df = 
   aidworker_df %>% 
-  filter(country != "Total") 
-
+  filter(country != "Total") %>% 
+  mutate(attack_abr = case_when(
+           means_of_attack == "Kidnap-killing" ~ "Kidnapping",
+           means_of_attack == "Kidnapping" ~ "Kidnapping",
+           means_of_attack == "Body-borne IED" ~ "IED", 
+           means_of_attack == "Vehicle-born IED" ~ "IED", 
+           means_of_attack == "Roadside IED" ~ "IED",
+           means_of_attack == "Landmine" ~ "Explosives", 
+           means_of_attack == "Shelling" ~ "Explosives",
+           means_of_attack == "Other Explosives" ~ "Explosives",
+           means_of_attack == "Aerial bombardment" ~ "Explosives",
+           means_of_attack == "Rape/sexual assault" ~ "Rape/sexual assault",
+           means_of_attack == "Complex attack" ~ "Complex attack",
+           means_of_attack == "Shooting" ~ "Shooting",
+           means_of_attack == "Unknown" ~ "Unknown", 
+           means_of_attack == "Bodily assault" ~ "Bodily assault"
+           ))
 ```
+
+Modern humanitarian action began in 1859 with the founding of the Red Cross movement after activist Henri Dunant witnessed battlefield suffering in Solferino, Italy and envisioned a neutral party that could assist victims of conflict. Aidworkers today follow common core principles of humanity, neutrality, impartiality, and independence to assist any person in need: and as such, should be protected from violence themselves. Unfortunately, the world is becoming more dangerous for those who provide humanitarian assistance.
+
+* [Founding of ICRC - 2min video](https://www.icrc.org/en/who-we-are/history/founding)
+
 
 
 # Most Deadly Countries and Years
