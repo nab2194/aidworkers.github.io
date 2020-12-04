@@ -48,6 +48,8 @@ In recent decades, attacks on aid workers in complex crises have been steadily i
 
 * Joining data sets, and different uses of different data sets
 
+Afghanistan: Used the same dataset as the global analysis, but brought in Uppsala conflict data in an attempt to introduce more context to violence in the country. We chose to focus on the years 2008-2016 to look at whether there were any unique datapoints in the Bush vs. Obama administrations due to U.S. presence in Afghanistan. This was also why we chose to use Afghanistan versus another country - much of the political violence there is influenced by American occupation of Afghan land. Further, Afghanistan has been one of the most dangerous locations for aid workers over multiple years, so we chose to take a closer look at what might be going on. 
+
 ## Exploratory analysis
 
 *HERE WE NEED TO ACTUALLY PRESENT ANY OF OUR RELEVANT EDA AND VISUALIZATIONS*
@@ -69,6 +71,8 @@ In recent decades, attacks on aid workers in complex crises have been steadily i
 * What were our findings? 
 
 * Were they what we expect?
+
+Afghanistan: we expected there to be similar trends between aid worker deaths and civilian deaths, though this was not always the case. Similary, we expected more international aid workers to be targeted than national aid workers, 
 
 * What insights into the data can we make?
 
