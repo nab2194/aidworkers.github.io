@@ -97,13 +97,15 @@ aidworker_df =
            ))
 ```
 
-Modern humanitarian action began in 1859 with the founding of the Red Cross movement after activist Henri Dunant witnessed battlefield suffering in Solferino, Italy and envisioned a neutral party that could assist victims of conflict. Aidworkers today follow common core principles of humanity, neutrality, impartiality, and independence to assist any person in need: and as such, should be protected from violence themselves. Unfortunately, the world is becoming more dangerous for those who provide humanitarian assistance.
+Modern humanitarian action began in 1859 with the founding of the Red Cross movement after activist Henri Dunant witnessed battlefield suffering in Solferino, Italy and envisioned a neutral party that could assist victims of conflict.  Aidworkers today follow common core principles of humanity, neutrality, impartiality, and independence to assist any person in need: and as such, should be protected from violence themselves.  Unfortunately, the world is becoming more dangerous for those who provide humanitarian assistance.
 
 * [Founding of ICRC - 2min video](https://www.icrc.org/en/who-we-are/history/founding)
 
 
 
 ## Attack trends over time
+
+Incidents of aid worker attacks have been increasing over the past 23 years of data collection, as the plot below shows. Hover over points to display total victims in each year, with a breakdown of 'national' (local) staff and 'international' (expatriate) staff affected. 
 
 ```{r message = FALSE, warning = FALSE}
 plot_1 = 
@@ -123,6 +125,87 @@ plot_1 =
 layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Year"), yaxis = list(title = "Number of Attack Incidents"))
 ```
 
+
+
+## Most dangerous countries
+
+
+```{r message = FALSE, warning = FALSE}
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_national_staff, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Central African Republic", "DR Congo", 
+                        "Iraq", "Pakistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic", "Nigeria")) %>% 
+  group_by(country) %>% 
+  summarize("Killed" = sum(nationals_killed),
+            "Wounded" = sum(nationals_wounded),
+            "Kidnapped" = sum(nationals_kidnapped),
+            tot_natl = sum(total_national_staff)) %>% 
+  pivot_longer(
+    "Killed":"Kidnapped",
+    names_to = "Violence_type",
+    values_to = "Number"
+  ) %>% 
+  mutate(country = fct_reorder(country, tot_natl)) %>% 
+  ggplot(aes(x = as.factor(country), y = Number, fill = Violence_type)) + 
+  geom_bar(stat="identity") + 
+  labs(
+    title = "Top 10 Most Deadly Countries for Aid Workers (National Staff)",
+    x = "Country",
+    y = "Number of National Staff Attacked"
+  ) + 
+  viridis::scale_fill_viridis(
+    name = "Violence Type",
+    discrete = TRUE
+  )
+```
+
+
+```{r}
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_international_staff, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Chechnya", "DR Congo", 
+                        "Iraq", "Kenya", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic", "Yemen", "Libyan Arab Jamahiriya")) %>% 
+  group_by(country) %>% 
+  summarize("Killed" = sum(internationals_killed),
+            "Wounded" = sum(internationals_wounded),
+            "Kidnapped" = sum(internationals_kidnapped),
+            tot_intl = sum(total_international_staff)) %>% 
+  pivot_longer(
+    "Killed":"Kidnapped",
+    names_to = "Violence_type",
+    values_to = "Number"
+  ) %>% 
+  mutate(country = fct_reorder(country, tot_intl)) %>% 
+  ggplot(aes(x = as.factor(country), y = Number, fill = Violence_type)) + 
+  geom_bar(stat="identity") + 
+  labs(
+    title = "Top 11 Most Deadly Countries for Aid Workers (International Staff)",
+    x = "Country",
+    y = "Number of International Staff Attacked"
+  ) + 
+  viridis::scale_fill_viridis(
+    name = "Violence Type",
+    discrete = TRUE
+  )
+```
+
+
+
+## Most dangerous countries
 
 
 
