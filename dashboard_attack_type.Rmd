@@ -97,7 +97,7 @@ Move the sliders to explore patterns over time.
 
 ## Means of attack 
 type_attack = aidworker_df %>% 
-  distinct(attack_abr) %>% pull()
+  distinct(attack_abr) %>% drop_na() %>% pull()
 
 checkboxGroupInput("outcome_choice", 
                    label = h3("Means of Attack"),
@@ -112,7 +112,7 @@ textInput("attack_country",
           value = "Afghanistan")
 
 ## Location of Attack 
-loc_attack = aidworker_df %>% distinct(location) %>% pull()
+loc_attack = aidworker_df %>% distinct(location) %>% drop_na() %>% pull()
 
 radioButtons(
   "location_choice",
@@ -144,7 +144,7 @@ renderPlotly({
       country == input$attack_country,
       location == input$location_choice) %>% 
      mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context, '\n Event Description: ', details)) %>% 
-  plot_ly(x = ~year, y = ~total_victims, type = "scatter", mode = "lines", alpha = 0.5, color = ~attack_abr, text = ~text_label)
+  plot_ly(x = ~year, y = ~total_victims, type = "scatter", mode = "lines", alpha = 0.5, color = ~attack_abr, text = ~text_label) %>% layout(xaxis = "Year", yaxis = "Number of Aid Workers Attacked")
 })
 
 ```
@@ -166,7 +166,7 @@ Move the sliders to explore patterns over time.
 
 ## Means of attack 
 type_attack = aidworker_df %>% 
-  distinct(attack_abr) %>% pull()
+  distinct(attack_abr) %>% drop_na() %>% pull()
 
 checkboxGroupInput("outcome_choice", 
                    label = h3("Means of Attack"),
@@ -182,7 +182,7 @@ textInput("attack_country",
 
 
 ## Location of attack 
-loc_attack = aidworker_df %>% distinct(location) %>% pull()
+loc_attack = aidworker_df %>% distinct(location) %>% drop_na() %>% pull()
 
 radioButtons(
   "location_choice",
@@ -222,7 +222,7 @@ renderPlotly({
   mutate(text_label = str_c("Country: ", country, '\nAttack Context: ', attack_context), '\n Event Description: ', details) %>% 
   plot_ly(
     x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
-    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+    alpha = 0.5, color = ~attack_abr, text = ~text_label) %>% layout(xaxis = "Year", yaxis = "Number of National Staff Attacked")
 })
 
 ```
@@ -240,7 +240,7 @@ renderPlotly({
     mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context, '\n Event Description: ', details)) %>% 
   plot_ly(
     x = ~year, y = ~total_international_staff, type = "scatter", mode = "lines",
-    alpha = 0.5, color = ~attack_abr, text = ~text_label)
+    alpha = 0.5, color = ~attack_abr, text = ~text_label) %>% layout(xaxis = "Year", yaxis = "Number of International Staff Attacked")
 })
 
 ```
