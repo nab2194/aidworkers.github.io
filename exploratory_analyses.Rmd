@@ -127,12 +127,61 @@ plot_1 =
 layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Year"), yaxis = list(title = "Number of Attack Incidents"))
 ```
 
-```{r}
 
+This rise in aid worker attacks is disproportionately affecting national staff. The next two plots show rising national staff victims and the proportion of total victims who are national staff, while the proportion of international staff victims has decreased. 
+
+
+```{r message = FALSE, warning = FALSE}
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Attacks over time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked")
 ```
 
-## International vs National Staff
 
+```{r message = FALSE, warning = FALSE}
+pct_ntl =
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line() +
+    labs(
+     x = "Year",
+     y = "% National"
+    )
+
+## Plot of percentage of internationals affected by attacks over time 
+pct_intl = 
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_intl)) + 
+  geom_line() +
+   labs(
+    x = "Year",
+    y = "% International"
+   )
+
+pct_ntl + pct_intl +
+  plot_annotation(title = "Percent of Aid Workers Attacked Who Were National vs. International")
+```
 
 
 ## Most Dangerous Countries
@@ -160,6 +209,7 @@ plot_2 =
           type = "scatter", mode = "markers")
   
 layout(plot_2,
+       margin = list(l=25, r=50, b=100, t=50, pad=0),
        title = "Top 50 Most Dangerous Countries for Aid Workers",
        xaxis = NULL,
        yaxis = list(title = "Total Victims"))
@@ -197,7 +247,7 @@ aidworker_df %>%
   labs(
     title = "Top 10 Most Deadly Countries for Aid Workers (National Staff)",
     x = "Country",
-    y = "Number of National Staff Attacked"
+    y = "National Staff Victims"
   ) + 
   viridis::scale_fill_viridis(
     name = "Violence Type",
@@ -207,7 +257,7 @@ aidworker_df %>%
 ```
 
 
-In Syria and Somalia, national staff were killed more than they were kidnapped or simply wounded.
+In Syria and Somalia, national staff were killed more than they were kidnapped or simply wounded.  
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -238,7 +288,7 @@ aidworker_df %>%
   labs(
     title = "Top 11 Most Deadly Countries for Aid Workers (International Staff)",
     x = "Country",
-    y = "Number of International Staff Attacked"
+    y = "International Staff Victims"
   ) + 
   viridis::scale_fill_viridis(
     name = "Violence Type",
@@ -248,9 +298,9 @@ aidworker_df %>%
 ```
 
 
-Kidnapping comprises a greater proportion of attacks among international staff in many countries than among national staff.
+Kidnapping comprises a greater proportion of attacks among international staff in many countries than among national staff.  Libya and Kenya tied for 10th most international victims.
 
-The table below ranks the top 10 countries by number of attacks and demonstrates the percentage of international and national staff victims who were killed or kidnapped.
+The table below ranks the top 10 countries by number of attacks and demonstrates the percentage of international and national staff victims who were killed or kidnapped. 
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -277,7 +327,7 @@ aidworker_df %>%
 ```
 
 
-Finally, this plot shows victims of the top 5 most dangerous countries over time. As the Afghanistan Case Study discusses, the spike in 2013 was partly related to the U.S. Military bombing of a Medecins Sans Frontieres hospital in Kunduz.
+Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 are discussed in the accompanying case study. 
 
 
 ```{r message = FALSE, warning = FALSE}

@@ -6,9 +6,11 @@ navbar:
     - text: "Explore Global Trends"
       href: exploratory_analyses.html
     - text: "Attack Type Dashboard"
-      href: https://ebbollman.shinyapps.io/dashboard_attack_type/
+      href: https://ebbollman.shinyapps.io/dashboard_attack_type/ 
     - text: "Zoom In: Afghanistan"
       href: afghanistan_case_study.html
+    - text: "Conclusions"
+    - href: conclusions.html 
   right:
     - text: "Project Report"
       href: final_report.html
@@ -21,6 +23,9 @@ navbar:
   
 output:
   html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide 
     theme: flatly
     includes:
       after_body: footer.html
