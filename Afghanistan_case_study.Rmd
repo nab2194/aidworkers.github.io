@@ -77,6 +77,7 @@ afghan_aidworker_df =
 ```
 
 
+
 ## International vs. National NGO Staff Deaths
 
 International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs or local NGOs. 
@@ -125,6 +126,10 @@ After noting this sharp increase in attacks against local aid workers, many aid 
 ![](https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/assets/2013/05/17002/image1170x530cropped.jpg)
 ICRC staff in Afghanistan (via UN News)
 
+
+
+
+
 ## Attack Types
 
 Aid workers are uniquely vulnerable to attacks given the dangerous settings in which they work. While aid workers are somewhat protected by International Humanitarian Law and the organizations they work with, this does not guarantee safety, especially in conflict-heavy contexts. 
@@ -159,6 +164,10 @@ Kunduz was the Taliban's last stronghold before being driven out by NATO.
 ![](https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg)
 MSF hospital in Kunduz, post-U.S. air strike (via MSF)
 
+
+
+
+
 ## Location of Attack
 
 Aid workers are targeted in a variety of settings, though some more than others. 
@@ -181,7 +190,10 @@ Roads are extremely difficult to protect. Attacks and ambush can come in the for
 
 ![](https://ichef.bbci.co.uk/news/976/cpsprodpb/13712/production/_106843697_mediaitem106843696.jpg)
 Taliban attack on USAID (via BBC)
-From section 1 vis: 
+
+
+
+
 
 ## Attacks Targeting Organizations
 
@@ -203,7 +215,7 @@ International organizations are more frequently targeted, especially in Afghanis
 ![](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg)
 Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via BBC)
 
-International vs National staff attacks
+
 
 ```{r message = FALSE, warning = FALSE}
 af_pct_intl_ntl =
@@ -224,6 +236,8 @@ afghan_aidworker_df %>%
    ) 
 
 ```
+
+
 
 
 ## Aidworker vs. Civilian Death
