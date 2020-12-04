@@ -4,8 +4,9 @@ output:
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide 
     theme: flatly
-always_allow_html: true
+    always_allow_html: true
 ---
 
 ```{r include = FALSE}
@@ -35,7 +36,7 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r include = FALSE}
+```{r message = FALSE, warning = FALSE}
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
 
@@ -102,7 +103,29 @@ Modern humanitarian action began in 1859 with the founding of the Red Cross move
 
 
 
-# Most Deadly Countries and Years
+## Attack trends over time
+
+```{r message = FALSE, warning = FALSE}
+plot_1 = 
+  aidworker_df %>% 
+  group_by(year) %>% 
+  summarize(tot_attacks = n_distinct(id),
+            tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  mutate(text_label = 
+           str_c("Total Victims: ", tot_both, "\nInternational Staff: ", tot_intl,
+                 "\nNational Staff: ", tot_national)) %>% 
+  plot_ly(
+    x = ~year, y = ~tot_attacks, text = ~text_label,
+          type = "scatter", mode = "markers")
+  
+layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Year"), yaxis = list(title = "Number of Attack Incidents"))
+```
+
+
+
+
 
 # Plots
 
