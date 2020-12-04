@@ -1,0 +1,115 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v4.0 | 20180602
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+  display: block; }
+
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+  display: none; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  background: transparent; }
+
+@charset "UTF-8";
+@font-face {
+  font-family: 'knowledge-light';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/knowledge-light-e76d05f89d70cea61820a955651ea70f.woff) format("woff");
+  html:lang(ja) {
+    src: local("Noto Sans JP Light"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W1"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Light"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
+@font-face {
+  font-family: 'knowledge-regular';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/knowledge-regular-688baa6ec8576871229e082dcd4b4c5a.woff) format("woff");
+  html:lang(ja) {
+    src: local("Noto Sans JP Regular"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W3"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Regular"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
+@font-face {
+  font-family: 'knowledge-medium';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/knowledge-medium-cb99300d7588193b6c012888b94697ec.woff) format("woff");
+  html:lang(ja) {
+    src: local("Noto Sans JP Medium"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W6"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Medium"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
+@font-face {
+  font-family: 'knowledge-bold';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/knowledge-bold-ba054d73a350fc1f77147054141c191c.woff) format("woff");
+  unicode-range: U+000-5FF;
+  /* Latin glyphs */
+  html:lang(ja) {
+    src: local("Noto Sans JP Bold"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W8"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Bold"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
+@font-face {
+  font-family: 'freight-book';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/freight-text-book-37a2e9010bb1368f29a121e116d88471.woff) format("woff");
+  html:lang(ja) {
+    src: local("Noto Serif JP"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W3"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Regular"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
+@font-face {
+  font-family: 'freight-semibold';
+  font-display: fallback;
+  src: url(/article/_next/static/fonts/freight-text-semibold-5a1fa87f8356670f672973d5bdb63975.woff) format("woff");
+  html:lang(ja) {
+    src: local("Noto Serif JP SemiBold"), local("\30D2\30E9\30AE\30CE\89D2\30B4   Pro W7"), local("Hiragino Kaku Gothic Pro"), local("\30E1\30A4\30EA\30AA"), local(Meiryo), local("Noto Sans CJK JP Medium"), local(Osaka), local("\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF"), local("MS PGothic");
+    unicode-range: U+3000-9FFF, U+ff??;
+    /* Japanese glyphs */ } }
+
