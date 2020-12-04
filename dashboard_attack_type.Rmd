@@ -97,7 +97,7 @@ Move the sliders to explore patterns over time.
 
 ## Means of attack 
 type_attack = aidworker_df %>% 
-  distinct(attack_abr) %>% drop_na() %>% pull()
+  distinct(attack_abr) %>% pull()
 
 checkboxGroupInput("outcome_choice", 
                    label = h3("Means of Attack"),
@@ -112,7 +112,7 @@ textInput("attack_country",
           value = "Afghanistan")
 
 ## Location of Attack 
-loc_attack = aidworker_df %>% distinct(location) %>% drop_na() %>% pull()
+loc_attack = aidworker_df %>% distinct(location) %>% pull()
 
 radioButtons(
   "location_choice",
@@ -166,7 +166,7 @@ Move the sliders to explore patterns over time.
 
 ## Means of attack 
 type_attack = aidworker_df %>% 
-  distinct(attack_abr) %>% drop_na() %>% pull()
+  distinct(attack_abr) %>% pull()
 
 checkboxGroupInput("outcome_choice", 
                    label = h3("Means of Attack"),
@@ -182,7 +182,7 @@ textInput("attack_country",
 
 
 ## Location of attack 
-loc_attack = aidworker_df %>% distinct(location) %>% drop_na() %>% pull()
+loc_attack = aidworker_df %>% distinct(location) %>% pull()
 
 radioButtons(
   "location_choice",
