@@ -1,12 +1,10 @@
 ---
-title: "Attacks on Aid: Quantifying Risk of Violence Among Aid Workers in Global Humanitarian Settings"
+title: "Attacks on Aid: Quantifying Risk of Violence Toward Aid Workers in Global Humanitarian Settings"
 output: 
   html_document:
     css: "style.css"
     fig_width: 6
     fig_height: 7
-    toc: true
-    toc_float: true
     theme: cosmo
 always_allow_html: true
 ---
@@ -25,7 +23,7 @@ In recent decades, attacks on aid workers in complex crises have been steadily i
 
 Our analysis focuses on the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization), which has collected data on attacks against humanitarian aid workers globally since 1997. Additional information related to country violence comes from the Uppsala Conflict Data Program (UCDP). These data are used in conjunction to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). 
 
-A closer focus on Afghanistan allows for a closer look at one of the most consistently violent settings identified in the various databases used for global-level analysis. 
+A focus on Afghanistan allows for a closer look at one of the most consistently violent settings identified in the various databases used for global-level analysis. 
 
 We want to acknowledge that some of the content in this website including images and descriptions of graphic violence and military occupation will likely be difficult to read or triggering.
  
@@ -38,8 +36,28 @@ We want to acknowledge that some of the content in this website including images
  * The github repository containing our raw code and analyses (see Github icon)
  * A World Health Organization 2020 tribute to aid workers (see ambulance icon)
 
+<br>
 
+<small>
+  
 
+  Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd
+</p>
 
+<p style="text-align: center;">
+Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.0.3) and <a href="https://rstudio.com">RStudio</a> (v1.3.1073). <br>
+
+<p style="text-align: center;">
+Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v4.13.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.5.0). <br>
+
+<p style="text-align: center;">
+<a href="https://aidworkersecurity.org/">Click here</a> to see publicly available Aid Worker Security dataset, a project of Humanitarian Outcomes. 
+
+<p style="text-align: center;">
+<a href="https://ucdp.uu.se/">Click here</a> to see publicly available Uppsala Conflict Data Program, a project of Uppsala University Department of Peace and Conflict Research. 
+
+<br>
+
+2020
 
 

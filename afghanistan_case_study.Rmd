@@ -73,12 +73,12 @@ afghan_aidworker_df =
 
 ```
 
-As depicted in the data table in our exploration of global trends, Afghanistan has been the deadliest country for aid workers by far. In conjunction with U.S. occupation of Afghanistan, the statistics associated with this country merit a closer look.
+As depicted in the data table in our exploration of global trends, Afghanistan has been the deadliest country for aid workers by far. In conjunction with U.S. occupation of Afghanistan, the statistics associated with this country merit a closer look: focusing on the years 2008 to 2016 in which the greatest number of attacks occurred.
 
 
 ## International vs. National NGO Staff Deaths
 
-International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs or local NGOs. 
+International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs (including UN agencies or the International Committee of the Red Cross) or local NGOs. 
 
 ```{r message = FALSE, warning = FALSE}
 afghan_aidworker_international_df =
@@ -115,6 +115,8 @@ afghan_aidworker_df_new %>%
 
 ```
 
+### Contextual Factors
+
 *2012* - The significant drop in aid worker death coincides with the withdrawal of half of American troops in Afghanistan. 
 
 *2013* - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents, especially as [tensions](https://reliefweb.int/report/afghanistan/afghanistan-worlds-most-dangerous-place-aid-workers) between government and insurgent groups rose sharply. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the [UN in 2013](https://www.un.org/press/en/2014/sc11524.doc.htm), "Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk...About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent." It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. "Security arrangements of those organizations and the United Nations often left local humanitarian organizations [less secure](https://www.un.org/press/en/2014/sc11524.doc.htm)".  National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations. 
@@ -131,6 +133,7 @@ ICRC staff in Afghanistan (via [UN News](https://global.unitednations.entermedia
 ## Attack Types
 
 Aid workers are uniquely vulnerable to attacks given the dangerous settings in which they work. While aid workers are somewhat protected by International Humanitarian Law and the organizations they work with, this does not guarantee safety, especially in conflict-heavy contexts. 
+
 ```{r message = FALSE, warning = FALSE}
 means_attack_p =
 afghan_aidworker_df %>%
@@ -154,10 +157,11 @@ subplot(means_attack_p, attack_context_p)
 
 Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left [19 dead and 37 wounded](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003) (including patients and aid workers). 
 
-On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that 
-[hit](https://www.msf.org/kunduz-hospital-attack-depth) a traume hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. Since its opening in 2011, the MSF Kunduz hospital had become an important [lifeline](https://www.msf.org/kunduz-hospital-attack-depth) for thousands. On the night of the attack, 105 patients and 140 MSF staff were present in the hospital. 
+On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that repeatedly and precisely hit a trauma hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. Since its opening in 2011, the MSF Kunduz hospital had become an important [lifeline](https://www.msf.org/kunduz-hospital-attack-depth) for thousands. On the night of the attack, 105 patients and 140 MSF staff were present in the hospital. 
 
-Eventually, the U.S. stated that the airstrike was accidental. They were never charged for war crimes, despite vehement outcry from MSF. 
+The military initially justified the attack by claiming reports of Taliban militia on-site. MSF reported the hospital was clearly marked with updated GPS coordinates provided to American and Coalition forces as recently as one week before the attack. Furthermore, bombing continued for 30 minutes after MSF urgently communicated to military leadership that a hospital was being hit. Eventually, the U.S. stated that the airstrike was accidental. MSF has repeatedly called for an independent investigation of possible war crimes, which has not occurred. 
+
+[MSF Report on Kunduz Attack](https://www.msf.org/kunduz-hospital-attack-depth)
 
 
 ![](https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg)
@@ -311,74 +315,3 @@ U.S. Troops in Afghanistan (via [Al Jazeera](https://www.aljazeera.com/wp-conten
 
 Finally, this map shows locations and details of aidworker attacks from the incidents in which a specific location was known. 
 
-
-
-
-```{r exploration of SHCC, include=FALSE}
-shcc2018_df = 
-  read_excel("data/2018-shcc-attacks-data.xlsx", skip = 1) %>% 
-  janitor::clean_names() %>% 
-  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
-  filter(country_name == "Afghanistan") %>% 
-    mutate(tot_hc_workers_affected = 
-           affected_healthworker_killed + 
-           affected_healthworker_sgbv + 
-           affected_healthworker_arrested + 
-           affected_healthworker_injured + 
-           affected_healthworker_kidnapped) %>% 
-  mutate(tot_hc_facilities_affected = 
-           impact_health_facility_num +
-           event_health_facility_destroyed_num +
-           event_health_facility_damaged_num +
-           impact_health_facility_armed_entry_num +
-           impact_health_supplies_taken_num +
-           impact_health_facility_occupation_num
-           ) %>% 
-  mutate(tot_hc_transport_affected = 
-          impact_health_transport_destroyed_num + 
-           impact_health_transport_damaged_num +
-           impact_health_transport_abducted_num) 
-
-# these columns are just straight up full of N/As...........
-shcc2018_df %>% 
-  ggplot(aes(x = date_occurrence, y = affected_healthworker_killed)) +
-   geom_line() +
-  geom_line(data = shcc2018_df, aes(x = date_occurrence, y = event_health_facility_destroyed_num)) +
-  labs(
-    title = "Aidowrkers and HCFs Destroyed",
-    x = "Date",
-    y = "Number Killed"
-  ) 
-
-# If we want to do a bar graph comparing total HCWs affected vs. total healthcare facilities affected in 2018 and 2019? Something is very off here.......
-
-
-shcc2019_df = 
-  read_excel("data/2019-shcc-healthcare-afghanistan-data.xlsx", skip = 1) %>% 
-  janitor::clean_names() %>%
-  rename_at(vars(matches("number_")), ~ str_remove(., "number_")) %>% 
-  filter(country_name == "Afghanistan") %>% 
-  select(-"x12") %>%
-  mutate(
-    tot_hc_worker_affected = 
-      affected_healthworker_killed + 
-      affected_healthworker_kidnapped +
-      affected_healthworker_threatened + 
-      affected_healthworker_injured + 
-      affected_healthworker_assaulted + 
-      affected_healthworker_sgbv
-    ) %>% 
-  mutate(
-      tot_hc_facilities_affected = 
-        indicator_health_facility_destroyed_num +
-        indicator_health_facility_damaged_num + 
-        indicator_health_facility_armed_entry_num +
-        indicator_health_supplies_taken_num
-    ) %>% 
-  mutate(
-       tot_hc_transport_affected = 
-         indicator_health_transport_destroyed_num +
-         indicator_health_transport_damaged_num +
-         indicator_health_transport_abducted_num
-      )
-```
