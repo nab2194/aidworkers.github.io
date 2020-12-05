@@ -5,8 +5,6 @@ navbar:
   left:
     - text: "Global Trends"
       href: exploratory_analyses.html
-    - text: "Attack Type Dashboard"
-      href: https://ebbollman.shinyapps.io/final_dashboard/ 
     - text: "Map"
       href: 
     - text: "Zoom In: Afghanistan"
