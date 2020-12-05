@@ -8,7 +8,7 @@ output:
 runtime: shiny
 ---
 
-```{r setup, include = FALSE, cache = TRUE}
+```{r setup, include = FALSE}
 library(tidyverse)
 library(dplyr)
 library(leaflet)
@@ -135,7 +135,7 @@ inputPanel(
   )
 ```
 
-Column
+Column 
 -----------------------------------------------------------------------
 
 ### GLOBAL MAP
