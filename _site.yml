@@ -6,11 +6,13 @@ navbar:
     - text: "Explore Global Trends"
       href: exploratory_analyses.html
     - text: "Attack Type Dashboard"
-      href: https://ebbollman.shinyapps.io/dashboard_attack_type/ 
+      href: (https://ebbollman.shinyapps.io/dashboard_attack_type/)   
     - text: "Zoom In: Afghanistan"
       href: afghanistan_case_study.html
+    - text: "Map"
+      href: 
     - text: "Conclusions"
-    - href: conclusions.html 
+      href: conclusions.html 
   right:
     - text: "Project Report"
       href: final_report.html

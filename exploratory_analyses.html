@@ -364,14 +364,14 @@ div.tocify {
   <a href="exploratory_analyses.html">Explore Global Trends</a>
 </li>
 <li>
-  <a href="https://ebbollman.shinyapps.io/dashboard_attack_type/">Attack Type Dashboard</a>
+  <a href="(https://ebbollman.shinyapps.io/dashboard_attack_type/)">Attack Type Dashboard</a>
 </li>
 <li>
   <a href="afghanistan_case_study.html">Zoom In: Afghanistan</a>
 </li>
-<li class="dropdown-header">Conclusions</li>
+<li class="dropdown-header">Map</li>
 <li>
-  <a href="conclusions.html"></a>
+  <a href="conclusions.html">Conclusions</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -482,7 +482,7 @@ aidworker_df =
 </ul>
 <div id="attack-trends-over-time" class="section level2">
 <h2>Attack trends over time</h2>
-<p>Incidents of aid worker attacks have been increasing over the past 23 years of data collection, as the plot below shows. Hover over points to display total victims in each year, with a breakdown of ‘national’ (local) staff and ‘international’ (expatriate) staff affected.</p>
+<p>Incidents of aid worker attacks have been increasing globally over the past 23 years of data collection, as the plot below shows. Hover over points to display total victims in each year, with a breakdown of ‘national’ (local) staff and ‘international’ (expatriate) staff affected.</p>
 <pre class="r"><code>plot_1 = 
   aidworker_df %&gt;% 
   group_by(year) %&gt;% 
@@ -498,9 +498,9 @@ aidworker_df =
           type = &quot;scatter&quot;, mode = &quot;markers&quot;)
   
 layout(plot_1, title = &quot;Aid Worker Attacks Over Time&quot;, xaxis = list(title = &quot;Year&quot;), yaxis = list(title = &quot;Number of Attack Incidents&quot;))</code></pre>
-<div id="htmlwidget-36b72e3368c49f0644a7" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-36b72e3368c49f0644a7">{"x":{"visdat":{"4af114403dcc":["function () ","plotlyVisDat"]},"cur_data":"4af114403dcc","attrs":{"4af114403dcc":{"x":{},"y":{},"text":{},"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Aid Worker Attacks Over Time","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Attack Incidents"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],"y":[34,25,31,41,28,46,62,63,74,107,124,165,155,130,152,170,265,192,149,163,158,228,277,157],"text":["Total Victims: 73<br />International Staff: 29<br />National Staff: 44","Total Victims: 62<br />International Staff: 21<br />National Staff: 41","Total Victims: 66<br />International Staff: 24<br />National Staff: 42","Total Victims: 87<br />International Staff: 20<br />National Staff: 67","Total Victims: 86<br />International Staff: 26<br />National Staff: 60","Total Victims: 85<br />International Staff: 17<br />National Staff: 68","Total Victims: 142<br />International Staff: 25<br />National Staff: 117","Total Victims: 125<br />International Staff: 24<br />National Staff: 101","Total Victims: 172<br />International Staff: 14<br />National Staff: 158","Total Victims: 240<br />International Staff: 26<br />National Staff: 214","Total Victims: 221<br />International Staff: 35<br />National Staff: 186","Total Victims: 278<br />International Staff: 51<br />National Staff: 227","Total Victims: 295<br />International Staff: 74<br />National Staff: 221","Total Victims: 250<br />International Staff: 41<br />National Staff: 209","Total Victims: 311<br />International Staff: 29<br />National Staff: 282","Total Victims: 277<br />International Staff: 49<br />National Staff: 228","Total Victims: 475<br />International Staff: 60<br />National Staff: 415","Total Victims: 332<br />International Staff: 32<br />National Staff: 300","Total Victims: 289<br />International Staff: 29<br />National Staff: 260","Total Victims: 295<br />International Staff: 43<br />National Staff: 252","Total Victims: 313<br />International Staff: 28<br />National Staff: 285","Total Victims: 408<br />International Staff: 29<br />National Staff: 379","Total Victims: 483<br />International Staff: 27<br />National Staff: 456","Total Victims: 281<br />International Staff: 17<br />National Staff: 264"],"mode":"markers","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-<p>This rise in aid worker attacks is disproportionately affecting national staff. The next two plots show rising national staff victims and the proportion of total victims who are national staff, while the proportion of international staff victims has decreased.</p>
+<div id="htmlwidget-f18e2c6571b577ca4654" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f18e2c6571b577ca4654">{"x":{"visdat":{"53267bb2a1a7":["function () ","plotlyVisDat"]},"cur_data":"53267bb2a1a7","attrs":{"53267bb2a1a7":{"x":{},"y":{},"text":{},"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Aid Worker Attacks Over Time","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Attack Incidents"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],"y":[34,25,31,41,28,46,62,63,74,107,124,165,155,130,152,170,265,192,149,163,158,228,277,157],"text":["Total Victims: 73<br />International Staff: 29<br />National Staff: 44","Total Victims: 62<br />International Staff: 21<br />National Staff: 41","Total Victims: 66<br />International Staff: 24<br />National Staff: 42","Total Victims: 87<br />International Staff: 20<br />National Staff: 67","Total Victims: 86<br />International Staff: 26<br />National Staff: 60","Total Victims: 85<br />International Staff: 17<br />National Staff: 68","Total Victims: 142<br />International Staff: 25<br />National Staff: 117","Total Victims: 125<br />International Staff: 24<br />National Staff: 101","Total Victims: 172<br />International Staff: 14<br />National Staff: 158","Total Victims: 240<br />International Staff: 26<br />National Staff: 214","Total Victims: 221<br />International Staff: 35<br />National Staff: 186","Total Victims: 278<br />International Staff: 51<br />National Staff: 227","Total Victims: 295<br />International Staff: 74<br />National Staff: 221","Total Victims: 250<br />International Staff: 41<br />National Staff: 209","Total Victims: 311<br />International Staff: 29<br />National Staff: 282","Total Victims: 277<br />International Staff: 49<br />National Staff: 228","Total Victims: 475<br />International Staff: 60<br />National Staff: 415","Total Victims: 332<br />International Staff: 32<br />National Staff: 300","Total Victims: 289<br />International Staff: 29<br />National Staff: 260","Total Victims: 295<br />International Staff: 43<br />National Staff: 252","Total Victims: 313<br />International Staff: 28<br />National Staff: 285","Total Victims: 408<br />International Staff: 29<br />National Staff: 379","Total Victims: 483<br />International Staff: 27<br />National Staff: 456","Total Victims: 281<br />International Staff: 17<br />National Staff: 264"],"mode":"markers","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This rise in aid worker attacks is disproportionately affecting national staff. The next two plots show this increased violence toward national staff over time. Notably, the percentage of total victims who are national staff is rising, while the proportion of international staff victims has decreased.</p>
 <pre class="r"><code>aidworker_df %&gt;% 
   drop_na(year) %&gt;% 
   group_by(year) %&gt;% 
@@ -574,8 +574,8 @@ layout(plot_2,
        title = &quot;Top 50 Most Dangerous Countries for Aid Workers&quot;,
        xaxis = NULL,
        yaxis = list(title = &quot;Total Victims&quot;))</code></pre>
-<div id="htmlwidget-31d6a9c04b19fe298fb2" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-31d6a9c04b19fe298fb2">{"x":{"visdat":{"4af147f5743c":["function () ","plotlyVisDat"]},"cur_data":"4af147f5743c","attrs":{"4af147f5743c":{"x":{},"y":{},"text":{},"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":100,"l":25,"t":50,"r":50,"pad":0},"title":"Top 50 Most Dangerous Countries for Aid Workers","yaxis":{"domain":[0,1],"automargin":true,"title":"Total Victims"},"xaxis":{"domain":[0,1],"automargin":true,"title":"country","type":"category","categoryorder":"array","categoryarray":["Azerbaijan","Congo","Eritrea","Madagascar","Mauritania","Thailand","Papua New Guinea","El Salvador","Guatemala","Turkey","Mozambique","Cote D'Ivoire","Guinea","Mexico","Senegal","Tanzania","Kosovo","Algeria","Myanmar","Colombia","Sierra Leone","Malawi","Rwanda","Jordan","Liberia","Burkina Faso","Bangladesh","Philippines","Tajikistan","Indonesia","Niger","Libyan Arab Jamahiriya","Cameroon","Haiti","Burundi","Chechnya","Chad","Angola","Ethiopia","Uganda","Occupied Palestinian Territories","Kenya","Sri Lanka","Mali","Nigeria","Yemen","Iraq","Central African Republic","Pakistan","DR Congo","Syrian Arab Republic","Sudan","Somalia","South Sudan","Afghanistan"]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Afghanistan","Algeria","Angola","Azerbaijan","Bangladesh","Burkina Faso","Burundi","Cameroon","Central African Republic","Chad","Chechnya","Colombia","Congo","Cote D'Ivoire","DR Congo","El Salvador","Eritrea","Ethiopia","Guatemala","Guinea","Haiti","Indonesia","Iraq","Jordan","Kenya","Kosovo","Liberia","Libyan Arab Jamahiriya","Madagascar","Malawi","Mali","Mauritania","Mexico","Mozambique","Myanmar","Niger","Nigeria","Occupied Palestinian Territories","Pakistan","Papua New Guinea","Philippines","Rwanda","Senegal","Sierra Leone","Somalia","South Sudan","Sri Lanka","Sudan","Syrian Arab Republic","Tajikistan","Tanzania","Thailand","Turkey","Uganda","Yemen"],"y":[1259,12,53,5,19,16,44,36,165,49,44,13,5,9,327,7,5,53,7,9,39,30,146,15,74,10,15,35,5,14,106,5,9,8,12,34,132,62,248,6,23,14,9,13,515,581,89,487,469,24,9,5,7,56,140],"text":["Total Victims: 1259<br />Rank: 1<br />International Staff: 131<br />National Staff: 1128","Total Victims: 12<br />Rank: 37<br />International Staff: 5<br />National Staff: 7","Total Victims: 53<br />Rank: 17<br />International Staff: 3<br />National Staff: 50","Total Victims: 5<br />Rank: 50<br />International Staff: 0<br />National Staff: 5","Total Victims: 19<br />Rank: 29<br />International Staff: 4<br />National Staff: 15","Total Victims: 16<br />Rank: 30<br />International Staff: 2<br />National Staff: 14","Total Victims: 44<br />Rank: 20<br />International Staff: 13<br />National Staff: 31","Total Victims: 36<br />Rank: 23<br />International Staff: 5<br />National Staff: 31","Total Victims: 165<br />Rank: 8<br />International Staff: 16<br />National Staff: 149","Total Victims: 49<br />Rank: 19<br />International Staff: 12<br />National Staff: 37","Total Victims: 44<br />Rank: 20<br />International Staff: 24<br />National Staff: 20","Total Victims: 13<br />Rank: 35<br />International Staff: 4<br />National Staff: 9","Total Victims: 5<br />Rank: 50<br />International Staff: 1<br />National Staff: 4","Total Victims: 9<br />Rank: 40<br />International Staff: 1<br />National Staff: 8","Total Victims: 327<br />Rank: 6<br />International Staff: 26<br />National Staff: 301","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 5<br />Rank: 50<br />International Staff: 2<br />National Staff: 3","Total Victims: 53<br />Rank: 17<br />International Staff: 14<br />National Staff: 39","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 39<br />Rank: 22<br />International Staff: 12<br />National Staff: 27","Total Victims: 30<br />Rank: 26<br />International Staff: 7<br />National Staff: 23","Total Victims: 146<br />Rank: 9<br />International Staff: 34<br />National Staff: 112","Total Victims: 15<br />Rank: 31<br />International Staff: 2<br />National Staff: 13","Total Victims: 74<br />Rank: 14<br />International Staff: 23<br />National Staff: 51","Total Victims: 10<br />Rank: 39<br />International Staff: 1<br />National Staff: 9","Total Victims: 15<br />Rank: 31<br />International Staff: 8<br />National Staff: 7","Total Victims: 35<br />Rank: 24<br />International Staff: 23<br />National Staff: 12","Total Victims: 5<br />Rank: 50<br />International Staff: 1<br />National Staff: 4","Total Victims: 14<br />Rank: 33<br />International Staff: 0<br />National Staff: 14","Total Victims: 106<br />Rank: 12<br />International Staff: 17<br />National Staff: 89","Total Victims: 5<br />Rank: 50<br />International Staff: 4<br />National Staff: 1","Total Victims: 9<br />Rank: 40<br />International Staff: 0<br />National Staff: 9","Total Victims: 8<br />Rank: 45<br />International Staff: 0<br />National Staff: 8","Total Victims: 12<br />Rank: 37<br />International Staff: 0<br />National Staff: 12","Total Victims: 34<br />Rank: 25<br />International Staff: 11<br />National Staff: 23","Total Victims: 132<br />Rank: 11<br />International Staff: 5<br />National Staff: 127","Total Victims: 62<br />Rank: 15<br />International Staff: 3<br />National Staff: 59","Total Victims: 248<br />Rank: 7<br />International Staff: 21<br />National Staff: 227","Total Victims: 6<br />Rank: 49<br />International Staff: 1<br />National Staff: 5","Total Victims: 23<br />Rank: 28<br />International Staff: 3<br />National Staff: 20","Total Victims: 14<br />Rank: 33<br />International Staff: 5<br />National Staff: 9","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 13<br />Rank: 35<br />International Staff: 3<br />National Staff: 10","Total Victims: 515<br />Rank: 3<br />International Staff: 90<br />National Staff: 425","Total Victims: 581<br />Rank: 2<br />International Staff: 65<br />National Staff: 516","Total Victims: 89<br />Rank: 13<br />International Staff: 2<br />National Staff: 87","Total Victims: 487<br />Rank: 4<br />International Staff: 54<br />National Staff: 433","Total Victims: 469<br />Rank: 5<br />International Staff: 29<br />National Staff: 440","Total Victims: 24<br />Rank: 27<br />International Staff: 11<br />National Staff: 13","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 5<br />Rank: 50<br />International Staff: 0<br />National Staff: 5","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 56<br />Rank: 16<br />International Staff: 6<br />National Staff: 50","Total Victims: 140<br />Rank: 10<br />International Staff: 35<br />National Staff: 105"],"mode":"markers","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-492509742d495125e797" style="width:90%;height:345.6px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-492509742d495125e797">{"x":{"visdat":{"53264b14100":["function () ","plotlyVisDat"]},"cur_data":"53264b14100","attrs":{"53264b14100":{"x":{},"y":{},"text":{},"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":100,"l":25,"t":50,"r":50,"pad":0},"title":"Top 50 Most Dangerous Countries for Aid Workers","yaxis":{"domain":[0,1],"automargin":true,"title":"Total Victims"},"xaxis":{"domain":[0,1],"automargin":true,"title":"country","type":"category","categoryorder":"array","categoryarray":["Azerbaijan","Congo","Eritrea","Madagascar","Mauritania","Thailand","Papua New Guinea","El Salvador","Guatemala","Turkey","Mozambique","Cote D'Ivoire","Guinea","Mexico","Senegal","Tanzania","Kosovo","Algeria","Myanmar","Colombia","Sierra Leone","Malawi","Rwanda","Jordan","Liberia","Burkina Faso","Bangladesh","Philippines","Tajikistan","Indonesia","Niger","Libyan Arab Jamahiriya","Cameroon","Haiti","Burundi","Chechnya","Chad","Angola","Ethiopia","Uganda","Occupied Palestinian Territories","Kenya","Sri Lanka","Mali","Nigeria","Yemen","Iraq","Central African Republic","Pakistan","DR Congo","Syrian Arab Republic","Sudan","Somalia","South Sudan","Afghanistan"]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Afghanistan","Algeria","Angola","Azerbaijan","Bangladesh","Burkina Faso","Burundi","Cameroon","Central African Republic","Chad","Chechnya","Colombia","Congo","Cote D'Ivoire","DR Congo","El Salvador","Eritrea","Ethiopia","Guatemala","Guinea","Haiti","Indonesia","Iraq","Jordan","Kenya","Kosovo","Liberia","Libyan Arab Jamahiriya","Madagascar","Malawi","Mali","Mauritania","Mexico","Mozambique","Myanmar","Niger","Nigeria","Occupied Palestinian Territories","Pakistan","Papua New Guinea","Philippines","Rwanda","Senegal","Sierra Leone","Somalia","South Sudan","Sri Lanka","Sudan","Syrian Arab Republic","Tajikistan","Tanzania","Thailand","Turkey","Uganda","Yemen"],"y":[1259,12,53,5,19,16,44,36,165,49,44,13,5,9,327,7,5,53,7,9,39,30,146,15,74,10,15,35,5,14,106,5,9,8,12,34,132,62,248,6,23,14,9,13,515,581,89,487,469,24,9,5,7,56,140],"text":["Total Victims: 1259<br />Rank: 1<br />International Staff: 131<br />National Staff: 1128","Total Victims: 12<br />Rank: 37<br />International Staff: 5<br />National Staff: 7","Total Victims: 53<br />Rank: 17<br />International Staff: 3<br />National Staff: 50","Total Victims: 5<br />Rank: 50<br />International Staff: 0<br />National Staff: 5","Total Victims: 19<br />Rank: 29<br />International Staff: 4<br />National Staff: 15","Total Victims: 16<br />Rank: 30<br />International Staff: 2<br />National Staff: 14","Total Victims: 44<br />Rank: 20<br />International Staff: 13<br />National Staff: 31","Total Victims: 36<br />Rank: 23<br />International Staff: 5<br />National Staff: 31","Total Victims: 165<br />Rank: 8<br />International Staff: 16<br />National Staff: 149","Total Victims: 49<br />Rank: 19<br />International Staff: 12<br />National Staff: 37","Total Victims: 44<br />Rank: 20<br />International Staff: 24<br />National Staff: 20","Total Victims: 13<br />Rank: 35<br />International Staff: 4<br />National Staff: 9","Total Victims: 5<br />Rank: 50<br />International Staff: 1<br />National Staff: 4","Total Victims: 9<br />Rank: 40<br />International Staff: 1<br />National Staff: 8","Total Victims: 327<br />Rank: 6<br />International Staff: 26<br />National Staff: 301","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 5<br />Rank: 50<br />International Staff: 2<br />National Staff: 3","Total Victims: 53<br />Rank: 17<br />International Staff: 14<br />National Staff: 39","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 39<br />Rank: 22<br />International Staff: 12<br />National Staff: 27","Total Victims: 30<br />Rank: 26<br />International Staff: 7<br />National Staff: 23","Total Victims: 146<br />Rank: 9<br />International Staff: 34<br />National Staff: 112","Total Victims: 15<br />Rank: 31<br />International Staff: 2<br />National Staff: 13","Total Victims: 74<br />Rank: 14<br />International Staff: 23<br />National Staff: 51","Total Victims: 10<br />Rank: 39<br />International Staff: 1<br />National Staff: 9","Total Victims: 15<br />Rank: 31<br />International Staff: 8<br />National Staff: 7","Total Victims: 35<br />Rank: 24<br />International Staff: 23<br />National Staff: 12","Total Victims: 5<br />Rank: 50<br />International Staff: 1<br />National Staff: 4","Total Victims: 14<br />Rank: 33<br />International Staff: 0<br />National Staff: 14","Total Victims: 106<br />Rank: 12<br />International Staff: 17<br />National Staff: 89","Total Victims: 5<br />Rank: 50<br />International Staff: 4<br />National Staff: 1","Total Victims: 9<br />Rank: 40<br />International Staff: 0<br />National Staff: 9","Total Victims: 8<br />Rank: 45<br />International Staff: 0<br />National Staff: 8","Total Victims: 12<br />Rank: 37<br />International Staff: 0<br />National Staff: 12","Total Victims: 34<br />Rank: 25<br />International Staff: 11<br />National Staff: 23","Total Victims: 132<br />Rank: 11<br />International Staff: 5<br />National Staff: 127","Total Victims: 62<br />Rank: 15<br />International Staff: 3<br />National Staff: 59","Total Victims: 248<br />Rank: 7<br />International Staff: 21<br />National Staff: 227","Total Victims: 6<br />Rank: 49<br />International Staff: 1<br />National Staff: 5","Total Victims: 23<br />Rank: 28<br />International Staff: 3<br />National Staff: 20","Total Victims: 14<br />Rank: 33<br />International Staff: 5<br />National Staff: 9","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 13<br />Rank: 35<br />International Staff: 3<br />National Staff: 10","Total Victims: 515<br />Rank: 3<br />International Staff: 90<br />National Staff: 425","Total Victims: 581<br />Rank: 2<br />International Staff: 65<br />National Staff: 516","Total Victims: 89<br />Rank: 13<br />International Staff: 2<br />National Staff: 87","Total Victims: 487<br />Rank: 4<br />International Staff: 54<br />National Staff: 433","Total Victims: 469<br />Rank: 5<br />International Staff: 29<br />National Staff: 440","Total Victims: 24<br />Rank: 27<br />International Staff: 11<br />National Staff: 13","Total Victims: 9<br />Rank: 40<br />International Staff: 2<br />National Staff: 7","Total Victims: 5<br />Rank: 50<br />International Staff: 0<br />National Staff: 5","Total Victims: 7<br />Rank: 46<br />International Staff: 1<br />National Staff: 6","Total Victims: 56<br />Rank: 16<br />International Staff: 6<br />National Staff: 50","Total Victims: 140<br />Rank: 10<br />International Staff: 35<br />National Staff: 105"],"mode":"markers","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>The next two plots look at the top 10 countries for national staff victims and international staff victims: demonstrating the proportion of victims who were wounded, kidnapped, and killed.</p>
 <pre class="r"><code>danger_countries_df = 
   aidworker_df %&gt;%
@@ -808,7 +808,7 @@ aidworker_df %&gt;%
 </tr>
 </tbody>
 </table>
-<p>Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 are discussed in the accompanying case study. A rise in attacks in Syria corresponds to the start of the Syrian Civil War in 2011.</p>
+<p>Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 is discussed in the accompanying case study. A rise in attacks in Syria corresponds to the start of the Syrian Civil War in 2011.</p>
 <pre class="r"><code>danger_countries_df = 
   aidworker_df %&gt;%
   group_by(country) %&gt;% 
@@ -827,7 +827,8 @@ aidworker_df %&gt;%
     title = &quot;Top 5 Most Dangerous Countries Over Time&quot;,
     x = &quot;Year&quot;,
     y = &quot;Total Aidworker Victims&quot;
-  )</code></pre>
+  ) + 
+  theme(legend.text=element_text(size=10))</code></pre>
 <p><img src="exploratory_analyses_files/figure-html/unnamed-chunk-10-1.png" width="90%" /></p>
 </div>
 <div id="attack-contexts" class="section level2">
@@ -847,7 +848,8 @@ aidworker_df %&gt;%
   viridis::scale_fill_viridis(
     name = &quot;Attack type&quot;,
     discrete = TRUE
-  )</code></pre>
+  ) + 
+  theme(legend.text=element_text(size=9))</code></pre>
 <p><img src="exploratory_analyses_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
 <p>The 5 most dangerous countries are shown below with type and contexts of attacks. Here, attack type refers to the means of violence, while attack context refers to the broader context of the incident.</p>
 <pre class="r"><code>danger_countries_df = 
@@ -857,8 +859,7 @@ aidworker_df %&gt;%
   mutate(rank = min_rank(desc(tot_attacks))) %&gt;% 
   filter(rank &lt; 6)
 
-  plot_type = 
-  aidworker_df %&gt;%
+aidworker_df %&gt;%
   filter(country %in% c(&quot;Afghanistan&quot;, &quot;Somalia&quot;, &quot;South Sudan&quot;, &quot;Sudan&quot;,
                         &quot;Syrian Arab Republic&quot;)) %&gt;% 
   group_by(country, attack_abr) %&gt;% 
@@ -867,14 +868,17 @@ aidworker_df %&gt;%
          location = fct_reorder(country, attacks)) %&gt;% 
   ggplot(aes(x = country, y = attacks, fill = attack_abr)) + 
   geom_bar(stat=&quot;identity&quot;) + 
-  labs(x = &quot;Country&quot;,
-       y = &quot;Number of Attacks (Type)&quot;) + 
+  labs(title = &quot;Most Dangerous Countries: Attack Types&quot;,
+       x = &quot;Country&quot;,
+       y = &quot;Number of Attacks&quot;) + 
   theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) + 
   theme(legend.text=element_text(size=10)) + 
-  theme(legend.title = element_blank())
-
-plot_context = 
-  aidworker_df %&gt;%
+  viridis::scale_fill_viridis(
+    name = &quot;Attack type&quot;,
+    discrete = TRUE
+  )</code></pre>
+<p><img src="exploratory_analyses_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
+<pre class="r"><code>aidworker_df %&gt;%
   filter(country %in% c(&quot;Afghanistan&quot;, &quot;Somalia&quot;, &quot;South Sudan&quot;, &quot;Sudan&quot;,
                         &quot;Syrian Arab Republic&quot;)) %&gt;% 
   group_by(country, attack_context) %&gt;% 
@@ -883,18 +887,451 @@ plot_context =
          location = fct_reorder(country, attacks)) %&gt;% 
   ggplot(aes(x = country, y = attacks, fill = attack_context)) + 
   geom_bar(stat=&quot;identity&quot;) + 
-  labs(x = &quot;Country&quot;,
-       y = &quot;Number of Attacks (Context)&quot;) + 
+  labs(title = &quot;Most Dangerous Countries: Attack Contexts&quot;,
+       x = &quot;Country&quot;,
+       y = &quot;Number of Attacks&quot;) + 
   theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) +
   theme(legend.text=element_text(size=10)) + 
-  theme(legend.title = element_blank())
-
-plot_type + plot_context + 
-plot_annotation(title = &quot;Most Dangerous Countries: Attack Types (Left) and Contexts (Right)&quot;)</code></pre>
-<p><img src="exploratory_analyses_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
+  viridis::scale_fill_viridis(
+    name = &quot;Attack Context&quot;,
+    discrete = TRUE
+  )</code></pre>
+<p><img src="exploratory_analyses_files/figure-html/unnamed-chunk-12-2.png" width="90%" /></p>
 <p>Afghanistan experienced the greatest proportion of attacks by kidnapping or IEDs, while bodily assault was most common in South Sudan, and explosives (including all bombing, shelling, and aerial bombardment) were most common in Syria.</p>
 <p>Ambushing, individual attacks, and raids were common in all danger countries. Aid workers in Syria experienced a large number of attacks by combat or crossfire: although the AWSD notes this does not exclude intentional targeting of humanitarian locations by combatants. Intentional targeting of health facilities in particular by Russian and Syrian airstrikes has been well documented. (via <a href="https://tcf.org/content/report/un-made-list-hospitals-syria-now-theyre-bombed/?agreed=1">The Century Foundation</a>)</p>
 </div>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>footer.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="exploratory_analyses.html">Explore Global Trends</a>
+</li>
+<li>
+  <a href="https://ebbollman.shinyapps.io/dashboard_attack_type/">Attack Type Dashboard</a>
+</li>
+<li>
+  <a href="afghanistan_case_study.html">Zoom In: Afghanistan</a>
+</li>
+<li class="dropdown-header">Conclusions</li>
+<li>
+  <a href="conclusions.html"></a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="final_report.html">Project Report</a>
+</li>
+<li>
+  <a href="youtube.com">
+    <span class="fa fa-play-circle fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/nab2194/aidworkers.github.io">
+    <span class="fa fa-github fa-sm"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines">
+    <span class="fa fa-ambulance fa-sm"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<html>
+ 
+<hr />
+<p><small></p>
+Natalie Boychuk, Alisha Sarakki, Brennan Bollman, Emily Bamforth, Kailey Rishovd
+</p>
+<p style="text-align: center;">
+<p>Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.0.3) and <a href="https://rstudio.com">RStudio</a> (v1.3.1073). <br></p>
+<p style="text-align: center;">
+<p>Additional interactivity added using <a href="https://plot.ly/">plotly</a> (v4.13.0) and <a href="https://shiny.rstudio.com/">Shiny</a> (v1.5.0). <br></p>
+<p style="text-align: center;">
+<p><a href="https://aidworkersecurity.org/">Click here</a> to see publicly available Aid Worker Security dataset, a project of Humanitarian Outcomes.</p>
+<p style="text-align: center;">
+<p><a href="https://ucdp.uu.se/">Click here</a> to see publicly available Uppsala Conflict Data Program, a project of Uppsala University Department of Peace and Conflict Research.</p>
+<p><br></p>
+2020
+</p>
+<p></small></p>
+</html>
 
 <!DOCTYPE html>
 
@@ -1657,6 +2094,86 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
