@@ -324,7 +324,7 @@ aidworker_df %>%
 ```
 
 
-Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 is discussed in the accompanying case study. A rise in attacks in Syria corresponds to the start of the Syrian Civil War in 2011.  
+Finally, this plot shows victims of the top 5 most dangerous countries over time. Context for the spike in attacks in Afghanistan in 2013 is discussed in the accompanying "Zoom In" tab. A rise in attacks in Syria corresponds to the start of the Syrian Civil War in 2011.  
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -451,9 +451,11 @@ plot_gender =
   mutate(text_label = 
            str_c("Country: ", country, "\nAttack Type: ", attack_abr)) %>% 
   plot_ly(
-    x = ~total_men, y = ~total_women, text = ~text_label, color = ~country,
-          type = "scatter", mode = "markers",  colors = "viridis", marker = list(size = ~gap, opacity = 0.5))
+    x = ~total_men, y = ~total_women, text = ~text_label, color = ~country, size = ~gap,
+          type = "scatter", mode = "markers",  colors = "viridis", 
+          sizes = c(50, 700), marker = list(opacity = 0.7))
 
-layout(plot_gender, title = "Dangerous Country Gender Gap by Attack Type", xaxis = list(title = "Number of Women Attacked"), yaxis = list(title = "Number of Men Attacked"))
+layout(plot_gender, title = "Dangerous Country Gender Gap by Attack Type", xaxis = list(title = "Number of Men Attacked"), yaxis = list(title = "Number of Women Attacked"))
 ```
+
 
