@@ -76,6 +76,34 @@ afghan_aidworker_df =
 As depicted in the data table in our exploration of global trends, Afghanistan has been the deadliest country for aid workers by far. In conjunction with U.S. occupation of Afghanistan, the statistics associated with this country merit a closer look: focusing on the years 2008 to 2016 in which the greatest number of attacks occurred.
 
 
+## Map of Aidworker Attacks
+
+This map shows locations and details of aidworker attacks. Information about the process of spatial georeferencing is noted in the [AWSD Methodology](https://www.humanitarianoutcomes.org/methodology).
+
+```{r}
+afghanistan_df =
+  afghan_aidworker_df %>%  
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %>% 
+  drop_na(longitude, latitude) %>% 
+  filter(id != 2050)
+
+fixing_error_df = 
+  afghanistan_df %>% 
+  filter(year == 2016) %>% 
+  filter(means_of_attack == "Kidnapping") %>% 
+  select(id, year, total_victims, latitude, longitude)
+
+leaflet(afghanistan_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", afghanistan_df$total_victims, "<br>", "Means of Attack:", afghanistan_df$means_of_attack, "<br>", "Year:", afghanistan_df$year, "<br>", "Country:", afghanistan_df$country), clusterOptions = markerClusterOptions())
+```
+
+
+
 ## International vs. National NGO Staff Deaths
 
 International staff refers to NGO staff that are not of local origin. National NGO staff refers to Afghan people; these staff may work for international NGOs (including UN agencies or the International Committee of the Red Cross) or local NGOs. 
@@ -115,7 +143,7 @@ afghan_aidworker_df_new %>%
 
 ```
 
-### Contextual Factors
+Contextual Factors
 
 *2012* - The significant drop in aid worker death coincides with the withdrawal of half of American troops in Afghanistan. 
 
@@ -290,7 +318,4 @@ aidworker_deaths_p + civilian_deaths_p
 U.S. Troops in Afghanistan (via [Al Jazeera](https://www.aljazeera.com/wp-content/uploads/2017/01/dce375bab2a3421bb972a007683c56aa_18.jpeg))
 
 
-## Map of Aidworker Attacks
-
-Finally, this map shows locations and details of aidworker attacks from the incidents in which a specific location was known. 
 
