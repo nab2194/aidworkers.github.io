@@ -8,7 +8,7 @@ output:
 runtime: shiny
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include = FALSE, cache = TRUE}
 library(tidyverse)
 library(dplyr)
 library(leaflet)
@@ -110,74 +110,21 @@ global_map_df$country =
 
 global_map_df =
   global_map_df %>% 
-  filter(country != "Mauritius")
-
-global_map_df =
-  global_map_df %>% 
+  filter(country != "Mauritius") %>% 
   rename(name = country)
 
 ## read in polygon data
 
 countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
 
-## data for one year
-
-df_2019 =
-  global_map_df %>% 
-  filter(year == "2019")
-
-joined_map_2019 = sp::merge(countries, df_2019)
-
-bins = c(0, 10, 20, 50, 100, 200)
-pal = colorBin("YlOrRd", domain = joined_map_2019$tot_victims, bins = bins)
-
-labels = glue::glue("<strong>{joined_map_2019$name}</strong><br/>{joined_map_2019$number_incidents} total incidents<br/>{joined_map_2019$tot_victims} victims<br/>{joined_map_2019$tot_national} national victims<br/>{joined_map_2019$tot_intl} international victims") %>%
-  purrr::map(htmltools::HTML)
-
-joined_map_2019 %>%
-  leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(
-    fillColor = ~pal(tot_victims),
-    weight = 2,
-    opacity = 1,
-    color = "black",
-    dashArray = "1",
-    fillOpacity = 0.5,
-    highlight = highlightOptions(
-      weight = 5,
-      color = "#666",
-      dashArray = "",
-      fillOpacity = 0.7,
-      bringToFront = TRUE),
-    label = labels,
-    labelOptions = labelOptions(
-      style = list("font-weight" = "normal", padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto")) %>%
-  addLegend(pal = pal, values = ~tot_victims, opacity = 0.7, title = NULL,
-    position = "bottomright"
-    )
-
 ```
-
-
-Aid Worker Attack Map
-===================================== 
 
 Column {.sidebar}
 -----------------------------------------------------------------------
 
-This map shows the number of incidents in each country, from the Aid Worker Security Database, since 1997. Hover over each country to see more details about attacks in each country for a given year. Drag the bar to see the number of incidents mapped out for different years.
+This map shows the number of incidents in each country, from the Aid Worker Security Database, since 1997. Move the slider to adjust the year. Hover over each country to see more details about attacks in each country for a given year. 
 
-*Note that data from Mauritius is excluded due to the available extent of the map. Our dataset includes one incident in Mauritius in 2017, an assault with one national victim.
-
-Column {.tabset}
------------------------------------------------------------------------
-
-### GLOBAL MAP
-```{r global_map, echo=FALSE}
-
+```{r input_panel}
 inputPanel(
  sliderInput("year",
              label = "Year",
@@ -186,6 +133,14 @@ inputPanel(
              value = 1,
              sep = "")
   )
+```
+
+Column
+-----------------------------------------------------------------------
+
+### GLOBAL MAP
+
+```{r global_map, echo=FALSE}
 
 map_data = 
   reactive({
@@ -202,7 +157,7 @@ renderLeaflet({
   
   pal = colorBin("YlOrRd", domain = map_data()$tot_victims, bins = bins)
 
-  labels = glue::glue("<strong>{map_data()$name}</strong><br/>{map_data()$number_incidents} total incidents<br/>{map_data()$tot_victims} victims<br/>{map_data()$tot_national} national victims<br/>{map_data()$tot_intl} international victims") %>%
+  labels = glue::glue("<strong>{map_data()$name}</strong><br/>Total Incidents: {map_data()$number_incidents}<br/>Total Victims: {map_data()$tot_victims}<br/>National Victims: {map_data()$tot_national} <br/>International Victims: {map_data()$tot_intl}") %>%
   purrr::map(htmltools::HTML)
   
   map_data() %>%
@@ -215,7 +170,7 @@ renderLeaflet({
     color = "black",
     dashArray = "1",
     fillOpacity = 0.5,
-    highlight = highlightOptions(
+    highlightOptions = highlightOptions(
       weight = 5,
       color = "#666",
       dashArray = "",
@@ -232,3 +187,5 @@ renderLeaflet({
 })
 
 ```
+
+Note that data from Mauritius is excluded due to the content of the underlying map. Our dataset includes one incident in Mauritius in 2017, an assault with one national victim.
