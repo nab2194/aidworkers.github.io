@@ -1,5 +1,5 @@
 ---
-title: "Aid Worker Attacks"
+title: "Map of Aid Worker Attacks"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -8,7 +8,7 @@ output:
 runtime: shiny
 ---
 
-```{r setup}
+```{r setup, include = FALSE}
 library(tidyverse)
 library(dplyr)
 library(leaflet)
@@ -32,11 +32,9 @@ options(
 )
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
-```
 
 ## Data import and tidying
 
-```{r scraping_aidworker_data_and_tidying}
 url = "https://aidworkersecurity.org/incidents/search"
 aidworker_html = read_html(url)
 
@@ -75,9 +73,8 @@ empty_as_na <- function(x){
 aidworker_df = 
 aidworker_df %>% mutate_each(funs(empty_as_na)) 
 
-```
+## Aggregated data per country, year
 
-```{r global_map_df}
 global_map_df = 
   aidworker_df %>% 
   mutate(
@@ -118,11 +115,12 @@ global_map_df =
 global_map_df =
   global_map_df %>% 
   rename(name = country)
-```
 
+## read in polygon data
 
-```{r read_polygons}
 countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
+
+## data for one year
 
 df_2019 =
   global_map_df %>% 
@@ -136,7 +134,8 @@ pal = colorBin("YlOrRd", domain = joined_map_2019$tot_victims, bins = bins)
 labels = glue::glue("<strong>{joined_map_2019$name}</strong><br/>{joined_map_2019$number_incidents} total incidents<br/>{joined_map_2019$tot_victims} victims<br/>{joined_map_2019$tot_national} national victims<br/>{joined_map_2019$tot_intl} international victims") %>%
   purrr::map(htmltools::HTML)
 
-main_map = leaflet(joined_map_2019) %>% 
+joined_map_2019 %>%
+  leaflet() %>% 
   addTiles() %>% 
   addPolygons(
     fillColor = ~pal(tot_victims),
@@ -160,15 +159,8 @@ main_map = leaflet(joined_map_2019) %>%
     position = "bottomright"
     )
 
-main_map
 ```
 
-Mauritius was dropped. Only 1 attack. Make note in final dashboard.
-
-Next steps:
-* write function to match df (for each YEAR) with polygons - this is what will be called in the shiny app
-* popups for hovering over each country - way to work with html to show more info like a drop down? don't want too much in the pop-ups
-* shiny!
 
 Aid Worker Attack Map
 ===================================== 
@@ -176,16 +168,67 @@ Aid Worker Attack Map
 Column {.sidebar}
 -----------------------------------------------------------------------
 
-```{r sidebar}
+This map shows the number of incidents in each country, from the Aid Worker Security Database, since 1997. Hover over each country to see more details about attacks in each country for a given year. Drag the bar to see the number of incidents mapped out for different years.
 
-
-```
-
+*Note that data from Mauritius is excluded due to the available extent of the map. Our dataset includes one incident in Mauritius in 2017, an assault with one national victim.
 
 Column {.tabset}
 -----------------------------------------------------------------------
 
 ### GLOBAL MAP
+```{r global_map, echo=FALSE}
 
-```{r global_map}
+inputPanel(
+ sliderInput("year",
+             label = "Year",
+              min = 1997,
+             max = 2020,
+             value = 1,
+             sep = "")
+  )
 
+map_data = 
+  reactive({
+    victim_year_df = global_map_df %>%
+    filter(year == input$year)
+
+  sp::merge(countries, victim_year_df)
+
+  })
+
+renderLeaflet({
+  
+  bins = c(0, 5, 10, 20, 50, 100, 200)
+  
+  pal = colorBin("YlOrRd", domain = map_data()$tot_victims, bins = bins)
+
+  labels = glue::glue("<strong>{map_data()$name}</strong><br/>{map_data()$number_incidents} total incidents<br/>{map_data()$tot_victims} victims<br/>{map_data()$tot_national} national victims<br/>{map_data()$tot_intl} international victims") %>%
+  purrr::map(htmltools::HTML)
+  
+  map_data() %>%
+  leaflet() %>%
+  addTiles() %>% 
+  addPolygons(
+    fillColor = ~pal(tot_victims),
+    weight = 2,
+    opacity = 1,
+    color = "black",
+    dashArray = "1",
+    fillOpacity = 0.5,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE),
+    label = labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto")) %>%
+  addLegend(pal = pal, values = ~tot_victims, opacity = 0.7, title = NULL,
+    position = "bottomright"
+    )
+})
+
+```
