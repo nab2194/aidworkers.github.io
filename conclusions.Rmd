@@ -6,7 +6,6 @@ output:
     fig_width: 6
     fig_height: 7
     theme: cosmo
-always_allow_html: true
 ---
 
 
