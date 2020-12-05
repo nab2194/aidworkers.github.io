@@ -195,7 +195,7 @@ radioButtons(
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### National Aid Worker Incidents 
+### Attacks on National Aid Workers 
 
 ```{r}
 
@@ -215,7 +215,7 @@ renderPlotly({
 
 ```
 
-### International Aid Worker Incidents 
+### Attacks on International Aid Workers  
 
 ```{r}
 
