@@ -3,7 +3,9 @@ title: "Exploratory Analyses"
 output: 
   html_document:
     code_folding: hide 
+    theme: cosmo
     always_allow_html: true
+    
 ---
 
 ```{r include = FALSE}
