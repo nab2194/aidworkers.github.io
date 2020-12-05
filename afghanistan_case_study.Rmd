@@ -6,7 +6,7 @@ output:
     toc_float: true
     code_folding: hide 
     theme: cosmo
-    always_allow_html: true
+
 ---
 
 ```{r include = FALSE}

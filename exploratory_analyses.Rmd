@@ -4,7 +4,7 @@ output:
   html_document:
     code_folding: hide 
     theme: cosmo
-    always_allow_html: true
+
     
 ---
 

@@ -5,7 +5,6 @@ output:
     fig_width: 8
     fig_height: 6
     theme: cosmo
-always_allow_html: true
 ---
 
 ![](IMAGES/ambulance_icrc.jpg)
