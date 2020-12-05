@@ -188,4 +188,3 @@ renderLeaflet({
 
 ```
 
-Note that data from Mauritius is excluded due to the content of the underlying map. Our dataset includes one incident in Mauritius in 2017, an assault with one national victim.
