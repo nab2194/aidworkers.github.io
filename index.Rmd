@@ -11,12 +11,10 @@ output:
 always_allow_html: true
 ---
 
-
-![](https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg)
-
+![](https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg?itok=fAYPUmz5)
 
 
-Afghan police officer on duty at an ICRC compound post-attack. via [NYT](https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg)
+Ambulance destroyed by gunfire. (via [ICRC](https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg))
 
 
 
@@ -34,7 +32,7 @@ We want to acknowledge that some of the content in this website including images
 ## What You'll Find In This Website
 
  * Stratified analyses of global trends in violence against aid workers
- * A case study of Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers
+ * A closer look at Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers
  * A full report detailing our process (see Project Report tab)
  * A screencast walking you through this website (see play button icon)
  * The github repository containing our raw code and analyses (see Github icon)

@@ -26,8 +26,19 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -412,8 +423,8 @@ div.tocify {
 </div>
 
 
-<p><img src="https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg" /></p>
-<p>Afghan police officer on duty at an ICRC compound post-attack. via <a href="https://static01.nyt.com/images/2013/12/03/world/AFGHANISTAN/AFGHANISTAN-superJumbo.jpg">NYT</a></p>
+<p><img src="https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg?itok=fAYPUmz5" /></p>
+<p>Ambulance destroyed by gunfire. (via <a href="https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg">ICRC</a>)</p>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
 <p>In recent decades, attacks on aid workers in complex crises have been steadily increasing, with a recorded 483 workers killed, kidnapped, or wounded in 2019 alone. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time using several key comprehensive databases.</p>
@@ -425,7 +436,7 @@ div.tocify {
 <h2>What You’ll Find In This Website</h2>
 <ul>
 <li>Stratified analyses of global trends in violence against aid workers</li>
-<li>A case study of Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers</li>
+<li>A closer look at Afghanistan, in which multiple environmental factors are examined in conjunction with violence against aid workers</li>
 <li>A full report detailing our process (see Project Report tab)</li>
 <li>A screencast walking you through this website (see play button icon)</li>
 <li>The github repository containing our raw code and analyses (see Github icon)</li>
@@ -444,7 +455,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
