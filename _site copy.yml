@@ -1,0 +1,33 @@
+name: "Violence Against Aidworkers"
+output_dir: "."
+navbar:
+  title: "Home"
+  left:
+    - text: "Explore Global Trends"
+      href: exploratory_analyses.html
+    - text: "Attack Type Dashboard"
+      href: https://ebbollman.shinyapps.io/dashboard_attack_type/ 
+    - text: "Zoom In: Afghanistan"
+      href: afghanistan_case_study.html
+    - text: "Map"
+      href: 
+    - text: "Conclusions"
+      href: conclusions.html 
+  right:
+    - text: "Project Report"
+      href: final_report.html
+    - icon: fa-play-circle fa-sm
+      href: youtube.com
+    - icon: fa-github fa-sm
+      href: https://github.com/nab2194/aidworkers.github.io
+    - icon: fa-ambulance fa-sm
+      href: https://www.who.int/news/item/19-08-2020-world-humanitarian-day-2020-a-tribute-to-aid-workers-on-the-front-lines
+  
+output:
+  html_document:
+    code_folding: hide 
+    theme: flatly
+
+    
+    
+    

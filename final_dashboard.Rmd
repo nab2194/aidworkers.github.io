@@ -12,12 +12,8 @@ runtime: shiny
 library(flexdashboard)
 library(dplyr)
 library(plotly)
-library(viridis)
 library(tidyverse)
 library(shiny)
-library(xml2)
-library(rvest)
-library(rsconnect)
 ```
 
 ```{r loading and tidying data, include=FALSE}
