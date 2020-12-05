@@ -149,7 +149,7 @@ afghan_aidworker_df %>%
     x = ~year, y = ~total_victims, color = ~attack_context,
     type = "scatter") %>%
     layout(
-    title = "Victims per Year by Attack Context (Left) and Type (Right)")
+    title = "Victims per Year by Attack Context (Left) and Attack Type (Right)")
 
 subplot(means_attack_p, attack_context_p)
 
@@ -173,17 +173,19 @@ MSF hospital in Kunduz, post-U.S. air strike (via [MSF](https://msf-media.imgix.
 
 ## Location of Attack
 
-Aid workers are targeted in a variety of settings, though some more than others. 
+Aid workers are targeted in a variety of settings. 
 
 ```{r message=FALSE, warning=FALSE}
 afghan_aidworker_df %>% 
      ggplot(aes(x = location, fill = means_of_attack)) +
    geom_bar() +
   labs(
-    title = "Total Attacks per Location, by Means of Attack (2008-2016)",
+    title = "Total Attacks per Location, by Type of Attack (2008-2016)",
     x = "Location",
     y = "Number of Attacks"
-  ) 
+  ) + 
+  theme(legend.text=element_text(size=7)) +
+  theme(legend.title = element_blank())
 
 ```
 
@@ -217,29 +219,6 @@ International organizations are more frequently targeted, especially in Afghanis
 
 ![](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg)
 Islamic State militants bombed and sieged a Save the Children building in Jalalabad, Afghanistan in 2018 (via [BBC](https://ichef.bbci.co.uk/news/976/cpsprodpb/15A39/production/_99733688_47cc661b-5a5f-4a23-966f-4eb1a35819f6.jpg))
-
-
-
-```{r message = FALSE, warning = FALSE}
-af_pct_intl_ntl =
-afghan_aidworker_df %>%
-  group_by(year) %>%
-  summarize(tot_national = sum(total_national_staff),
-            tot_intl = sum(total_international_staff),
-            tot_both = sum(total_victims),
-            pct_intl = (tot_intl/tot_both)*100,
-            pct_national = (tot_national/tot_both)*100) %>%
-  
-  ggplot(aes(x = year, y = pct_national, col = 3)) +
-  geom_line() +
-   geom_line(aes(x = year, y = pct_intl, col = 2)) +
-   labs(
-    x = "Year",
-    y = "% Attacked"
-   ) 
-
-```
-
 
 
 
