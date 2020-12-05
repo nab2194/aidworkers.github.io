@@ -3,10 +3,10 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
-    - text: "Explore Global Trends"
+    - text: "Global Trends"
       href: exploratory_analyses.html
     - text: "Attack Type Dashboard"
-      href: https://ebbollman.shinyapps.io/dashboard_attack_type/ 
+      href: 
     - text: "Zoom In: Afghanistan"
       href: afghanistan_case_study.html
     - text: "Map"
