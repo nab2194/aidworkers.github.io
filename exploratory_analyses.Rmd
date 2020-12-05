@@ -347,7 +347,7 @@ aidworker_df %>%
     x = "Year",
     y = "Total Aidworker Victims"
   ) + 
-  theme(legend.text=element_text(size=10))
+  theme(legend.text=element_text(size=7))
 ```
 
 

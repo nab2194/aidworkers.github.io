@@ -12,7 +12,6 @@ output:
 ```{r include = FALSE}
 library(tidyverse)
 library(readxl)
-library(p8105.datasets)
 library(hexbin)
 library(patchwork)
 library(leaflet)
@@ -22,7 +21,6 @@ library(rvest)
 library(plotly)
 library(ps)
 
-devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
