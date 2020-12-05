@@ -8,7 +8,7 @@ navbar:
     - text: "Map"
       href: https://ebbollman.shinyapps.io/map_dashboard/
     - text: "Dashboard: Attacks"
-      href: 
+      href: https://ebbollman.shinyapps.io/final_dashboard/ 
     - text: "Zoom In: Afghanistan"
       href: afghanistan_case_study.html
     - text: "Conclusions"
@@ -17,7 +17,7 @@ navbar:
     - text: "Project Report"
       href: final_report.html
     - icon: fa-play-circle fa-sm
-      href: youtube.com
+      href: https://www.youtube.com/watch?v=nB5XsnSr3B4&feature=youtu.be
     - icon: fa-github fa-sm
       href: https://github.com/nab2194/aidworkers.github.io
     - icon: fa-ambulance fa-sm

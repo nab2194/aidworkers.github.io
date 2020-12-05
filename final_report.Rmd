@@ -13,68 +13,1080 @@ output:
 
 # Title: "Attacks on Aid: Quantifying Risk of Violence among Aid Workers in Global Humanitarian Settings" 
 
-*NOTES* 
-
-* Should discuss process in detail, using code chunks and in-line code, as well as the logic for code
-* Should be transparent about any challenges encountered, changes in approaches, etc. describe efforts that fail as well as what worked?
-* Should be a standalone document that fully describes the project process and results. 
-* 'Write high quality code that's understandable to outside reader' - should review collaborative code to make as tidy as possible
-
-* Question: not sure if this should be a Rmd or pdf??
-
 ## Project Motivation
 
-In recent decades, attacks on aid workers in complex crises have been steadily increasing, with 483 workers killed, kidnapped, or wounded in 2019. We are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time. We plan to focus our analysis around the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization): which has collected data on attacks against humanitarian aid workers globally since 1997. We will merge this with other data on violent attacks in conflict settings via the Safeguarding Health in Conflict Coalition (SHCC) and Uppsala Conflict Data Program (UCDP) to assess the relationship between aid worker attacks and conflict intensity, conflict actors (state vs. non-state actors), and aid worker characteristics (national vs. international, type of organization). We may then focus  on one or more key settings/case study countries and analyze these contexts with regard to the degree of humanitarian organizations’ operational presence, and other possible indicators of insecurity (GDP/capita, food prices, population displacement, natural disaster etc). 
+In recent decades, attacks on aid workers in complex crises have been steadily increasing. In 2019 alone, 483 workers were killed, kidnapped, or wounded. Due to this, we are interested in understanding changes in the risk associated with humanitarian action in different geographic contexts and over time. We plan to focus our analysis around the Aid Worker Security Database (AWSD, via Humanitarian Outcomes organization): which has collected data on attacks against humanitarian aid workers globally since 1997. We will merge this with other data on violent attacks in conflict settings via the Uppsala Conflict Data Program (UCDP) to assess the relationship between aid worker attacks and conflict intensity and aid worker characteristics (national vs. international, type of organization). Additionally, we focused on Afghanistan as it has been one of the most dangerous countries for aid workers and civilians throughout all data collected. We were also curious to see if U.S. military activity coincides with any changes in aid worker or civilian deaths. 
 
-### Related work
+### Related Work
 
-* anything else that inspired us, from an analysis or methodological pov etc: a paper, website, something we discussed in class.
+Brennan’s previous exposure to the Aid Worker Security Dataset during other humanitarian classes inspired her to pitch the idea to our group. Natalie had also had exposure to the dataset from her undergraduate degree and was familiar with the Uppsala Conflict Data Program. We all loved the idea of producing something that could be potentially useful in advocating for a vulnerable population. 
 
-## Initial questions
+## Initial Questions
 
-* What questions were we trying to answer?
+Initially, we wanted to know about global trends in violence against aid workers (using the AWSD dataset) and to identify the most dangerous countries, types of attacks, and whether attacks were correlated with other violence against civilians (using the Uppsala dataset) or against healthcare facilities (SHCC dataset, which we ultimately discarded). We hoped that by understanding how attack rates differ between international and national staff and civilians and aid workers, we could begin to draw some conclusions about individuals who may be targeted in their work.
 
-* How did these questions evolve over the course of the project?
+### Evolution of Analytic Questions
 
-* What new questions did we consider in the course of our analysis?
+* We chose to add a component and zoom in on one country. Based on the results we found during our global analysis and background research, Afghanistan was found to be one of the most dangerous countries for aid workers by a significant amount (nearly double the number of aid worker victims compared to the second most violent country). We decided to learn about why that could be. 
+
+* We were unable to use the SHCC dataset as it did not have enough observations to produce strong visuals or depict any trends. There were significant gaps in the data collected and despite repeated attempts to stratify and analyze the data, these attempts ultimately proved futile. We decided to then focus our comparisons on civilian violence rather than including information on attacks on health facilities and healthcare transport.
+
+* We had initially planned to run a polytomous logistic regression model of the odds of being attacked through a certain means (eg. kidnapping, explosions, shooting). We were going to create a shiny app that models an individual’s risk of being attacked given hypothesized predictive values (country, international vs. national organization, actor in the conflict [state vs. non-state], and gender). We had issues creating a model with a multi-level outcome variable and ultimately decided this component added little to our overall project, so we scrapped this.
+
+* We had discussed the possibility of bringing in another dataset to try to understand the factors that may have influenced, but found that we were able to glean sufficient information from the Aid Worker dataset, combined with a qualitative web search.
+
+### New Questions Identified During Analysis
+
+We decided to do a case study of Afghanistan for reasons previously mentioned. Observing trends in the data made us want to really understand why many of these trends existed,  leading us to search for events/news to contextualize the trends our data visualizations showed us. We chose to focus on the years 2008-2016 because these years were among the most violent for aid workers in Afghanistan’s history.
+
+During our stratification and analysis, one of the major questions was whether international aid workers were attacked more than national aid workers, given that international organizations are typically more frequently targeted due to frequent mistrust of foreign intervention.
+
 
 ## Data 
 
-* Data sources: process of data collection
+### Data Sources
 
-* Scraping method: Brennan pulled csv's initially, may need to do this in a way that involves data scraping.
+We used two different datasets: the Aid Worker Security Database (AWSD) and Uppsala Conflict Data Program (UCDP). To collect data, we did a combination of scraping and directly downloading the data file available.
 
-* Data cleaning -- show code and describe logic
+*Scraping method* 
+We initially pulled .csv files for the Aid Worker dataset, but then pivoted to scraping it from the web for reproducibility purposes. This was not possible with the Uppsala dataset as there was no link directly available for scraping the data - the website only contained a series of downloadable files in different formats. However, accessing this dataset for download is extremely easy.
 
-* Joining data sets, and different uses of different data sets
+### Data Cleaning
 
-Afghanistan: Used the same dataset as the global analysis, but brought in Uppsala conflict data in an attempt to introduce more context to violence in the country. We chose to focus on the years 2008-2016 to look at whether there were any unique datapoints in the Bush vs. Obama administrations due to U.S. presence in Afghanistan. This was also why we chose to use Afghanistan versus another country - much of the political violence there is influenced by American occupation of Afghan land. Further, Afghanistan has been one of the most dangerous locations for aid workers over multiple years, so we chose to take a closer look at what might be going on. 
+To clean the Aid Worker Security Database, we first used ‘janitor::clean_names()’ to get a uniform naming scheme. From there, we deleted unneeded variables (‘source’ and ‘verified’), made a ‘year’ variable that sorted the years, and then created a new variable ‘intl_org_affected’ which used the variables un:lngo_and_nrcs to describe if an international organization was affected in an incident. Imported data separated the attack date into three columns containing day, month, and year, but we did not merge these as we only stratified by year in our analysis. Additionally, month and day columns contained frequent ‘NAs’ highlighting gaps in the data collection process and suggesting that it is challenging to obtain data in volatile emergency settings. Month and day columns were not removed so that we could reference specific events in our qualitative descriptions. 
 
-## Exploratory analysis
+```{r eval = FALSE}
+url = "https://aidworkersecurity.org/incidents/search"
+aidworker_html = read_html(url)
 
-*HERE WE NEED TO ACTUALLY PRESENT ANY OF OUR RELEVANT EDA AND VISUALIZATIONS*
+aidworker_df = 
+  aidworker_html %>% 
+  html_nodes(css = "table") %>%  
+  first() %>% 
+  html_table() %>% 
+  as_tibble()
 
-* Present EDA, visualizations, summaries, *exploratory statistical analysis*
+aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %>% 
+  relocate(id, month, day, year, country, intl_org_affected)
+```
 
-* Justify the steps we took
+The AWSD dataset unfortunately contained numerous blank entries (rather than all ‘NA’s). The function below mutated the blank spaces into NA’s.
 
-* Show any major changes to our ideas
+```{r eval = FALSE}
+empty_as_na <- function(x){
+    if("factor" %in% class(x)) x <- as.character(x) 
+    ifelse(as.character(x)!="", x, NA)
+}
 
-* This sounds like a combined methodology and results section. Will need subsections.
+aidworker_df = 
+aidworker_df %>% mutate_each(funs(empty_as_na)) 
+```
 
-## Additional analyses
+We also noted that a “Total” row was coded with NAs for most variables and would skew the results and we removed that row. This also removed 6 rows in which country was NA, out of an original 3002 attack incident observations. As the bulk of our analysis would rely on identifying the country in which the attack occurred, this was an appropriate data attrition for us. Our final working dataframe had 2996 observations in which at least country and year were known.
 
-* Describe in detail any formal statistical analyses (regression etc)
+In order to simplify the analysis, we collapsed the means_of_attack variable to meaningful categories: noting all IED (improvised explosive device) attacks together, grouping explosives together, and grouping kidnapping incidents together. This follows the rationale described in the AWSD codebook.
+
+Finally, we arranged the data in a useful order using ‘relocate’ and then, for the Afghanistan case study, filtered by country and years of interest. 
+
+```{r eval = FALSE}
+aidworker_df = 
+  aidworker_df %>% 
+  filter(country != "Total") %>% 
+  mutate(attack_abr = case_when(
+           means_of_attack == "Kidnap-killing" ~ "Kidnapping",
+           means_of_attack == "Kidnapping" ~ "Kidnapping",
+           means_of_attack == "Body-borne IED" ~ "IED", 
+           means_of_attack == "Vehicle-born IED" ~ "IED", 
+           means_of_attack == "Roadside IED" ~ "IED",
+           means_of_attack == "Landmine" ~ "Explosives", 
+           means_of_attack == "Shelling" ~ "Explosives",
+           means_of_attack == "Other Explosives" ~ "Explosives",
+           means_of_attack == "Aerial bombardment" ~ "Explosives",
+           means_of_attack == "Rape/sexual assault" ~ "Rape/sexual assault",
+           means_of_attack == "Complex attack" ~ "Complex attack",
+           means_of_attack == "Shooting" ~ "Shooting",
+           means_of_attack == "Unknown" ~ "Unknown", 
+           means_of_attack == "Bodily assault" ~ "Bodily assault"
+           ))
+
+afghan_aidworker_df =
+  aidworker_df %>%
+  janitor::clean_names() %>% 
+  select(-source, -verified) %>% 
+  rename(year = year_sort_descending) %>% 
+  mutate(intl_org_affected = 
+           case_when(
+             un != 0 ~ "yes",
+             ingo != 0 ~ "yes",
+             icrc != 0 ~ "yes",
+             ifrc != 0 ~ "yes",
+             other != 0 ~ "yes",
+             lngo_and_nrcs != 0 ~ "no"),
+         intl_org_affected = as.factor(intl_org_affected)) %>% 
+  relocate(id, month, day, year, country, intl_org_affected) %>% 
+  filter(country == "Afghanistan") %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) 
+```
+
+To clean the Uppsala Conflict dataset it we utilized ‘janitor::clean_names()’ for uniformity again. From there, we filtered for our years of interest to match the data being used from the AWSD. The dataset was already tidy so we did not need to perform extra cleaning. 
+
+The AWSD is extremely robust and we found no need to join the Uppsala data set to it. Rather, it made more sense to use both datasets for a side-by-side analysis. The AWSD was used to describe both global and national (Afghanistan)-level trends and we were able to pull information specifically pertaining to aid workers, attack types, number of attacks, etc. Because this was the focus of our website, this dataset was also the focus of our analysis. The Uppsala dataset was simply used to provide additional context in describing civilian deaths. 
+
+
+## Exploratory Analysis
+
+### Global Trend Analysis
+
+A first priority of the global analysis was to examine the trend of aid worker attacks over time. This code plots attack incidents over time, while also showing the number of total victims, national staff victims, and international staff victims. Attack incidents have been increasing over time.
+
+
+```{r eval = FALSE}
+plot_1 = 
+  aidworker_df %>% 
+  group_by(year) %>% 
+  summarize(tot_attacks = n_distinct(id),
+            tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  mutate(text_label = 
+           str_c("Total Victims: ", tot_both, "\nInternational Staff: ", tot_intl,
+                 "\nNational Staff: ", tot_national)) %>% 
+  plot_ly(
+    x = ~year, y = ~tot_attacks, text = ~text_label,
+          type = "scatter", mode = "markers")
+  
+layout(plot_1, title = "Aid Worker Attacks Over Time", xaxis = list(title = "Year"), yaxis = list(title = "Number of Attack Incidents"))
+```
+
+The number of national staff victims was consistently higher than international (expatriate) staff victims. This code demonstrates that trend over time, and also (interestingly), shows that the proportion of national staff victims is increasing---evidence of a widening disparity. This changing proportion could be partly explained by humanitarian organizations possibly employing a greater number (and/or proportion) of national staff over time. Numbers of humanitarian aid workers in a country at any given time is generally not known, and an area of improvement in data collection in the future. 
+
+```{r eval = FALSE}
+aidworker_df %>% 
+  drop_na(year) %>% 
+  group_by(year) %>% 
+   summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims)) %>% 
+  ggplot(aes(x = year)) + 
+  geom_line(aes(y = tot_national, color = "National Staff")) + 
+  geom_line(aes(y = tot_intl, color = "International Staff")) + 
+  labs(title = "Aid Worker Attacks Over Time",
+       x = "Year",
+       y = "Number of Aid Workers Attacked")
+
+pct_ntl =
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_national)) + 
+  geom_line() +
+    labs(
+     x = "Year",
+     y = "% National"
+    )
+
+pct_intl = 
+aidworker_df %>%
+  group_by(year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_both = sum(total_victims),
+            pct_intl = (tot_intl/tot_both)*100,
+            pct_national = (tot_national/tot_both)*100) %>% 
+  ggplot(aes(x = year, y = pct_intl)) + 
+  geom_line() +
+   labs(
+    x = "Year",
+    y = "% International"
+   )
+
+pct_ntl + pct_intl +
+  plot_annotation(title = "Percent of Aid Workers Attacked Who Were National vs. International")
+```
+
+The next set of analyses identified the most dangerous countries for aid workers. Interestingly, as this code shows, most aid worker victims were attacked in only a handful of countries.
+
+```{r eval = FALSE}
+plot_2 = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_attacks = n_distinct(id),
+            tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_victims = sum(total_victims)) %>% 
+  mutate(rank = min_rank(desc(tot_victims))) %>% 
+  filter(rank < 51) %>% 
+  mutate(country = fct_reorder(country, tot_victims)) %>% 
+  mutate(text_label = 
+           str_c("Total Victims: ", tot_victims, "\nRank: ", rank, "\nInternational Staff: ",
+                 tot_intl, "\nNational Staff: ", tot_national)) %>% 
+  plot_ly(
+    x = ~country, y = ~tot_victims, text = ~text_label,
+          type = "scatter", mode = "markers")
+  
+layout(plot_2,
+       margin = list(l=25, r=50, b=100, t=50, pad=0),
+       title = "Top 50 Most Dangerous Countries for Aid Workers",
+       xaxis = NULL,
+       yaxis = list(title = "Total Victims"))
+```
+
+We then subsetted those dangerous countries, and examined the relative number of victims for each category of outcome in the AWSD: kidnapped, killed, and wounded. 
+
+```{r eval = FALSE}
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_national_staff, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Central African Republic", "DR Congo", 
+                        "Iraq", "Pakistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic", "Nigeria")) %>% 
+  group_by(country) %>% 
+  summarize("Killed" = sum(nationals_killed),
+            "Wounded" = sum(nationals_wounded),
+            "Kidnapped" = sum(nationals_kidnapped),
+            tot_natl = sum(total_national_staff)) %>% 
+  pivot_longer(
+    "Killed":"Kidnapped",
+    names_to = "Violence_type",
+    values_to = "Number"
+  ) %>% 
+  mutate(country = fct_reorder(country, tot_natl)) %>% 
+  ggplot(aes(x = as.factor(country), y = Number, fill = Violence_type)) + 
+  geom_bar(stat="identity") + 
+  labs(
+    title = "Top 10 Most Deadly Countries for Aid Workers (National Staff)",
+    x = "Country",
+    y = "National Staff Victims"
+  ) + 
+  viridis::scale_fill_viridis(
+    name = "Violence Type",
+    discrete = TRUE
+  ) + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1))
+
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_international_staff, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Chechnya", "DR Congo", 
+                        "Iraq", "Kenya", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic", "Yemen", "Libyan Arab Jamahiriya")) %>% 
+  group_by(country) %>% 
+  summarize("Killed" = sum(internationals_killed),
+            "Wounded" = sum(internationals_wounded),
+            "Kidnapped" = sum(internationals_kidnapped),
+            tot_intl = sum(total_international_staff)) %>% 
+  pivot_longer(
+    "Killed":"Kidnapped",
+    names_to = "Violence_type",
+    values_to = "Number"
+  ) %>% 
+  mutate(country = fct_reorder(country, tot_intl)) %>% 
+  ggplot(aes(x = as.factor(country), y = Number, fill = Violence_type)) + 
+  geom_bar(stat="identity") + 
+  labs(
+    title = "Top 11 Most Deadly Countries for Aid Workers (International Staff)",
+    x = "Country",
+    y = "International Staff Victims"
+  ) + 
+  viridis::scale_fill_viridis(
+    name = "Violence Type",
+    discrete = TRUE
+  ) + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1))
+
+aidworker_df %>% 
+  group_by(country) %>% 
+  summarize(attacks = n_distinct(id),
+            nationals = sum(total_national_staff),
+            internationals = sum(total_international_staff),
+            tot_victims = sum(total_victims),
+            sum_national_kill = sum(nationals_killed),
+            sum_national_kidnap = sum(nationals_kidnapped),
+            pct_nationals_killed = (sum_national_kill/nationals)*100,
+            pct_nationals_kidnapped = (sum_national_kidnap/nationals)*100,
+            sum_intl_kill = sum(internationals_killed),
+            sum_intl_kidnap = sum(internationals_kidnapped),
+            pct_intl_killed = (sum_intl_kill/internationals)*100,
+            pct_intl_kidnapped = (sum_intl_kidnap/internationals)*100) %>%
+  mutate(rank = min_rank(desc(attacks))) %>% 
+  filter(rank < 11) %>%
+  arrange(rank) %>% 
+  select(country, rank, attacks, nationals, pct_nationals_killed,
+         pct_nationals_kidnapped, internationals, pct_intl_killed, pct_intl_kidnapped) %>%
+  knitr::kable()
+```
+
+We also examined trends in these countries over time, noting a spike in Afghanistan that we examined contextually in the case study. Only the top 5 countries were shown here because they had notably more violence than the 6th-10th most violent countries---and this improved interpretability of the plot.
+
+```{r eval = FALSE}
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_affected_per_country = sum(total_victims, na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_affected_per_country))) %>% 
+  filter(rank < 11)
+
+aidworker_df %>% 
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, year) %>% 
+  summarize(tot_victims = sum(total_victims)) %>% 
+  ggplot(aes(x = year, y = tot_victims, color = country)) + 
+  geom_line() + 
+  labs(
+    title = "Top 5 Most Dangerous Countries Over Time",
+    x = "Year",
+    y = "Total Aidworker Victims"
+  ) + 
+  theme(legend.text=element_text(size=7))
+```
+
+The next several plots examine the relationship between attack location and type of attacks globally, and then subsetted dangerous countries again to examine the type and context of the attacks in these countries. ‘Unknown’ was retained in all situations because this highlighted the challenges of obtaining complete data in these humanitarian emergency settings. 
+
+```{r eval = FALSE}
+aidworker_df %>%
+  group_by(location, attack_abr) %>% 
+  summarize(attacks = n_distinct(id)) %>% 
+  mutate(location = as.factor(location),
+         location = fct_reorder(location, attacks)) %>% 
+  ggplot(aes(x = location, y = attacks, fill = attack_abr)) + 
+  geom_bar(stat="identity") + 
+  coord_flip() + 
+  labs(title = "Global view: Attack Locations and Types of Attacks",
+       x = "Location of attack",
+       y = "Number of attacks") + 
+  viridis::scale_fill_viridis(
+    name = "Attack type",
+    discrete = TRUE
+  ) + 
+  theme(legend.text=element_text(size=7))
+
+danger_countries_df = 
+  aidworker_df %>%
+  group_by(country) %>% 
+  summarize(tot_attacks = sum((n_distinct(id)), na.rm = TRUE)) %>% 
+  mutate(rank = min_rank(desc(tot_attacks))) %>% 
+  filter(rank < 6)
+
+aidworker_df %>%
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, attack_abr) %>% 
+  summarize(attacks = n_distinct(id)) %>% 
+  mutate(country = as.factor(country),
+         location = fct_reorder(country, attacks)) %>% 
+  ggplot(aes(x = country, y = attacks, fill = attack_abr)) + 
+  geom_bar(stat="identity") + 
+  labs(title = "Most Dangerous Countries: Attack Types",
+       x = "Country",
+       y = "Number of Attacks") + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) + 
+  theme(legend.text=element_text(size=7)) + 
+  viridis::scale_fill_viridis(
+    name = "Attack type",
+    discrete = TRUE
+  )
+
+
+aidworker_df %>%
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, attack_context) %>% 
+  summarize(attacks = n_distinct(id)) %>% 
+  mutate(country = as.factor(country),
+         location = fct_reorder(country, attacks)) %>% 
+  ggplot(aes(x = country, y = attacks, fill = attack_context)) + 
+  geom_bar(stat="identity") + 
+  labs(title = "Most Dangerous Countries: Attack Contexts",
+       x = "Country",
+       y = "Number of Attacks") + 
+  theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) +
+  theme(legend.text=element_text(size=7)) + 
+  viridis::scale_fill_viridis(
+    name = "Attack Context",
+    discrete = TRUE
+  )
+```
+
+Finally, gender was examined as a variable in relation to attack type. Men were victims more than women in most attack types (other than sexual assault), and this gender gap was evaluated using an interactive bubble plot.
+
+```{r eval = FALSE}
+plot_gender = 
+  aidworker_df %>%
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, attack_abr) %>% 
+  summarize(total_women = sum(gender_female),
+            total_men = sum(gender_male),
+            gap = total_men - total_women,
+            tot_victims = sum(total_victims)) %>%
+  mutate(text_label = 
+           str_c("Country: ", country, "\nAttack Type: ", attack_abr)) %>% 
+  plot_ly(
+    x = ~total_men, y = ~total_women, text = ~text_label, color = ~country, size = ~gap,
+          type = "scatter", mode = "markers",  colors = "viridis", 
+          sizes = c(50, 700), marker = list(opacity = 0.7))
+
+layout(plot_gender, title = "Dangerous Country Gender Gap by Attack Type", xaxis = list(title = "Number of Men Attacked"), yaxis = list(title = "Number of Women Attacked"))
+```
+
+
+### Afghanistan Case Study
+
+For the Afghanistan case study, we created multiple plots. For example: 
+
+```{r eval = FALSE}
+afghan_aidworker_international_df =
+  afghan_aidworker_df %>% 
+  group_by(year) %>% 
+  summarise(sum(internationals_killed)) %>%
+  mutate(
+    internationals_killed_tot = `sum(internationals_killed)`
+  ) %>%
+  select(year, internationals_killed_tot) 
+
+afghan_aidworker_national_df =
+  afghan_aidworker_df %>%
+  group_by(year) %>%
+  summarise(sum(nationals_killed)) %>%
+  mutate(
+    nationals_killed_tot = `sum(nationals_killed)`
+  ) %>%
+  select(year, nationals_killed_tot) 
+
+afghan_aidworker_df_new =
+  left_join(afghan_aidworker_international_df, afghan_aidworker_national_df, by = "year")
+
+
+afghan_aidworker_df_new %>%
+     ggplot(aes(x = year, y = internationals_killed_tot, col = "International")) +
+   geom_line() +
+  geom_line(aes(x = year, y = nationals_killed_tot, col = "National")) +
+  labs(
+    title = "Number of Aid Workers Killed By Origin (National vs. International)",
+    x = "Year",
+    y = "Number Killed"
+  )
+```
+
+This line graph shows the number of aid workers killed in Afghanistan based on their origin (national or international). We were interested in knowing if origin played a factor in aid worker security. To create this visualization we created sub-data frames from ‘aghan_aidworker_df’ (aghan_aidworker_international_df and afghan_aidworker_national_df) and grouped by ‘year’ to summarize the sum of ‘internationals_killed’ and ‘nationals_killed’, respectively. We then left-joined the two data frames and used this new data frame to plot a line for each group (x = year, y = (inter)nationals_killed_tot). 
+
+```{r eval = FALSE}
+means_attack_p =
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~means_of_attack,
+    type = "scatter") %>%
+    layout(
+    title = "Victims per year by attack type")
+
+attack_context_p =
+afghan_aidworker_df %>%
+  plot_ly(
+    x = ~year, y = ~total_victims, color = ~attack_context,
+    type = "scatter") %>%
+    layout(
+    title = "Victims per Year by Attack Context (Left) and Attack Type (Right)")
+
+subplot(means_attack_p, attack_context_p)
+```
+
+In this plot, you will see the number of victims (y-axis) per year (x-axis) based on attack context and attack type. By using this subplot, we can see both the context of attack (e.g., aerial bombardment in 2015 with 49 deaths) and the attack type (e.g., combat/crossfire attack, the type of attack causing the deaths). To make this plot, we used afghan_aidworker_df and plotted both the means of attack variable and attack_context variables on a year by total_victims scatterplot. We used ‘subplot’ to place these scatterplots side-by-side for easier comparison. 
+
+We also looked at deaths among all civilians versus all aid workers side by side
+
+```{r eval = FALSE}
+#Aidworkers, from the Aidworker dataset: 
+aidworker_deaths_p = 
+afghan_aidworker_df %>% 
+  group_by(year) %>% 
+  summarise(sum(total_victims)) %>%
+  mutate(
+    tot_victims = `sum(total_victims)`
+  ) %>% 
+  select(-`sum(total_victims)`) %>% 
+  ggplot(aes(x = year, y = tot_victims)) +
+   geom_line(color = "red", size =2) +
+  labs(
+    title = "Aid Workers Killed per Year",
+    x = "Year",
+    y = "Number Aid Workers Killed"
+  ) 
+
+#All civilians, from the Uppsala dataset:
+afghan_upp_df = 
+  read_csv("./data/afghanistan_uppsala.csv") %>%
+  janitor::clean_names() %>% 
+  filter(year %in% c("2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")) %>% 
+  select(year, deaths_civilians) %>% 
+  group_by(year) %>% 
+  summarise(sum(deaths_civilians)) %>% 
+  mutate(
+    deaths_civilians_tot = `sum(deaths_civilians)`
+  ) %>% 
+  select(-`sum(deaths_civilians)`) 
+
+civilian_deaths_p =
+afghan_upp_df %>% 
+  ggplot(aes(x = year, y = deaths_civilians_tot)) +
+   geom_line(color = "blue", size =2) +
+  labs(
+    title = "Civilians Killed per Year",
+    x = "Year",
+    y = "Number Civilians Killed"
+)
+
+# use patchwork to make two separate plots and have them side-by-side
+
+aidworker_deaths_p + civilian_deaths_p
+```
+
+The patched line graphs show the number of aid workers and civilians killed per year, side-by-side. We used the AWSD to create the aid worker graph (left) and the Uppsala dataset to create the civilian graph (right). For both graphs, we grouped by year and got the sum for ‘total_victims’ and ‘deatths_civilians’, respectively. We then made a line plot of ‘year’ against ‘tot_victims’ and ‘deaths_civiilians_tot’, respectively. Using patchwork we placed these side-by-side for comparison. We purposely did not overlay these graphs due to their vastly different denominators and subsequent size. However, by looking at them next to each other, we can see the trends for each group and use context to understand them.  
+
+For the sake of brevity, other plots include: 1) To visualize the total attacks in a location type, we made a bar graph of the number of attacks per location with colors according to means of attack. We can now see how many attacks occur in a home vs. on the road, for example, and what type of attacks are most common in each area. This graph used afghan_aidworker_df. 2) A  bar graph showing the frequency of attacks that affect an international organization (or does not affect) was created using the afghan_aidworker_df to plot ‘intl_org_affected’. 
+
+### Dashboard
+
+The dashboard we created has two tabs: the first tab shows the overall number of aid workers who were attacked by means of attack. Users can filter by country and by location of the attack within the field setting. This process was duplicated on a second tab to allow direct comparison between these rates between international and national staff. We had initially hoped that we would be able to include an option for all countries on these plots; however, we could not find a Shiny option that would allow us to include all options at once as our default for country filtering without printing all of the options on the sidebar, which was messy. Ultimately we decided that given the other global plots in our website that being able to interact with the data from country to country would be useful, primarily to help viewers understand how attack strategies differ across countries. We set “Afghanistan” as the default given that we later zoom in on this country for additional EDA. 
+
+We went about this by first creating the code for the Shiny widgets, which would allow us to update the maps based on different variables. We had initially also intended to filter by a range of years, but this did not add any value to the plots and had issues around years auto-updating to decimals, so this widget was dropped.
+
+```{r eval = FALSE}
+## Means of attack 
+type_attack = plot_aidworker_df %>% 
+  distinct(attack_abr) %>% drop_na() %>% pull()
+
+checkboxGroupInput("outcome_choice", 
+                   label = h3("Means of Attack"),
+                   choices = type_attack, selected = "Kidnapping")
+
+## Country 
+attack_country = plot_aidworker_df %>% 
+  distinct(country) %>% pull()
+  
+textInput("attack_country", 
+          label = h3("Type Country of Interest (Try 'Somalia', 'Afghanistan', or 'DR Congo')"),
+          value = "Afghanistan")
+
+## Location of Attack 
+loc_attack = plot_aidworker_df %>% distinct(location) %>% drop_na() %>% pull()
+
+radioButtons(
+  "location_choice",
+  label = h3("Select Attack Location"),
+  choices = loc_attack, selected = "Road")
+```
+
+The code for each of the three plots is essentially the same but uses total_victims, total_national_staff, and total_international_staff as the y-axis input variables. 
+
+```{r eval = FALSE}
+renderPlotly({ 
+  plot_aidworker_df %>%
+    filter(
+      attack_abr == input$outcome_choice,
+      country == input$attack_country,
+      location == input$location_choice) %>% 
+    mutate(text_label = str_c("Country: ", country, '\nAttack Context:', attack_context, '\n ', descript)) %>% 
+  plot_ly(
+    x = ~year, y = ~total_national_staff, type = "scatter", mode = "lines",
+    alpha = 0.5, color = ~attack_abr, text = ~text_label) %>% 
+      layout(xaxis = list(title = "Year"),
+           yaxis = list(title = "Number of Aid Workers Attacked"))
+})
+```
+
+In this process, we first created a plot that worked and then iterated on this code to add the filters. We first tested this plot as a scatterplot and then later changed it to a line plot. 
+
+Creating this dashboard proved to be really challenging and we dealt with significant bugs throughout the process. 
+
+* NAs from the attack_abr (means of attack grouped variable) and location variables translated into NAs in our sidebar, but this was difficult to fix in the context of an .Rmd file that renders to Shiny. There was a consistent error in which any sort of data cleaning was not possible because R was not recognizing aidworker_df as a dataframe.
+
+* The axis labels were initially the names of the tidy variables, which are not well-suited to an external plot. Fixing this was challenging because the labels were consistently not loading even after the code ran. Eventually we found a fix of adding a layout layer after the plotly function. 
+
+* Our text box, which includes a description of the incident, initially printed the entire “details” column straight across, so the text boxes looked clunky and some of the text was cut off. We used a mutate function while tidying the code to create a “descript” variable, which is the same as the “details” variable, but, instead, is wrapped into a neater paragraph using the str_wrap function. We created a new dataframe to overwrite the original one using this code: 
+
+plot_aidworker_df = 
+  aidworker_df %>% 
+  mutate(
+    descript = str_wrap(details)
+  )
+
+* We deployed this dashboard once about halfway through the process to see how it would function in our website, but when we went back into the document to make changes and re-deploy the app, we had a lot of challenges. In order to de-bug the dashboard, we ultimately had to create an entirely new Rmd dashboard. The Shiny link on the website continued to link to the old dashboard and it was difficult to deploy another app using the same account because we kept getting errors. 
+
+* Unfortunately, because the live website had been linked to the old dashboard (hosted on shinyapps.io) and because the redeployment required us to create a NEW dashboard, the transition to the new link in the website was challenging. The file path for the old (deleted) dashboard was https://ebbollman.shinyapps.io/dashboard_attack_type/ and the new functional dashboard was https://ebbollman.shinyapps.io/final_dashboard. Getting this transition in github hosted page proved more unwieldy than simply changing the link in the yml. 
+
+### Mapping the Data
+
+When first exploring our datasets, we were excited about the possibility of utilizing latitude and longitude data to map the attacks. Our goal was to create an interactive map that would allow users to explore the data by country, and see the number and types of attacks by year. We started by trying to plot all the attacks in our dataframe as points on a global map in `leaflet`, but encountered some issues with displaying the data correctly on the map.
+
+```{r eval = FALSE}
+attack_map =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>%
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(
+    lat = ~latitude,
+    lng = ~longitude,
+    clusterOptions = markerClusterOptions())
+    
+attack_map
+```
+
+When we tried to map all of the attacks (about 3000 data points), nothing would appear on the map. We tried filtering to one or a handful of countries, which worked. From this code, we were able to create a map for our section specifically on Afghanistan.
+
+```{r eval = FALSE}
+afghanistan_df =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>% 
+  filter(country == "Afghanistan")
+  
+leaflet(afghanistan_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", afghanistan_df$total_victims, "<br>", "Means of Attack:", afghanistan_df$means_of_attack, "<br>", "Year:", afghanistan_df$year, "<br>", "Country:", afghanistan_df$country), clusterOptions = markerClusterOptions())
+```
+
+We still wanted to map out all of our data globally, so we explored the data further by using `slice_sample` to draw a random sample of points to plot, to see how many points we could plot, and at which point at which the code would break. The data would populate to a certain extent, but then stop plotting what it had already plotted (i.e. we’d run the code to plot 1000 points, it would plot, we’d run the code to plot 1100 points, it would not, then if we tried to plot 500 points, it would not). This exploration didn’t yield any answers for us about how to effectively plot all of our global data as points in `leaflet`.
+
+```{r eval = FALSE}
+samp_attack_map =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>%
+  slice_sample(n = 500) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(
+    lat = ~latitude,
+    lng = ~longitude,
+    clusterOptions = markerClusterOptions())
+
+samp_attack_map
+```
+
+After attending office hours, we discussed adapting the `leaflet` map to show top 10 countries impacted, or a subset of years, as we could not plot all 3000 points. We attempted to filter to the 10 countries with the most attacks in our dataset, and unfortunately this did not plot either. 
+
+```{r eval = FALSE}
+danger_map_df =
+  aidworker_df %>%
+  drop_na(longitude, latitude) %>% 
+  filter(country %in% c("Afghanistan", "Central African Republic", "DR Congo", "Iraq", "Pakistan", "Somalia", "South Sudan", "Sudan", "Syrian Arab Republic", "Yemen"))
+  
+leaflet(danger_map_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", danger_map_df$total_victims, "<br>", "Means of Attack:", danger_map_df$means_of_attack, "<br>", "Year:", danger_map_df$year, "<br>", "Country:", danger_map_df$country), clusterOptions = markerClusterOptions())
+```
+
+We were pleased with the map of Afghanistan that would allow the user to explore all attack events within the country spatially. We ultimately used this code, after removing one outlier that was showing up in the Mediterranean, likely a data entry error from the dataset. Here is the final code for Afghanistan map.
+
+```{r eval = FALSE}
+afghanistan_df =
+  afghan_aidworker_df %>%  
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+    ) %>% 
+  drop_na(longitude, latitude) %>% 
+  filter(id != 2050)
+
+fixing_error_df = 
+  afghanistan_df %>% 
+  filter(year == 2016) %>% 
+  filter(means_of_attack == "Kidnapping") %>% 
+  select(id, year, total_victims, latitude, longitude)
+
+leaflet(afghanistan_df) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addMarkers(lat = ~latitude, lng = ~longitude,
+  popup = paste("Total Victims:", afghanistan_df$total_victims, "<br>", "Means of Attack:", afghanistan_df$means_of_attack, "<br>", "Year:", afghanistan_df$year, "<br>", "Country:", afghanistan_df$country), clusterOptions = markerClusterOptions())
+```
+
+However, we knew we wanted to focus on building a choropleth map that would show the aggregated number of attacks in each country, so we decided to shift to focus on building this instead.
+
+Our goal was to create a choropleth map in a `shiny` app with all of the global data, and for the user to be able to filter by year. We wanted to include information on attack types, number of victims, and whether they were national or international staff.
+
+Our first step was to create a dataframe which aggregated the attacks by country and year. The new dataframe collapsed the `means_of_attack` variable into explosives, shooting, kidnapping, and assault. It summed by country and year the number of these attack events, and the number national / international / total victims (total per country/year, not by attack type). 
+
+```{r eval = FALSE}
+global_map_df = 
+  aidworker_df %>% 
+  mutate(
+    kidnapping = case_when(means_of_attack %in% c("Kidnapping", "Kidnap-killing") ~ 1),
+    shooting = case_when(means_of_attack %in% c("Shooting") ~ 1),
+    assault = case_when(means_of_attack %in% c("Bodily assault", "Rape/sexual assault") ~ 1),
+    explosive = case_when(means_of_attack %in% c("Aerial bombardment", "Landmine", "Other Explosives", "Roadside IED",
+                                                 "Shelling", "Vehicle-born IED") ~ 1)) %>% 
+  drop_na(year) %>% 
+  group_by(country, year) %>% 
+  summarize(tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_victims = sum(total_victims),
+            tot_kidnappings = sum(kidnapping, na.rm = TRUE),
+            tot_shootings = sum(shooting, na.rm = TRUE),
+            tot_assault = sum(assault, na.rm = TRUE),
+            tot_explosive = sum(explosive, na.rm = TRUE)) %>% 
+  drop_na(country)
+```
+
+Once the data frame was created, we knew our next steps were to find a spatial data frame  which included polygons that we could join our attack data to.
+
+First, we tried working with `ggplot` to see what a choropleth map might look like:
+
+```{r eval = FALSE}
+map_world = map_data("world")
+
+ggplot() +
+  geom_polygon(data = map_world, aes(x = long, y = lat, group = group))
+```
+
+We compared country names between the data frames to make sure we were able to join by `country`, and then updated any discrepancies
+
+```{r eval = FALSE}
+x =
+  global_map_df$country %>% 
+  unique()
+
+y =
+  map_world$region %>% 
+  unique()
+
+x %in% y
+
+x[which(!(x %in% y))]
+```
+
+We found  9 countries in `global_map_df` that were not in `map_world`.  We dropped where `country` = NA from `global_map_df`, as these points could not be mapped. We then had to manually review `region` in `map_world` to locate the country names, and re-coded names in the data frames so that they matched to be joined. We also dropped one country not included in the map (Kashmir). We then joined the data frames and created the map.
+
+```{r eval = FALSE}
+map_world$region =
+  recode(map_world$region,
+         'Ivory Coast' = 'Cote D\'Ivoire',
+         'Syria' = 'Syrian Arab Republic'
+         )
+
+global_map_df$country =
+  recode(global_map_df$country,
+         'Occupied Palestinian Territories' = 'Palestine',
+         'DR Congo' = 'Democratic Republic of the Congo',
+         'Congo' = 'Republic of Congo',
+         'Libyan Arab Jamahiriya' = 'Libya',
+         'Chechnya' = 'Russia'
+         )
+
+global_map_df =
+  global_map_df %>% 
+  filter(country != "Kashmir")
+
+map_world =
+  map_world %>% 
+  rename(country = region)
+
+global_map_df_2019 =
+  global_map_df %>% 
+  filter(year == "2019")
+
+joined_map_2019 =
+  left_join(map_world, global_map_df_2019) %>% 
+  mutate(polygon_fill = ifelse(is.na(tot_victims), F, T))
+
+ggplot() +
+  geom_polygon(data = joined_map_2019, aes(x = long, y = lat, group = group, fill = polygon_fill))
+```
+
+Visually we didn’t love this map, and wanted to see what other packages would allow us to plot spatial data. We thusly explored using the `rworldmap` package to follow a similar process:
+
+```{r eval = FALSE}
+global_map_df %>% 
+joinCountryData2Map(
+  joinCode = "NAME",
+  nameJoinColumn = "country",
+  verbose = TRUE
+  )
+
+joined_map = 
+  global_map_df %>%
+  filter(year == "2019") %>% 
+joinCountryData2Map(
+  joinCode = "NAME",
+  nameJoinColumn = "country",
+  verbose = TRUE
+  )
+
+par(mai =c (0,0,0.2,0), xaxs = "i", yaxs = "i")
+glob_map = mapCountryData(joined_map, nameColumnToPlot = "tot_victims", addLegend = FALSE)
+
+joined_map$country %>% 
+  view()
+
+view(countrySynonyms)
+
+global_map_df$country =
+  recode(global_map_df$country,
+         'Chechnya' = 'Russia',
+         'DR Congo' = 'Democratic Republic of the Congo',
+         'Syria' = 'Syrian Arab Republic',
+         'Libyan Arab Jamahiriya' = 'Libya',
+         'Occupied Palestinian Territories' = 'Occupied Palestinian Territory')
+
+global_map_df =
+  global_map_df %>% 
+  filter(country != "Kashmir")
+```
+
+Upon creating these maps, we recognized that although these options allowed us to create a map that demonstrated the number of attacks in each country by year, we preferred the appearance and interactivity of `leaflet` maps, and decided to try to create a map with aggregated data in `leaflet`.
+
+We downloaded a geojson file, a map of the world, from [https://geojson-maps.ash.ms/] 
+
+```{r eval = FALSE}
+countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
+
+main_map = leaflet(countries) %>% 
+  addTiles() %>% 
+  addPolygons()
+
+main_map
+```
+
+From this, we were able to impose polygons onto the world map to merge our data with. We compared the country names in our dataframe to the geojson file and addressed any discrepancies. We had to drop Mauritius, for which there was one attack in 2017 (an assault with one national victim) because it was not included in the underlying world map.
+
+```{r eval = FALSE}
+names(countries)
+view(countries$name)
+
+x =
+  global_map_df$country %>% 
+  unique()
+
+y =
+  countries$name %>% 
+  unique()
+
+x %in% y
+
+discrepancy = x[which(!(x %in% y))]
+
+discrepancy
+
+global_map_df$country =
+  recode(global_map_df$country,
+         'Central African Republic' = 'Central African Rep.',
+         'Republic of Congo' = 'Congo',
+         'Cote D\'Ivoire' = 'Côte d\'Ivoire',
+         'Democratic Republic of the Congo' = 'Dem. Rep. Congo',
+         'Occupied Palestinian Territory' = 'Palestine',
+         'South Sudan' = 'S. Sudan',
+         'Syrian Arab Republic' = 'Syria',
+         'Western Sahara' = 'W. Sahara'
+         )
+
+global_map_df =
+  global_map_df %>% 
+  filter(country != "Mauritius")
+
+global_map_df =
+  global_map_df %>% 
+  rename(name = country)
+```
+
+Now that we had prepared our dataframe to be merged, we tried merging just one year of data. We knew that as our data frame included attacks aggregated by year and country, not just by country, that we would ultimately need to iterate and write a function to merge data for only one year with the map. We also eventually realized that merging could not be done with a function such as `left_join`, and instead had to be done with the `merge` function from the `sp` package, because the map was a spatial object, and not a typical dataframe. 
+
+```{r eval = FALSE}
+countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
+
+df_2019 =
+  global_map_df %>% 
+  filter(year == "2019")
+
+joined_map_2019 = sp::merge(countries, df_2019)
+
+bins = c(0, 10, 20, 50, 100, 200)
+pal = colorBin("YlOrRd", domain = joined_map_2019$tot_victims, bins = bins)
+
+labels = glue::glue("<strong>{joined_map_2019$name}</strong><br/>{joined_map_2019$number_incidents} total incidents<br/>{joined_map_2019$tot_victims} victims<br/>{joined_map_2019$tot_national} national victims<br/>{joined_map_2019$tot_intl} international victims") %>%
+  purrr::map(htmltools::HTML)
+
+main_map = leaflet(joined_map_2019) %>% 
+  addTiles() %>% 
+  addPolygons(
+    fillColor = ~pal(tot_victims),
+    weight = 2,
+    opacity = 1,
+    color = "black",
+    dashArray = "1",
+    fillOpacity = 0.5,
+    highlight = highlightOptions(
+      weight = 5,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE),
+    label = labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto")) %>%
+  addLegend(pal = pal, values = ~tot_victims, opacity = 0.7, title = NULL,
+    position = "bottomright"
+    )
+
+main_map
+```
+
+
+We then spent time working on the aesthetics of the polygon layer, as well as the content of the labels, before moving onto working in `shiny`. We knew we wanted a slider so that the user could select which year of data to view, and we knew that the year input would determine how the dataset was filtered to `merge` with the map data. Below is the code used in our dashboard for the final map:
+
+```{r eval = FALSE}
+## Aggregated data per country, year
+
+global_map_df = 
+  aidworker_df %>% 
+  mutate(
+    kidnapping = case_when(means_of_attack %in% c("Kidnapping", "Kidnap-killing") ~ 1),
+    shooting = case_when(means_of_attack %in% c("Shooting") ~ 1),
+    assault = case_when(means_of_attack %in% c("Bodily assault", "Rape/sexual assault") ~ 1),
+    explosive = case_when(means_of_attack %in% c("Aerial bombardment", "Landmine", "Other Explosives", "Roadside IED",
+                                                 "Shelling", "Vehicle-born IED") ~ 1)) %>% 
+  drop_na(year) %>% 
+  group_by(country, year) %>% 
+  summarize(
+            number_incidents = n(),
+            tot_national = sum(total_national_staff),
+            tot_intl = sum(total_international_staff),
+            tot_victims = sum(total_victims),
+            tot_kidnappings = sum(kidnapping, na.rm = TRUE),
+            tot_shootings = sum(shooting, na.rm = TRUE),
+            tot_assault = sum(assault, na.rm = TRUE),
+            tot_explosive = sum(explosive, na.rm = TRUE)) %>% 
+  drop_na(country)
+
+global_map_df$country =
+  recode(global_map_df$country,
+         'Central African Republic' = 'Central African Rep.',
+         'Republic of Congo' = 'Congo',
+         'Cote D\'Ivoire' = 'Côte d\'Ivoire',
+         'Democratic Republic of the Congo' = 'Dem. Rep. Congo',
+         'Occupied Palestinian Territory' = 'Palestine',
+         'South Sudan' = 'S. Sudan',
+         'Syrian Arab Republic' = 'Syria',
+         'Western Sahara' = 'W. Sahara'
+         )
+
+global_map_df =
+  global_map_df %>% 
+  filter(country != "Mauritius") %>% 
+  rename(name = country)
+
+## read in polygon data
+
+countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
+
+```
+
+```{r input_panel, eval = FALSE}
+inputPanel(
+ sliderInput("year",
+             label = "Year",
+              min = 1997,
+             max = 2020,
+             value = 1,
+             sep = "")
+  )
+```
+
+```{r global_map, echo=FALSE, eval = FALSE}
+
+map_data = 
+  reactive({
+    victim_year_df = global_map_df %>%
+    filter(year == input$year)
+
+  sp::merge(countries, victim_year_df)
+
+  })
+
+renderLeaflet({
+  
+  bins = c(0, 5, 10, 20, 50, 100, 200)
+  
+  pal = colorBin("YlOrRd", domain = map_data()$tot_victims, bins = bins)
+
+  labels = glue::glue("<strong>{map_data()$name}</strong><br/>Total Incidents: {map_data()$number_incidents}<br/>Total Victims: {map_data()$tot_victims}<br/>National Victims: {map_data()$tot_national} <br/>International Victims: {map_data()$tot_intl}") %>%
+  purrr::map(htmltools::HTML)
+```
+
+We wanted to show some more details, such as the types of attack in each country, but felt that it was too much to include in the labels. Had we had more time, we would have liked to have created a “show more details” button within the labels, or to have created additional widgets that allowed the user to filter the map along other variables, such as attack type. Nevertheless, we were pleased with this final deliverable.
+
+### General Difficulties
+
+* Alisha is not listed as a collaborator on this project. We were unsure of how to fix this.
+
+* There are several points in our commit history in which files were overwritten, or errors came up when we were merging. We got around this by ensuring only one person was working on a given markdown file at one time. This was managed through robust communication, but we still had some merge issues that required hard reset.
+
+* Kailey struggled at the beginning of the project to be able to knit or push the markdown file. Initially, she was only able to push the .rmd of any section she worked on, however, after resolving the issue, she could knit and push. Unfortunately, right after resolving that, a bug made it to where she could not pull or push anything at all. This occurred two days before we needed to complete the project so she moved to assisting via a Google doc so the team could make and push edits on R. 
+
+* As described above, this project involved creating two analysis tabs within Rmd’s, which was fairly straightforward (the Global Trends and Zoom In: Afghanistan sections of this page). Unfortunately, the two interactive pieces of the project appeared to be large files. Therefore, linking the shinyapps.io deployed apps to the website has been very slow. These apps are functional on shinyapps: https://ebbollman.shinyapps.io/final_dashboard/ and https://ebbollman.shinyapps.io/map_dashboard/ but despite apparently linking correctly in the yml of the website, have been very slow to link. 
+
+
+## Additional Analyses
+
+We did not conduct any additional statistical analyses primarily because our website and data exploration was meant to be purely descriptive. Thus, we focused our energy on visualizations and providing context for these visuals. The work done to provide visualization and context left little time to perform the regression we contemplated. 
 
 ## Discussion
 
-* What were our findings? 
+### Key Findings
 
-* Were they what we expect?
+In our closer look at Afghanistan, we found many instances of trends that mirrored the global context, such as more national aid worker deaths than international. We also found that both the global and Afghan national context showed a majority of attacks on aid workers occurred on the road. Other findings include a 2015 aerial bombardment by the U.S. military was by far the deadliest attack in the time frame selected. That road attacks represented a majority of attack locations was unsurprising, given how difficult large stretches of roads are to protect, especially in conflict-heavy territory. Similarly, we also found that international organizations were targeted more frequently than local organizations. This is consistent with literature that suggests that international organizations are frequently targeted by non-state actors, both for looting and because of negative perceptions towards international aid. Finally, we found that while peaks in aid worker and civilian death did not always align proportionally, there were several peaks around the same time which aligned with significant political events. The differences observed in civilian and aid worker deaths may suggest that the context around aid worker attacks may be different for the general public: it is possible that aid workers are intentionally targeted or more frequently caught in the crossfire given their work, but additional research is needed. 
 
-Afghanistan: we expected there to be similar trends between aid worker deaths and civilian deaths, though this was not always the case. Similary, we expected more international aid workers to be targeted than national aid workers, 
+### Were the Findings as Expected?
 
-* What insights into the data can we make?
+In our global analysis, we hypothesized that attacks would be higher among international staff members. We expected that negative perceptions of international intervention and expectations of international staff income would drive actors in conflicts to target international staff, either to loot supplies/funds or to send a message that international intervention is unwelcome. What we found was the exact opposite, which was surprising. Attacks on national workers have been sharply increasing while attacks on international staff have decreased over time. This prompted us to consider whether national staff more often carry out work in higher risk areas given that they have better insights into the local context. 
 
-* Suggestions for further research and analysis of this topic?
+In our closer look at Afghanistan, we expected more international aid workers to be targeted more than national aid workers because international organizations are more frequently targeted than non-international organizations. We went through the code several times upon discovering that national aid workers were killed at much higher rates. Once we began our background research, this started to make infinitely more sense and was an incredibly interesting finding. The attack types and contexts made sense based on our existing knowledge and global context, though our 2015 outlier data point representing the airstrike on an MSF hospital in Kunduz was not something we immediately knew about - this was elucidated by background research. We expected international organizations to be targeted more than national organizations; this was confirmed through our analysis. Finally, the similarities in peaks between aid worker and civilian deaths was expected, though the visualizations show just how vulnerable civilians are in times of conflict - this was heartbreaking to observe.
+
+### What insights can we make into the data? 
+
+The datasets that we analyzed provided proof that attacks on aid workers have been at an increase since 1997. Additionally, that national staff are at an ever-increasing risk. As an example from one of the five most dangerous countries to be an aid worker, we found that in Afghanistan, attacks on national aid workers are consistently higher than those against international aid workers. Road-side attack of international workers is also common, suggesting that international organizations employing national staff are a target. 
+
+### Suggestions for further research and analysis of this topic?
+
+Future research should aim to understand the characteristics that increase aid worker vulnerability to attacks (ex. Gender, organization, income, nationality, etc.) in order to improve protection of aid workers in complex humanitarian crises. While we began this process, additional data on aid worker demographics would strengthen this analysis. Additionally, our interactive dashboard shows that patterns in aid worker attack means differ substantially between countries. There are country-level factors associated with conflict (eg. actors involved in the conflict, GDP, conflict intensity) that may influence the prevalence of certain types of attacks. This should be explored further in future research. 
+
+Future research that focuses on frontline response in conflict-affected countries would not only add measurably to our existing body of knowledge, it would help guide the creation and implementation of life-saving policies and protection measures. 
+
+Our research shows that aid workers are at extremely high risk for attack, especially those of national origin. Further research should be conducted to elucidate and ultimately mitigate the exact reasons for this. 
+
+As a Covid-19 vaccine is poised to roll out at a mass scale, we must draw upon the data collected and analyses conducted over the years, as well as lessons learned from the Ebola epidemic to recognize that aid workers will be at significantly increased risk for violence. Safety improvements for aid workers are incredibly crucial now more than ever, with rising global political tensions, increases in natural disaster incidence, and a deadly pandemic. 
+
 
