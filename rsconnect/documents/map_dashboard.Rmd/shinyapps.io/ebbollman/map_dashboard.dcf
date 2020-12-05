@@ -1,0 +1,10 @@
+name: map_dashboard
+title:
+username:
+account: ebbollman
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3356531
+bundleId: 3946753
+url: https://ebbollman.shinyapps.io/map_dashboard/
+when: 1607157565.4769
