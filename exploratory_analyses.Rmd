@@ -138,7 +138,7 @@ aidworker_df %>%
   ggplot(aes(x = year)) + 
   geom_line(aes(y = tot_national, color = "National Staff")) + 
   geom_line(aes(y = tot_intl, color = "International Staff")) + 
-  labs(title = "Aid Worker Attacks over time",
+  labs(title = "Aid Worker Attacks Over Time",
        x = "Year",
        y = "Number of Aid Workers Attacked")
 ```
@@ -367,7 +367,7 @@ aidworker_df %>%
   ggplot(aes(x = location, y = attacks, fill = attack_abr)) + 
   geom_bar(stat="identity") + 
   coord_flip() + 
-  labs(title = "Global view: Attack locations and types of attacks",
+  labs(title = "Global view: Attack Locations and Types of Attacks",
        x = "Location of attack",
        y = "Number of attacks") + 
   viridis::scale_fill_viridis(

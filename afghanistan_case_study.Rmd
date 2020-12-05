@@ -80,7 +80,7 @@ As depicted in the data table in our exploration of global trends, Afghanistan h
 
 This map shows locations and details of aidworker attacks. Information about the process of spatial georeferencing is noted in the [AWSD Methodology](https://www.humanitarianoutcomes.org/methodology).
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 afghanistan_df =
   afghan_aidworker_df %>%  
   mutate(
@@ -269,7 +269,7 @@ afghan_aidworker_df %>%
   ggplot(aes(x = year, y = tot_victims)) +
    geom_line(color = "red", size =2) +
   labs(
-    title = "Total # Aid Workers Killed per Year",
+    title = "Aid Workers Killed per Year",
     x = "Year",
     y = "Number Aid Workers Killed"
   ) 
@@ -292,7 +292,7 @@ afghan_upp_df %>%
   ggplot(aes(x = year, y = deaths_civilians_tot)) +
    geom_line(color = "blue", size =2) +
   labs(
-    title = "Total # Civilians Killed per Year",
+    title = "Civilians Killed per Year",
     x = "Year",
     y = "Number Civilians Killed"
 )
@@ -304,7 +304,7 @@ aidworker_deaths_p + civilian_deaths_p
 
 ```
 
-### A Brief Timeline
+A Brief Timeline
 
 *2010* - The spike in deaths of both aid workers and civilians coincides with a [50% increase](https://www.cfr.org/timeline/us-war-afghanistan) in U.S. Military presence in Afghanistan that occurred in late 2009. 
 
