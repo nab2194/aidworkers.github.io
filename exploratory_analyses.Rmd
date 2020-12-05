@@ -355,7 +355,7 @@ aidworker_df %>%
 ## Attack Contexts
 
 
-As we see below, most aidworker attacks occur during transit, on roadways. The large portion of 'unknown' attack locations and attack types is indicative of challenges in collecting comprehensive data during humanitarian emergencies.   
+As we see below, most aidworker attacks globally occur during transit, on roadways. The large portion of 'unknown' attack locations and attack types is indicative of challenges in collecting comprehensive data during humanitarian emergencies.   
 
 
 ```{r message = FALSE, warning = FALSE}
@@ -367,7 +367,7 @@ aidworker_df %>%
   ggplot(aes(x = location, y = attacks, fill = attack_abr)) + 
   geom_bar(stat="identity") + 
   coord_flip() + 
-  labs(title = "Attack locations and types of attacks",
+  labs(title = "Global view: Attack locations and types of attacks",
        x = "Location of attack",
        y = "Number of attacks") + 
   viridis::scale_fill_viridis(
