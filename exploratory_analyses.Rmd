@@ -374,7 +374,7 @@ aidworker_df %>%
     name = "Attack type",
     discrete = TRUE
   ) + 
-  theme(legend.text=element_text(size=9))
+  theme(legend.text=element_text(size=7))
 ```
 
 
@@ -402,7 +402,7 @@ aidworker_df %>%
        x = "Country",
        y = "Number of Attacks") + 
   theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) + 
-  theme(legend.text=element_text(size=10)) + 
+  theme(legend.text=element_text(size=7)) + 
   viridis::scale_fill_viridis(
     name = "Attack type",
     discrete = TRUE
@@ -422,7 +422,7 @@ aidworker_df %>%
        x = "Country",
        y = "Number of Attacks") + 
   theme(axis.text.x = element_text(angle = -90, vjust = 0.5, hjust=1)) +
-  theme(legend.text=element_text(size=10)) + 
+  theme(legend.text=element_text(size=7)) + 
   viridis::scale_fill_viridis(
     name = "Attack Context",
     discrete = TRUE
@@ -434,4 +434,26 @@ Afghanistan experienced the greatest proportion of attacks by kidnapping or IEDs
 
 Ambushing, individual attacks, and raids were common in all danger countries. Aid workers in Syria experienced a large number of attacks by combat or crossfire: although the AWSD notes this does not exclude intentional targeting of humanitarian locations by combatants. Intentional targeting of health facilities in particular by Russian and Syrian airstrikes has been well documented. (via [The Century Foundation](https://tcf.org/content/report/un-made-list-hospitals-syria-now-theyre-bombed/?agreed=1)) 
 
+
+Finally, the interactive plot below depicts the gender gap in aid worker victims for the most dangerous countries. Men outnumber women for all attack types other than sexual assault. Bubble size corresponds to the degree of gap, with a bubble for each attack type in each country. 
+
+
+```{r message = FALSE, warning = FALSE}
+plot_gender = 
+  aidworker_df %>%
+  filter(country %in% c("Afghanistan", "Somalia", "South Sudan", "Sudan",
+                        "Syrian Arab Republic")) %>% 
+  group_by(country, attack_abr) %>% 
+  summarize(total_women = sum(gender_female),
+            total_men = sum(gender_male),
+            gap = total_men - total_women,
+            tot_victims = sum(total_victims)) %>%
+  mutate(text_label = 
+           str_c("Country: ", country, "\nAttack Type: ", attack_abr)) %>% 
+  plot_ly(
+    x = ~total_men, y = ~total_women, text = ~text_label, color = ~country,
+          type = "scatter", mode = "markers",  colors = "viridis", marker = list(size = ~gap, opacity = 0.5))
+
+layout(plot_gender, title = "Dangerous Country Gender Gap by Attack Type", xaxis = list(title = "Number of Women Attacked"), yaxis = list(title = "Number of Men Attacked"))
+```
 
