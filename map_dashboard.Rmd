@@ -88,7 +88,9 @@ global_map_df =
                                                  "Shelling", "Vehicle-born IED") ~ 1)) %>% 
   drop_na(year) %>% 
   group_by(country, year) %>% 
-  summarize(tot_national = sum(total_national_staff),
+  summarize(
+            number_incidents = n(),
+            tot_national = sum(total_national_staff),
             tot_intl = sum(total_international_staff),
             tot_victims = sum(total_victims),
             tot_kidnappings = sum(kidnapping, na.rm = TRUE),
@@ -96,106 +98,30 @@ global_map_df =
             tot_assault = sum(assault, na.rm = TRUE),
             tot_explosive = sum(explosive, na.rm = TRUE)) %>% 
   drop_na(country)
-```
-
-Hey team - so I found a pacakge called `rworldmap`. You can access useful information about how to use the package by calling `vignette("rworldmap")`.
-
-```{r explore_rworldmap_package}
-global_map_df %>% 
-joinCountryData2Map(
-  joinCode = "NAME",
-  nameJoinColumn = "country",
-  verbose = TRUE
-  )
-```
-
-So, Chechnya, DR Congo, Kashmir, Libyan Arab Jamahiriya, Occupied Palestinian Territories are in our df, but not in the map. As per the reasons outlined in part_1.RMD, I think we should drop Kashmir (only 1 incident) and recode Chechnya as Russia (we have no other data in Russia), and make a note. We could try recoding the other countries with other names for them and see if they end up matching up.
-
-```{r}
-joined_map = 
-  global_map_df %>%
-  filter(year == "2019") %>% 
-joinCountryData2Map(
-  joinCode = "NAME",
-  nameJoinColumn = "country",
-  verbose = TRUE
-  )
-
-par(mai =c (0,0,0.2,0), xaxs = "i", yaxs = "i")
-glob_map = mapCountryData(joined_map, nameColumnToPlot = "tot_victims", addLegend = FALSE)
-
-```
-
-It worked!!!! I think? Can filter by year (manually in the code). Concerned that the documentation specifies that the df that should be merged to the map should only have one country per line. Also, we're missing important countries that didn't exist on the underlying map (Palestine, Libya, DR Congo). I think we need to find out how they're stored in the underlying map so that we can recode the country names in our df before merging.
-
-```{r unmatched_countries}
-joined_map$country %>% 
-  view()
-
-view(countrySynonyms)
 
 global_map_df$country =
   recode(global_map_df$country,
-         'Chechnya' = 'Russia',
-         'DR Congo' = 'Democratic Republic of the Congo',
-         'Syria' = 'Syrian Arab Republic',
-         'Libyan Arab Jamahiriya' = 'Libya',
-         'Occupied Palestinian Territories' = 'Occupied Palestinian Territory')
-
-global_map_df =
-  global_map_df %>% 
-  filter(country != "Kashmir")
-
-```
-
-First I tried to view the list of countries once merged. It appears to only show the countries from our DF.
-
-Then I found that the `rworldmap` package has a df with a list of synonyms for the countries it includes. I pulled up the df and searched for the five countries that did not match, to see how they are referred to by the `rworldmap` package. 
-
-Now I'm going to go back and try merging with the new df with tidied / matched names. I ran the code and found 0 failed codes. Yay! We've matched. Next steps involve confirming that we can match multiple rows of data with the same country.
-
-```{r back to gg_plot}
-map_world = map_data("world")
-
-map_world$region =
-  recode(map_world$region,
-         'Ivory Coast' = 'Cote D\'Ivoire',
-         'Syria' = 'Syrian Arab Republic'
-         )
-
-global_map_df$country =
-  recode(global_map_df$country,
-         'Occupied Palestinian Territories' = 'Palestine',
-         'DR Congo' = 'Democratic Republic of the Congo',
-         'Congo' = 'Republic of Congo',
-         'Libyan Arab Jamahiriya' = 'Libya',
-         'Chechnya' = 'Russia'
+         'Central African Republic' = 'Central African Rep.',
+         'Republic of Congo' = 'Congo',
+         'Cote D\'Ivoire' = 'Côte d\'Ivoire',
+         'Democratic Republic of the Congo' = 'Dem. Rep. Congo',
+         'Occupied Palestinian Territory' = 'Palestine',
+         'South Sudan' = 'S. Sudan',
+         'Syrian Arab Republic' = 'Syria',
+         'Western Sahara' = 'W. Sahara'
          )
 
 global_map_df =
   global_map_df %>% 
-  filter(country != "Kashmir")
+  filter(country != "Mauritius")
 
-map_world =
-  map_world %>% 
-  rename(country = region)
-
-global_map_df_2019 =
+global_map_df =
   global_map_df %>% 
-  filter(year == "2019")
-
-joined_map_2019 =
-  left_join(map_world, global_map_df_2019) %>% 
-  mutate(polygon_fill = ifelse(is.na(tot_victims), F, T))
-
-ggplot() +
-  geom_polygon(data = joined_map_2019, aes(x = long, y = lat, group = group, fill = polygon_fill))
-
+  rename(name = country)
 ```
 
-After working through all this...if we want the map to be interactive (labels showing our data, etc.) I think we need to stick with `leaflet`. We can utilize a polygon layer in `leaflet`...I downloaded a geojson file, map of the world, from https://geojson-maps.ash.ms/
 
-```{r back_to_leaflet}
+```{r read_polygons}
 countries = geojsonio::geojson_read("./data/custom.geo.json", what = "sp")
 
 main_map = leaflet(countries) %>% 
@@ -205,16 +131,14 @@ main_map = leaflet(countries) %>%
 main_map
 ```
 
-The above imposes polygons on the map. This is good. I think we can play around with the size of the outlines, as well as the fill.
+Mauritius was dropped. Only 1 attack. Make note in final dashboard.
 
-What will take a decent amount of work is mapping our data onto this map. (1) Need to compare names again to figure out how to merge? What names to update so we have a common variable to join on. (2) Think we may also have a problem with having countries being listed multiple times in our df (our observations are aggregated attacks within a country per year, not only per country). Make a function that plots individual data frames per year?
-
-```{r}
-view(countries)
-view(countries$name)
-```
-
-More thoughts for the morning...maybe geojson file contains lat/long data...should check. Can we somehow plot with lat long and aggregate by country? Although weird things were happening when trying to plot point data in leaflet earlier.
+Next steps:
+* figure out how to match our df with polygons
+* aesthetics of polygons - fix (lines too wide)
+* write function to match df (for each YEAR) with polygons - this is what will be called in the shiny app
+* popups for hovering over each country
+* shiny!
 
 Aid Worker Attack Map
 ===================================== 
