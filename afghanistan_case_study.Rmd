@@ -146,7 +146,7 @@ afghan_aidworker_df %>%
     x = ~year, y = ~total_victims, color = ~attack_context,
     type = "scatter") %>%
     layout(
-    title = "Victims per Year by Attack Context")
+    title = "Victims per Year by Attack Context (Left) and Type (Right)")
 
 subplot(means_attack_p, attack_context_p)
 
