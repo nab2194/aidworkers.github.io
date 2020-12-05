@@ -76,9 +76,9 @@ afghan_aidworker_df =
 As depicted in the data table in our exploration of global trends, Afghanistan has been the deadliest country for aid workers by far. In conjunction with U.S. occupation of Afghanistan, the statistics associated with this country merit a closer look: focusing on the years 2008 to 2016 in which the greatest number of attacks occurred.
 
 
-## Map of Aidworker Attacks
+## Map of Aidworker Attacks in Afghanistan
 
-This map shows locations and details of aidworker attacks. Information about the process of spatial georeferencing is noted in the [AWSD Methodology](https://www.humanitarianoutcomes.org/methodology).
+This map shows locations and details of aidworker attacks in Afghanistan. Information about the process of spatial georeferencing is noted in the [AWSD Methodology](https://www.humanitarianoutcomes.org/methodology).
 
 ```{r message = FALSE, warning = FALSE}
 afghanistan_df =

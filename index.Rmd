@@ -3,13 +3,17 @@ title: "Attacks on Aid: Quantifying Risk of Violence Toward Aid Workers in Globa
 output: 
   html_document:
     css: "style.css"
-    fig_width: 6
+    fig_width: 8
     fig_height: 7
     theme: cosmo
 always_allow_html: true
 ---
 
-![](https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg?itok=fAYPUmz5)
+```{r message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(fig.width=15, fig.height=8) 
+```
+
+![](IMAGES/ambulance_icrc.jpg)
 
 
 Ambulance destroyed by gunfire. (via [ICRC](https://www.icrc.org/sites/default/files/styles/document_main/public/document/image/150730-hcid-ambulance-shot-image-01.jpg))
