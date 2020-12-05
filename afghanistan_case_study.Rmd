@@ -73,6 +73,7 @@ afghan_aidworker_df =
 
 ```
 
+As depicted in the data table in our exploration of global trends, Afghanistan has been the deadliest country for aid workers by far. In conjunction with U.S. occupation of Afghanistan, the statistics associated with this country merit a closer look.
 
 
 ## International vs. National NGO Staff Deaths
@@ -114,7 +115,7 @@ afghan_aidworker_df_new %>%
 
 ```
 
-*2012* - The significant drop in aid worker death is correlated with the withdrawal of half of American troops in Afghanistan. 
+*2012* - The significant drop in aid worker death coincides with the withdrawal of half of American troops in Afghanistan. 
 
 *2013* - A sharp increase in aid worker deaths, primarily in rural areas. In 2013, aid workers were frequently caught in crossfire, ambush, and accidents, especially as [tensions](https://reliefweb.int/report/afghanistan/afghanistan-worlds-most-dangerous-place-aid-workers) between government and insurgent groups rose sharply. As you can see in this figure, a majority of aid workers killed are of national origin. According to a report published by the [UN in 2013](https://www.un.org/press/en/2014/sc11524.doc.htm), "Afghan aid workers suffered heavy casualties in part because international organizations were using local staff and local organizations to reduce their own risk...About 85 per cent of United Nations staff involved in security incidents were Afghans; for international non-governmental organizations, it was 76 per cent." It is important to note here that national aid workers are more frequently engaged in front line work than their international counterparts, especially in extremely dangerous operations. "Security arrangements of those organizations and the United Nations often left local humanitarian organizations [less secure](https://www.un.org/press/en/2014/sc11524.doc.htm)".  National aid workers, often acting for international aid organizations, rarely received the same security protections as their international colleagues, forcing them into increasingly unsafe situations. 
 
@@ -151,12 +152,13 @@ subplot(means_attack_p, attack_context_p)
 
 ```
 
-Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left [19 dead and 37 wounded](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003) (including patients and aid workers).
+Of known attack types affecting aid workers in Afghanistan, the most common are kidnappings, shootings, ambushes, and raids. The largest attack was a 2015 aerial bombardment by the U.S. military, in which aid workers were caught in combat/crossfire that left [19 dead and 37 wounded](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003) (including patients and aid workers). 
 
 On October 3rd, 2015, following Taliban insurgents storming the capital, the U.S. military conducted a 4-hour airstrike that 
-[hit](https://www.msf.org/kunduz-hospital-attack-depth) a hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. 
+[hit](https://www.msf.org/kunduz-hospital-attack-depth) a traume hospital run by Médecins Sans Frontières (MSF, Doctors Without Borders), destroying the main hospital building. Patients unable to escape [burned to death](https://www.reuters.com/article/us-afghanistan-attack-hospital-patients/bombed-afghan-hospital-staff-helpless-as-patients-burned-in-wards-idUSKCN0RX0TP20151003), while hospital staff scrambled to evacuate as many patients as possible. Since its opening in 2011, the MSF Kunduz hospital had become an important [lifeline](https://www.msf.org/kunduz-hospital-attack-depth) for thousands. On the night of the attack, 105 patients and 140 MSF staff were present in the hospital. 
 
-Kunduz was the Taliban's last stronghold before being driven out by NATO. 
+Eventually, the U.S. stated that the airstrike was accidental. They were never charged for war crimes, despite vehement outcry from MSF. 
+
 
 ![](https://media.msf.org/AssetLink/e1118i5wrve1she8m73h013r251105ky.jpg)
 MSF hospital in Kunduz, post-U.S. air strike (via [MSF](https://msf-media.imgix.net/AssetLink/0vrsc8d066cx508418gj1qhr3e1345em.jpg))
@@ -291,11 +293,13 @@ aidworker_deaths_p + civilian_deaths_p
 
 ```
 
-*2010* - The spike in deaths of both aid workers and civilians is correlated with a [50% increase](https://www.cfr.org/timeline/us-war-afghanistan) in U.S. Military presence in Afghanistan that occurred in late 2009. Tensions between military and insurgent groups put aid workers and civilians at significantly increased risk for both intentional and unintentional attack. Civilians have little immunity to attack, even compared to aid workers; as such, it is both unfortunate and unsurprising to see such a significant spike following an increase in U.S. Military presence.
+### A Brief Timeline
+
+*2010* - The spike in deaths of both aid workers and civilians coincides with a [50% increase](https://www.cfr.org/timeline/us-war-afghanistan) in U.S. Military presence in Afghanistan that occurred in late 2009. 
 
 *2011* - Bin Laden was killed by the U.S. Army and CIA.
 
-*2013* - As noted previously, the 2013 spike in aid worker deaths was a product of particularly deadly tensions between insurgent groups and government forces.  
+*2013* - Tensions spike between insurgent groups and government forces, with deadly results.  
 
 *2014* - Obama announces official removal of U.S. troops from Afghanistan. A new Afghan president is [elected](https://www.nytimes.com/2014/05/28/world/asia/us-to-complete-afghan-pullout-by-end-of-2016-obama-to-say.html).  
 
