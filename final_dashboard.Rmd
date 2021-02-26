@@ -16,6 +16,17 @@ library(tidyverse)
 library(shiny)
 library(rvest)
 library(httr)
+
+library(V8)
+library(dotCall64)
+library(fields)
+library(geojson)
+library(geojsonio)
+library(geojsonsf)
+library(geometries)
+library(jsonify)
+library(protolite)
+
 ```
 
 ```{r loading and tidying data, include=FALSE}
@@ -29,20 +40,23 @@ aidworker_df =
   html_table() %>% 
   as_tibble()
 
-aidworker_df =
+aidworker_clean =
   aidworker_df %>%
   janitor::clean_names() %>% 
-  drop_na(location) %>% 
+  drop_na(location) 
+
+aidworker_clean =
+  aidworker_clean %>% 
   select(-source, -verified) %>% 
   rename(year = year_sort_descending) %>% 
   mutate(intl_org_affected = 
            case_when(
              un != 0 ~ "yes",
              ingo != 0 ~ "yes",
-             icrc != 0 ~ "yes",
-             ifrc != 0 ~ "yes",
+             icrc_and_ifrc != 0 ~ "yes",
+             nngo != 0 ~ "no",
              other != 0 ~ "yes",
-             lngo_and_nrcs != 0 ~ "no"),
+             nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
   relocate(id, month, day, year, country, intl_org_affected) 
 
@@ -51,11 +65,11 @@ empty_as_na <- function(x){
     ifelse(as.character(x)!="", x, NA)
 }
 
-aidworker_df = 
-aidworker_df %>% mutate_each(funs(empty_as_na))
+aidworker_clean = 
+aidworker_clean %>% mutate_each(funs(empty_as_na))
 
-aidworker_df = 
-  mutate(aidworker_df, 
+aidworker_final = 
+  mutate(aidworker_clean, 
          attack_abr = case_when(
            means_of_attack == "Kidnap-killing" ~ "Kidnapping",
            means_of_attack == "Kidnapping" ~ "Kidnapping",
@@ -74,7 +88,7 @@ aidworker_df =
            ))
 
 plot_aidworker_df = 
-  aidworker_df %>% 
+  aidworker_final %>% 
   mutate(
     descript = str_wrap(details)
   )
