@@ -10,7 +10,7 @@ navbar:
     - text: "Dashboard: Attacks"
       href: https://ebbollman.shinyapps.io/final_dashboard/ 
     - text: "Zoom In: Afghanistan"
-      href: afghanistan_case_study.html
+      href: Afghanistan.html
     - text: "Conclusions"
       href: conclusions.html 
   right:

@@ -24,7 +24,21 @@ window.FlexDashboardComponents = [];
 <script id="flexdashboard-navbar" type="application/json">
 [{"title":"Source Code","icon":"fa-code","href":"source_embed","align":"right"}]
 </script>
-
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/stickytableheaders-0.1.19/jquery.stickytableheaders.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/featherlight-1.3.5/featherlight.min.css" rel="stylesheet" />
+<script src="site_libs/featherlight-1.3.5/featherlight.min.js"></script>
+<link href="site_libs/prism-1.4.1/prism.css" rel="stylesheet" />
+<script src="site_libs/prism-1.4.1/prism.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
 <style type="text/css">
 
 /*
@@ -2735,7 +2749,7 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out6871857db34449f1" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="out682995e3e1bfeb74" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 </div>
 </div>
@@ -2865,14 +2879,14 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out8be3e58f2c5893ca" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="outee79ef8693227e0a" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 <div id="section-attacks-on-international-aid-workers" class="section level3">
 <h3>Attacks on International Aid Workers</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="out3635dedc093aa296" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
+<div id="out07bcd4d29d574f33" style="width:100%; height:400px; " class="plotly html-widget html-widget-output shiny-report-size"></div>
 </div>
 </div>
 </div>
@@ -3137,7 +3151,21 @@ renderPlotly({
 
 </code></pre>
 </div>
-
+<script type="text/javascript">
+$(document).ready(function () {
+  FlexDashboard.init({
+    theme: "cosmo",
+    fillPage: true,
+    orientation: "columns",
+    storyboard: false,
+    defaultFigWidth: 576,
+    defaultFigHeight: 460,
+    defaultFigWidthMobile: 360,
+    defaultFigHeightMobile: 460,
+    resize_reload: true
+  });
+});
+</script>
 
 </body>
 </html>

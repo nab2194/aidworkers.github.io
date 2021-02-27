@@ -51,14 +51,14 @@ aidworker_df =
   janitor::clean_names() %>% 
   select(-source, -verified) %>% 
   rename(year = year_sort_descending) %>% 
-  mutate(intl_org_affected = 
+ mutate(intl_org_affected = 
            case_when(
              un != 0 ~ "yes",
              ingo != 0 ~ "yes",
-             icrc != 0 ~ "yes",
-             ifrc != 0 ~ "yes",
+             icrc_and_ifrc != 0 ~ "yes",
+             nngo != 0 ~ "no",
              other != 0 ~ "yes",
-             lngo_and_nrcs != 0 ~ "no"),
+             nrcs != 0 ~ "no"),
          intl_org_affected = as.factor(intl_org_affected)) %>% 
   mutate(
     latitude = as.numeric(latitude),
