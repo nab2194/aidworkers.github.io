@@ -5,9 +5,9 @@ account: ebbollman
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3356423
-bundleId: 4279564
+bundleId: 4279515
 url: https://ebbollman.shinyapps.io/final_dashboard/
-when: 1614453923.73215
+when: 1614452351.34946
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: _site copy.yml|_site.yml|afghanistan_case_study.html|afghanistan_case_study.md|afghanistan_case_study.Rmd|Aghanistan_case_study_clean.html|conclusions.html|conclusions.Rmd|dashboard_debug_2.25.Rmd|exploratory_analyses.html|exploratory_analyses.Rmd|final_dashboard.html|final_dashboard.Rmd|final_report.html|final_report.Rmd|index.html|index.Rmd|map_development.html|map_development.md|map_development.Rmd|README.md|section-1.html|section-1.md|section-1.Rmd|map_dashboard_files/figure-html/back to gg_plot-1.mb.png|map_dashboard_files/figure-html/back to gg_plot-1.png|map_dashboard_files/figure-html/unnamed-chunk-1-1.mb.png|map_dashboard_files/figure-html/unnamed-chunk-1-1.png|map_development_files/figure-gfm/back to gg_plot-1.png|map_development_files/figure-gfm/back_to_leaflet-1.png|map_development_files/figure-gfm/unnamed-chunk-1-1.png|map_development_files/figure-html/back to gg_plot-1.png|map_development_files/figure-html/unnamed-chunk-1-1.png
