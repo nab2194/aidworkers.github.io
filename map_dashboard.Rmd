@@ -50,7 +50,7 @@ aidworker_df =
   janitor::clean_names() %>% 
   select(-source, -verified) %>% 
   rename(year = year_sort_descending) %>% 
- mutate(intl_org_affected = 
+mutate(intl_org_affected = 
            case_when(
              un != 0 ~ "yes",
              ingo != 0 ~ "yes",

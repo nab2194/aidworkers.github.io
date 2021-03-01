@@ -8,7 +8,7 @@ navbar:
     - text: "Map"
       href: https://ebbollman.shinyapps.io/map_dashboard/
     - text: "Dashboard: Attacks"
-      href: https://ebbollman.shinyapps.io/final_dashboard/ 
+      href: https://natalieaboychuk.shinyapps.io/final_dashboard/ 
     - text: "Zoom In: Afghanistan"
       href: Afghanistan.html
     - text: "Conclusions"
