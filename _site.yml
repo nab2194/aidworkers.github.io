@@ -6,7 +6,7 @@ navbar:
     - text: "Global Trends"
       href: exploratory_analyses.html
     - text: "Map"
-      href: https://ebbollman.shinyapps.io/map_dashboard/
+      href: https://natalieaboychuk.shinyapps.io/map_dashboard/
     - text: "Dashboard: Attacks"
       href: https://natalieaboychuk.shinyapps.io/final_dashboard/  
     - text: "Zoom In: Afghanistan"
